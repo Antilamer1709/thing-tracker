@@ -66,6 +66,35 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
+			<plugin>
+				<groupId>cz.habarta.typescript-generator</groupId>
+				<artifactId>typescript-generator-maven-plugin</artifactId>
+				<version>2.12.476</version>
+				<executions>
+					<execution>
+						<id>generate</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<phase>compile</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<jsonLibrary>jackson2</jsonLibrary>
+					<mapClasses>asClasses</mapClasses>
+					<classPatterns>
+						<pattern>com.antilamer.thingTracker.dto.**</pattern>
+					</classPatterns>
+					<customTypeMappings>
+						<mapping>java.util.Date:Date</mapping>
+					</customTypeMappings>
+					<outputFile>front/src/generated/dto.ts</outputFile>
+					<outputFileType>implementationFile</outputFileType>
+					<outputKind>module</outputKind>
+					<mapEnum>asNumberBasedEnum</mapEnum>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
