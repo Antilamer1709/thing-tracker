@@ -23,6 +23,10 @@
   margin-left: 80px !important;
 }
 
+.loginInput {
+  width: 300px;
+}
+
 .marginBottom25 {
   margin-bottom: 25px !important;
 }
@@ -37,7 +41,7 @@
 
 .submitLogin {
   margin-bottom: 25px;
-  margin-left: 100px;
+  margin-left: 110px;
 }
 
 .registrationHeader {
@@ -78,10 +82,12 @@
 }
 
 .newTopicContainer {
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90%;
+  height: 100%;
+  width: 100%;
 }
 
 .topicDiv {
@@ -93,11 +99,10 @@
 }
 
 .loginBodyDiv {
-  width: 500px !important;
+  width: 500px;
   height: 450px;
   background-color: #F7F7F9;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  padding: 10px;
   text-align: center
 }
 
@@ -285,4 +290,52 @@ a:visited.profileLink {
   position: absolute;
   bottom: 10px;
   right: 25px;
+}
+
+
+@media only screen and (max-device-width: 550px) and (orientation:portrait){
+  .loginBodyDiv {
+    background-color: white;
+    box-shadow: none;
+    text-align: center;
+  }
+
+  .newTopicContainer {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    width: 80%;
+  }
+
+  .loginInput {
+    width: 350px;
+  }
+
+  .submitLogin {
+    margin-left: 120px;
+  }
+
+  .loginHeader {
+    margin-left: 80px;
+  }
+}
+
+@media only screen and (max-device-width: 440px) and (orientation:portrait){
+  .loginInput {
+    width: 250px;
+  }
+  .submitLogin {
+    margin-left: 80px;
+  }
+}
+
+@media only screen and (max-device-width: 380px) and (orientation:portrait){
+  .loginInput {
+    width: 200px;
+  }
+  .submitLogin {
+    margin-left: 60px;
+  }
 }
