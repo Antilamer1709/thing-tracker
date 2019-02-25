@@ -293,6 +293,7 @@ a:visited.profileLink {
 }
 
 
+//portrait
 @media only screen and (max-device-width: 550px) and (orientation:portrait){
   .loginBodyDiv {
     background-color: white;
@@ -337,5 +338,65 @@ a:visited.profileLink {
   }
   .submitLogin {
     margin-left: 60px;
+  }
+}
+
+
+
+//landscape
+@media only screen and (max-device-height: 450px) and (orientation:landscape){
+  .loginBodyDiv {
+    background-color: white;
+    box-shadow: none;
+    text-align: center;
+  }
+
+  .newTopicContainer {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60%;
+    width: 60%;
+  }
+
+  .loginInput {
+    width: 520px;
+  }
+
+  .submitLogin {
+    margin-left: 220px;
+  }
+
+  .loginHeader {
+    margin-left: 250px;
+    margin-top: 140px;
+  }
+  .loginDiv {
+    padding-left: 50px;
+  }
+}
+
+@media only screen and (max-device-height: 400px) and (orientation:landscape){
+  .loginInput {
+    width: 480px;
+  }
+  .submitLogin {
+    margin-left: 180px;
+  }
+  .loginDiv {
+    padding-left: 50px;
+  }
+}
+
+@media only screen and (max-device-height: 350px) and (orientation:landscape){
+  .loginInput {
+    width: 420px;
+  }
+  .submitLogin {
+    margin-left: 160px;
+  }
+  .loginDiv {
+    padding-left: 50px;
   }
 }
