@@ -1,3 +1,35 @@
+@import 'assets/primeng/css/site.css';
+
+.menuIconContainer {
+  float: left;
+  margin-right: 5px;
+}
+.menuIcon {
+  font-size: 1.6em !important;
+}
+
+.messageIcon {
+  font-size: 2.5em !important;
+}
+
+.messageOffset {
+  position: relative;
+  top: 10px;
+}
+
+.messageButton {
+  margin-right: 4px !important;
+}
+
+.ui-button {
+  background-color: #34393a !important;
+  border-color: #EFEFEF !important;
+}
+.ui-button:hover {
+  background-color: #4a4f52 !important;
+  border-color: #EFEFEF !important;
+}
+
 .authenticationDiv {
   display: inline-block;
   position: fixed;

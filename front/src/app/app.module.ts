@@ -12,6 +12,7 @@ import {GrowlModule} from "primeng/growl";
 import {BlockUIModule} from "primeng/blockui";
 import {ButtonModule} from "primeng/button";
 import {ConfirmDialogModule} from "primeng/primeng";
+import {MainModule} from "./main/main.module";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {ConfirmDialogModule} from "primeng/primeng";
     GrowlModule,
     BlockUIModule,
     ButtonModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    MainModule
   ],
   providers: [
     MessageService,
