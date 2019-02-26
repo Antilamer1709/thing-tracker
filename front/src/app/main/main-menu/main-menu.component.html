@@ -56,22 +56,55 @@
         </span>
       </a>
 
+      <a id="add_expense_menu" [routerLink]="['/login']" #expense_menu_title
+         [class.active-menuitem]="expense_menu_title.id == activeMenuId">
+        <span>
+          <div class="menuIconContainer">
+            <i class="pi pi-plus menuIcon"></i>
+          </div>
+          Add Expense
+        </span>
+      </a>
 
-      <!--<a id="counter_register_menu" #counter_register_menu_title-->
-         <!--[class.active-menuitem]="counter_register_menu_title.id == activeMenuId"-->
-         <!--(click)="activeMenuId = (activeMenuId === counter_register_menu_title.id ? null : counter_register_menu_title.id)">-->
-        <!--<span>-->
-          <!--<div class="menuIconContainer">-->
-            <!--<i class="pi pi-th-large menuIcon"></i>-->
-          <!--</div>-->
-          <!--Облік лічильників-->
-        <!--</span>-->
-      <!--</a>-->
-      <!--<div-->
-        <!--[ngClass]="{submenushow: (counter_register_menu_title.id == activeMenuId), 'submenuhide': (counter_register_menu_title.id != activeMenuId)}">-->
-        <!--<a [routerLink]="['/inputgroup']" (click)="menuActive = false">&#9679; Споживачі</a>-->
-        <!--<a [routerLink]="['/inputgroup']" (click)="menuActive = false">&#9679; Будинки</a>-->
-      <!--</div>-->
+      <a id="my_expenses_menu" [routerLink]="['/login']" #my_expenses_menu_title
+         [class.active-menuitem]="my_expenses_menu_title.id == activeMenuId">
+        <span>
+          <div class="menuIconContainer">
+            <i class="pi pi-list menuIcon"></i>
+          </div>
+          Manage Expenses
+        </span>
+      </a>
+
+      <a id="profile_menu" [routerLink]="['/login']" #profile_menu_title
+         [class.active-menuitem]="profile_menu_title.id == activeMenuId">
+        <span>
+          <div class="menuIconContainer">
+            <i class="pi pi-user menuIcon"></i>
+          </div>
+          Profile
+        </span>
+      </a>
+
+      <a id="my_group_menu" [routerLink]="['/login']" #my_group_menu_title
+         [class.active-menuitem]="my_group_menu_title.id == activeMenuId">
+        <span>
+          <div class="menuIconContainer">
+            <i class="pi pi-users menuIcon"></i>
+          </div>
+          My Group
+        </span>
+      </a>
+
+      <a id="about_menu" [routerLink]="['/login']" #about_menu_title
+         [class.active-menuitem]="about_menu_title.id == activeMenuId">
+        <span>
+          <div class="menuIconContainer">
+            <i class="pi pi-question-circle menuIcon"></i>
+          </div>
+          About Application
+        </span>
+      </a>
 
 
     </div>
