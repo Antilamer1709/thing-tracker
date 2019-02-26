@@ -1,16 +1,16 @@
 <div class="newTopicContainer">
   <div class="loginBodyDiv">
-    <form class="form-horizontal" novalidate #form="ngForm" (ngSubmit)="register(form)">
+    <form novalidate #form="ngForm" (ngSubmit)="register(form)">
 
-      <div class="registrationHeader">
+      <div class="loginHeader">
         <h1>Registration:</h1>
       </div>
 
-      <div class="row registrationDiv">
+      <div class="row loginDiv">
 
         <div class="form-group marginBottom25">
           <span class="ui-float-label">
-            <input [(ngModel)]="registration.firstName" [required]="true"
+            <input [(ngModel)]="registration.firstName" [required]="true" class="loginInput"
                    id="firstName" name="firstName" type="text" size="30" pInputText>
             <label for="firstName">First Name</label>
           </span>
@@ -18,7 +18,7 @@
 
         <div class="form-group marginBottom25">
           <span class="ui-float-label">
-            <input [(ngModel)]="registration.lastName" [required]="true"
+            <input [(ngModel)]="registration.lastName" [required]="true" class="loginInput"
                    id="lastName" name="lastName" type="text" size="30" pInputText>
             <label for="lastName">Last Name</label>
           </span>
@@ -26,7 +26,7 @@
 
         <div class="form-group marginBottom25">
           <span class="ui-float-label">
-            <input [(ngModel)]="registration.username" [required]="true"
+            <input [(ngModel)]="registration.username" [required]="true" class="loginInput"
                    id="username" name="username" type="text" size="30" pInputText>
             <label for="username">Username</label>
           </span>
@@ -34,7 +34,7 @@
 
         <div class="form-group marginBottom25">
           <span class="ui-float-label">
-            <input [(ngModel)]="registration.password" [required]="true"
+            <input [(ngModel)]="registration.password" [required]="true" class="loginInput"
                    id="password" name="password" type="password" size="30" pInputText>
             <label for="password">Password</label>
           </span>
@@ -42,7 +42,7 @@
 
         <div class="form-group marginBottom25">
           <span class="ui-float-label">
-            <input [(ngModel)]="registration.confirmPassword" [required]="true"
+            <input [(ngModel)]="registration.confirmPassword" [required]="true" class="loginInput"
                    size="30" pInputText id="confirmPassword" name="confirmPassword" type="password">
             <label for="confirmPassword">Confirm Password</label>
           </span>
