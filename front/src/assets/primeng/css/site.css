@@ -671,6 +671,15 @@ body {
 }
 
 @media screen and (max-width: 64em) {
+  .topMenuItemOffser{
+    position: relative;
+    bottom: 10px;
+  }
+
+  .messageOffset {
+    position: static !important;
+  }
+
   .layout-mask {
     display: block;
   }
