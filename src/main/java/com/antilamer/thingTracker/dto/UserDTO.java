@@ -1,8 +1,10 @@
 package com.antilamer.thingTracker.dto;
 
+import com.antilamer.thingTracker.model.UserEntity;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,6 +24,14 @@ public class UserDTO implements Serializable {
 
 
     public UserDTO() {
+    }
+
+    public UserDTO(UserEntity userEntity) {
+        this.id = userEntity.getId();
+        this.username = userEntity.getUsername();
+        this.firstName = userEntity.getFirstName();
+        this.lastName = userEntity.getLastName();
+        this.roles = new ArrayList<>();
     }
 
 }
