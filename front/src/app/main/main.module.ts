@@ -5,6 +5,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MainMenuComponent} from "./main-menu/main-menu.component";
 import {CommonModule} from "@angular/common";
 import {AppRoutingModule} from "../app-routing.module";
+import {ExpensesModule} from "./expenses/expenses.module";
 
 @NgModule({
   declarations: [MainComponent, MainMenuComponent],
@@ -13,7 +14,8 @@ import {AppRoutingModule} from "../app-routing.module";
     CommonModule,
     OverlayPanelModule,
     BrowserAnimationsModule,
-    ButtonModule
+    ButtonModule,
+    ExpensesModule
   ]
 })
 export class MainModule { }
