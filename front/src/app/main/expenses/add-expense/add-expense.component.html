@@ -1,3 +1,9 @@
-<p>
-  add-expense works!
-</p>
+<div>
+  <p-autoComplete
+    [(ngModel)]="texts"
+    [suggestions]="results"
+    (completeMethod)="search($event)"
+    (onKeyUp)="onKeyUp($event)"
+    [multiple]="true">
+  </p-autoComplete>
+</div>

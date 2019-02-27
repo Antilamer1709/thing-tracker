@@ -325,7 +325,18 @@ a:visited.profileLink {
 }
 
 
-//portrait
+body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container .ui-autocomplete-token {
+  background: #34393a !important;
+  color: #EFEFEF !important;
+}
+
+
+
+
+
+
+//---------------------------------------   mobile    ----------------------------------------------
+//---------------------------------------   portrait    ----------------------------------------------
 @media only screen and (max-device-width: 550px) and (orientation:portrait){
   .loginBodyDiv {
     background-color: white;
@@ -375,7 +386,7 @@ a:visited.profileLink {
 
 
 
-//landscape
+//---------------------------------------   landscape    ----------------------------------------------
 @media only screen and (max-device-height: 450px) and (orientation:landscape){
   .loginBodyDiv {
     background-color: white;
