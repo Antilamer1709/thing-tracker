@@ -14,8 +14,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("api/authentication")
 public class AuthenticationController {
 
+    private final AuthenticationBO authenticationBO;
+
     @Autowired
-    private AuthenticationBO authenticationBO;
+    public AuthenticationController(
+            AuthenticationBO authenticationBO) {
+        this.authenticationBO = authenticationBO;
+    }
 
     @PostMapping(value = "/registration")
     @ResponseStatus(value = HttpStatus.OK)

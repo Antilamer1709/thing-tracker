@@ -14,8 +14,13 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    private final AuthenticationBO authenticationBO;
+
     @Autowired
-    private AuthenticationBO authenticationBO;
+    public CustomAuthenticationSuccessHandler(
+            AuthenticationBO authenticationBO) {
+        this.authenticationBO = authenticationBO;
+    }
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,

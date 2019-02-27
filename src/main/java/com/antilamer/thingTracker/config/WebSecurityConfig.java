@@ -26,14 +26,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationSuccessHandler successHandler;
 
-    @Autowired
-    private AuthenticationFailureHandler failureHandler;
+    private final AuthenticationFailureHandler failureHandler;
+
+    private final AuthenticationEntryPoint authenticationEntryPoint;
+
+    private final AccessDeniedHandler accessDeniedHandler;
 
     @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
-
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
+    public WebSecurityConfig(
+            AuthenticationFailureHandler failureHandler,
+            AuthenticationEntryPoint authenticationEntryPoint,
+            AccessDeniedHandler accessDeniedHandler) {
+        this.failureHandler = failureHandler;
+        this.authenticationEntryPoint = authenticationEntryPoint;
+        this.accessDeniedHandler = accessDeniedHandler;
+    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService userDetailsService) throws Exception {

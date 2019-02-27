@@ -24,17 +24,19 @@ import java.util.ArrayList;
 @Service
 public class AuthenticationBO {
 
-    @Autowired
-    private UserRepo userRepo;
+    private final UserRepo userRepo;
 
-    @Autowired
-    private RoleRepo roleRepo;
+    private final RoleRepo roleRepo;
 
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public AuthenticationBO(
+            UserRepo userRepo,
+            RoleRepo roleRepo,
             PasswordEncoder passwordEncoder) {
+        this.userRepo = userRepo;
+        this.roleRepo = roleRepo;
         this.passwordEncoder = passwordEncoder;
     }
 

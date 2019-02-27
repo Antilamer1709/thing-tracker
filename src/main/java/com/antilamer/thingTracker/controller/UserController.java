@@ -16,8 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/user")
 public class UserController {
 
+    private final UserBO userBO;
+
     @Autowired
-    private UserBO userBO;
+    public UserController(
+            UserBO userBO) {
+        this.userBO = userBO;
+    }
 
 
     @GetMapping(value = "/getUser/{id}")

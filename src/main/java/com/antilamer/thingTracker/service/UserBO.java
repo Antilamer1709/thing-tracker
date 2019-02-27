@@ -16,8 +16,13 @@ import java.util.function.Predicate;
 @Service
 public class UserBO {
 
+    private final UserRepo userRepo;
+
     @Autowired
-    private UserRepo userRepo;
+    public UserBO(
+            UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
 
     public UserDTO getUser(Integer id) throws ValidationException {
