@@ -17,4 +17,12 @@ export class ExpensesService extends CommonService {
     return this.http.post<void>('/api/expense', expenseDTO);
   }
 
+  public searchExpenseTypes(predicate: string): Observable<string[]> {
+    return this.http.get<string[]>('/api/expense/types', {
+      params: {
+        predicate: predicate
+      }
+    });
+  }
+
 }

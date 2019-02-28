@@ -19,6 +19,7 @@ export class AddExpenseComponent implements OnInit {
 
   ngOnInit() {
     this.createNewExpense();
+    this.results = [];
   }
 
   private createNewExpense(): void {
@@ -27,7 +28,12 @@ export class AddExpenseComponent implements OnInit {
   }
 
   search(event) {
-    this.results = ["aaa", "bbb", "ccc"];
+    this.service.searchExpenseTypes(event.query).subscribe(
+      (res) => {
+        console.log(res);
+        this.results = res;
+      }
+    );
   }
 
   onKeyUp(event: KeyboardEvent) {

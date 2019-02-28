@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Slf4j
 @RestController
@@ -30,6 +32,14 @@ public class ExpenseController {
     public void createExpense(@RequestBody ExpenseDTO expenseDTO) throws ValidationException {
         log.debug("*** createExpense() expenseDTO: " + expenseDTO);
         expenseBO.createExpense(expenseDTO);
+    }
+
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @GetMapping(value = "/types")
+    public List<String> searchExpenseTypes(@RequestParam String predicate) {
+        log.debug("*** searchExpenseTypes() predicate: " + predicate);
+        return expenseBO.searchExpenseTypes(predicate);
     }
 
 }

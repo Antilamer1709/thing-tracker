@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ExpenseBOImpl implements ExpenseBO {
@@ -80,5 +81,13 @@ public class ExpenseBOImpl implements ExpenseBO {
         typeDict.setName(name);
 
         return expenseTypeDictRepo.save(typeDict);
+    }
+
+
+    @Override
+    public List<String> searchExpenseTypes(String predicate) {
+        return expenseTypeDictRepo.findTop5ByNameContainingIgnoreCase(predicate.trim())
+                .stream().map(ExpenseTypeDictEntity::getName)
+                .collect(Collectors.toList());
     }
 }
