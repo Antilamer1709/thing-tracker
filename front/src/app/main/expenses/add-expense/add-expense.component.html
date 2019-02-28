@@ -1,9 +1,22 @@
 <div>
-  <p-autoComplete
-    [(ngModel)]="texts"
-    [suggestions]="results"
-    (completeMethod)="search($event)"
-    (onKeyUp)="onKeyUp($event)"
-    [multiple]="true">
-  </p-autoComplete>
+  <form novalidate #form="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="saveExpense(form)">
+
+    <p-autoComplete
+      [(ngModel)]="expense.types"
+      [suggestions]="results"
+      (completeMethod)="search($event)"
+      (onKeyUp)="onKeyUp($event)"
+      [multiple]="true"
+      name="types">
+    </p-autoComplete>
+
+    <p-spinner size="30" [(ngModel)]="expense.price" [required]="true" name="price"></p-spinner>
+
+    <span class="ui-float-label">
+            <input [(ngModel)]="expense.comment" id="comment" name="comment" type="text" size="30" pInputText>
+            <label for="comment">Comment (optional)</label>
+    </span>
+
+    <button pButton label="Save" icon="fa fa-paper-plane" type="submit"></button>
+  </form>
 </div>
