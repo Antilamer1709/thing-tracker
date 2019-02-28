@@ -12,14 +12,11 @@
         [multiple]="true"
         name="types"
         id="types">
-    </p-autoComplete>
+      </p-autoComplete>
       <label for="types">Types</label>
     </span>
 
-    <span class="ui-float-label">
-      <p-spinner size="30" [(ngModel)]="expense.price" [required]="true" name="price" id="price"></p-spinner>
-      <label for="price">Price</label>
-    </span>
+    <p-spinner [placeholder]="'Price'" size="30" [(ngModel)]="expense.price" [required]="true" name="price" id="price"></p-spinner>
 
 
     <span class="ui-float-label">
