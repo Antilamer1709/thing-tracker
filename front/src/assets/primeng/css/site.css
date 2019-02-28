@@ -58,12 +58,20 @@ body {
 
 #layout-topbar .logo {
   margin-left: 45px;
-  margin-top: 15px;
+  /*margin-top: 15px;*/
   display: inline-block;
 }
 
+.appName {
+  color: #0f0e0e;
+  font-size: 20px;
+  font-weight: bolder;
+  position: relative;
+  top: 4px;
+}
+
 #layout-topbar .logo img {
-  height: 42px;
+  height: 65px;
 }
 
 .topbar-menu {
@@ -671,6 +679,10 @@ body {
 }
 
 @media screen and (max-width: 64em) {
+  #layout-topbar .logo img {
+    height: 42px;
+  }
+
   .topMenuItemOffser{
     position: relative;
     bottom: 10px;
