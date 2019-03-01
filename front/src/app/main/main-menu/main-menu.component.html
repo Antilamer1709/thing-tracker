@@ -33,6 +33,7 @@
     <div class="layout-menu">
 
       <a id="home_menu" [routerLink]="['/main']" #home_menu_title
+         (click)="menuActive = false"
          [class.active-menuitem]="home_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
@@ -43,6 +44,7 @@
       </a>
 
       <a id="add_expense_menu" [routerLink]="['add-expense']" #expense_menu_title
+         (click)="menuActive = false"
          [class.active-menuitem]="expense_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
@@ -53,6 +55,7 @@
       </a>
 
       <a id="my_expenses_menu" [routerLink]="['/login']" #my_expenses_menu_title
+         (click)="menuActive = false"
          [class.active-menuitem]="my_expenses_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
@@ -63,6 +66,7 @@
       </a>
 
       <a id="profile_menu" [routerLink]="['/login']" #profile_menu_title
+         (click)="menuActive = false"
          [class.active-menuitem]="profile_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
@@ -73,6 +77,7 @@
       </a>
 
       <a id="my_group_menu" [routerLink]="['/login']" #my_group_menu_title
+         (click)="menuActive = false"
          [class.active-menuitem]="my_group_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
@@ -83,6 +88,7 @@
       </a>
 
       <a id="about_menu" [routerLink]="['/login']" #about_menu_title
+         (click)="menuActive = false"
          [class.active-menuitem]="about_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
