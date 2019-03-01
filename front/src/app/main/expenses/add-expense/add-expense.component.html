@@ -5,32 +5,45 @@
   </div>
 </div>
 
-<div class="content-section implementation">
+<div class="content-section implementation ui-fluid">
   <form novalidate #form="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="saveExpense(form)">
 
-    <span class="ui-float-label">
-      <p-autoComplete
-        [(ngModel)]="expense.types"
-        [suggestions]="results"
-        (completeMethod)="search($event)"
-        (onKeyUp)="onKeyUp($event)"
-        [multiple]="true"
-        name="types"
-        id="types">
-      </p-autoComplete>
-      <label for="types">Types</label>
-    </span>
+    <div class="ui-g">
+      <div class="ui-g-12">
 
-    <p-spinner [placeholder]="'Price'" size="30" [(ngModel)]="expense.price" [required]="true" name="price" id="price">
-    </p-spinner>
+        <div class="ui-g-12 ui-lg-8">
+          <span class="ui-float-label">
+            <p-autoComplete
+              [(ngModel)]="expense.types"
+              [suggestions]="results"
+              (completeMethod)="search($event)"
+              (onKeyUp)="onKeyUp($event)"
+              [multiple]="true"
+              name="types"
+              id="types">
+            </p-autoComplete>
+            <label for="types">Types</label>
+          </span>
+        </div>
 
+        <div class="ui-g-12 ui-lg-8">
+          <p-spinner [placeholder]="'Price'" size="30" [(ngModel)]="expense.price" [required]="true" name="price" id="price">
+          </p-spinner>
+        </div>
 
-    <span class="ui-float-label">
+        <div class="ui-g-12 ui-lg-8">
+          <span class="ui-float-label">
             <input [(ngModel)]="expense.comment" id="comment" name="comment" type="text" size="30" pInputText>
             <label for="comment">Comment (optional)</label>
-    </span>
+          </span>
+        </div>
 
-    <button pButton label="Save" icon="fa fa-paper-plane" type="submit"></button>
+        <div class="ui-xl-1 ui-lg-2 ui-md-2 ui-sm-12">
+          <button pButton label="Save" icon="fa fa-paper-plane" type="submit"></button>
+        </div>
+
+      </div>
+    </div>
 
   </form>
 </div>
