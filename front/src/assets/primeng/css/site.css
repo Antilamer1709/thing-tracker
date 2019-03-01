@@ -688,10 +688,6 @@ body {
     bottom: 10px;
   }
 
-  .messageOffset {
-    position: static !important;
-  }
-
   .layout-mask {
     display: block;
   }

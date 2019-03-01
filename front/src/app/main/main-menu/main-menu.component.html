@@ -11,7 +11,7 @@
 
     <ul class="topbar-menu">
       <li>
-        <a href="#" [routerLink]="['/setup']" class="topMenuItemOffser">GET STARTED</a>
+        <a href="#" [routerLink]="['/setup']">GET STARTED</a>
       </li>
       <!--<li class="topbar-menu-themes">-->
         <!--<a href="#">THEMES</a>-->
@@ -26,21 +26,6 @@
       <!--<li>-->
         <!--<a [routerLink]="['/support']">SUPPORT</a>-->
       <!--</li>-->
-
-      <li style="cursor: pointer" (click)="op2.toggle($event)">
-        <a>
-          <span class="pi pi-envelope messageIcon messageOffset"></span>
-          <span class="messageOffset">{{messages?.length}}</span>
-        </a>
-      </li>
-
-      <p-overlayPanel #op2>
-        <div *ngFor="let row of messages">
-          <button pButton icon="pi pi-check" title="Прочитано" [ngClass]="{'messageButton': !row.hasFile}"></button>
-          <button *ngIf="row.hasFile" icon="pi pi-download" pButton title="Скачати" class="messageButton"></button>
-          <span>{{row.text}}</span>
-        </div>
-      </p-overlayPanel>
     </ul>
   </div>
 
