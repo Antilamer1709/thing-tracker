@@ -1,7 +1,12 @@
-<div>
-  <form novalidate #form="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="saveExpense(form)">
+<div class="content-section introduction">
+  <div>
+    <span class="feature-title">Add Expense</span>
+    <span></span>
+  </div>
+</div>
 
-    <div style="height: 200px"></div>
+<div class="content-section implementation">
+  <form novalidate #form="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="saveExpense(form)">
 
     <span class="ui-float-label">
       <p-autoComplete
@@ -16,7 +21,8 @@
       <label for="types">Types</label>
     </span>
 
-    <p-spinner [placeholder]="'Price'" size="30" [(ngModel)]="expense.price" [required]="true" name="price" id="price"></p-spinner>
+    <p-spinner [placeholder]="'Price'" size="30" [(ngModel)]="expense.price" [required]="true" name="price" id="price">
+    </p-spinner>
 
 
     <span class="ui-float-label">
@@ -25,5 +31,6 @@
     </span>
 
     <button pButton label="Save" icon="fa fa-paper-plane" type="submit"></button>
+
   </form>
 </div>

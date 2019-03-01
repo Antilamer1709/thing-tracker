@@ -453,8 +453,9 @@ body {
 }
 
 .content-section.introduction {
-  background-image: linear-gradient(to left, #2bc0ec, #1b81d7);
-  color: #ffffff;
+  /*background-image: linear-gradient(to left, #2bc0ec, #1b81d7);*/
+  /*background-color: red;*/
+  /*color: #ffffff;*/
 }
 
 .content-section.introduction a {
