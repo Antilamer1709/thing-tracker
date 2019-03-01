@@ -5,6 +5,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -26,6 +27,9 @@ public class ExpenseEntity {
 
     @Column(name = "comment")
     private String comment;
+
+    @Column(name = "date")
+    private LocalDateTime date;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "expense_to_expense_type_dict",

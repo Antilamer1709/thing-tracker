@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,6 +58,7 @@ public class ExpenseBOImpl implements ExpenseBO {
         expenseEntity.setUser(userEntity);
         expenseEntity.setPrice(expenseDTO.getPrice());
         expenseEntity.setComment(expenseDTO.getComment());
+        expenseEntity.setDate(LocalDateTime.now());
         initExpenseTypes(expenseEntity, expenseDTO.getTypes());
     }
 
@@ -67,6 +69,8 @@ public class ExpenseBOImpl implements ExpenseBO {
             ExpenseTypeDictEntity typeDict = expenseTypeDictRepo
                     .findByNameIgnoreCase(x.trim())
                     .orElseGet(() -> createExpenseTypeDict(x));
+            typeDict.setUsedCount(typeDict.getUsedCount() + 1);
+            typeDict = expenseTypeDictRepo.save(typeDict);
             expenseTypes.add(typeDict);
         });
 
@@ -79,6 +83,7 @@ public class ExpenseBOImpl implements ExpenseBO {
 
         typeDict.setUser(userEntity);
         typeDict.setName(name);
+        typeDict.setUsedCount(0);
 
         return expenseTypeDictRepo.save(typeDict);
     }

@@ -14,6 +14,9 @@ public class ExpenseTypeDictEntity {
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "used_count")
+    private Integer usedCount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
