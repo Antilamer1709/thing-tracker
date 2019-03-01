@@ -322,6 +322,12 @@ body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-contain
   color: #ffffff !important;
 }
 
+.flex-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 
 
 
