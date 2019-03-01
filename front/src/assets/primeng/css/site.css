@@ -680,6 +680,11 @@ body {
 }
 
 @media screen and (max-width: 64em) {
+
+  .appName {
+    bottom: 10px;
+  }
+
   #layout-topbar .logo img {
     height: 42px;
   }
