@@ -11,7 +11,7 @@
     <div class="ui-g">
       <div class="flex-container ui-g-12">
 
-        <div class="ui-g-12 ui-lg-8">
+        <div class="ui-g-12 ui-lg-8 margin-top-10">
           <span class="ui-float-label">
             <p-autoComplete
               [(ngModel)]="expense.types"
@@ -26,12 +26,12 @@
           </span>
         </div>
 
-        <div class="ui-g-12 ui-lg-8">
+        <div class="ui-g-12 ui-lg-8 margin-top-10">
           <p-spinner [placeholder]="'Price'" size="30" [(ngModel)]="expense.price" [required]="true" name="price" id="price">
           </p-spinner>
         </div>
 
-        <div class="ui-g-12 ui-lg-8">
+        <div class="ui-g-12 ui-lg-8 margin-top-10">
           <span class="ui-float-label">
             <input [(ngModel)]="expense.comment" id="comment" name="comment" type="text" size="30" pInputText>
             <label for="comment">Comment (optional)</label>
