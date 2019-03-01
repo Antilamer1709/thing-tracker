@@ -36,13 +36,21 @@ export class AddExpenseComponent implements OnInit {
     );
   }
 
-  onKeyUp(event: KeyboardEvent) {
+  public onKeyUp(event: KeyboardEvent): void {
     if (event.key == "Enter") {
-      let tokenInput = event.srcElement as any;
-      if (tokenInput.value) {
-        this.expense.types.push(tokenInput.value);
-        tokenInput.value = "";
-      }
+      this.addAutocompleteValue(event);
+    }
+  }
+
+  public onBlur(event: FocusEvent): void {
+    this.addAutocompleteValue(event);
+  }
+
+  private addAutocompleteValue(event): void {
+    let tokenInput = event.srcElement as any;
+    if (tokenInput.value && tokenInput.value.length > 0) {
+      this.expense.types.push(tokenInput.value);
+      tokenInput.value = "";
     }
   }
 
