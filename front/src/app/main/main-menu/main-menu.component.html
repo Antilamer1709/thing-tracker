@@ -1,122 +1,119 @@
-<div class="layout-wrapper">
-  <div id="layout-topbar">
-    <a href="#" class="menu-button" (click)="onMenuButtonClick($event)">
-      <i class="fa fa-bars"></i>
-    </a>
+<div id="layout-topbar">
+  <a href="#" class="menu-button" (click)="onMenuButtonClick($event)">
+    <i class="fa fa-bars"></i>
+  </a>
 
-    <a href="#" class="logo" [routerLink]="['/']">
-      <img alt="logo" src="assets/images/logo.png"/>
-      <span class="appName">Thing Tracker</span>
-    </a>
+  <a href="#" class="logo" [routerLink]="['/']">
+    <img alt="logo" src="assets/images/logo.png"/>
+    <span class="appName">Thing Tracker</span>
+  </a>
 
-    <ul class="topbar-menu">
-      <li>
-        <a href="#" [routerLink]="['/setup']">GET STARTED</a>
-      </li>
-      <!--<li class="topbar-menu-themes">-->
-        <!--<a href="#">THEMES</a>-->
-        <!--<ul>-->
-          <!--<li class="topbar-submenu-header">THEMING</li>-->
-          <!--<li><a [routerLink]="['./theming']"><span class="topbar-submenu-icon fa fa-book"></span>Guide</a></li>-->
-          <!--<li><a href="https://www.primefaces.org/designer/primeng"><span-->
-            <!--class="topbar-submenu-icon fa fa-paint-brush"></span>Designer <span class="menuitem-badge">NEW</span></a>-->
-          <!--</li>-->
-        <!--</ul>-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<a [routerLink]="['/support']">SUPPORT</a>-->
-      <!--</li>-->
-    </ul>
-  </div>
+  <ul class="topbar-menu">
+    <li>
+      <a href="#" [routerLink]="['/setup']">GET STARTED</a>
+    </li>
+    <!--<li class="topbar-menu-themes">-->
+    <!--<a href="#">THEMES</a>-->
+    <!--<ul>-->
+    <!--<li class="topbar-submenu-header">THEMING</li>-->
+    <!--<li><a [routerLink]="['./theming']"><span class="topbar-submenu-icon fa fa-book"></span>Guide</a></li>-->
+    <!--<li><a href="https://www.primefaces.org/designer/primeng"><span-->
+    <!--class="topbar-submenu-icon fa fa-paint-brush"></span>Designer <span class="menuitem-badge">NEW</span></a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</li>-->
+    <!--<li>-->
+    <!--<a [routerLink]="['/support']">SUPPORT</a>-->
+    <!--</li>-->
+  </ul>
+</div>
 
-  <div id="layout-sidebar" [ngClass]="{'active': menuActive}">
-    <div class="layout-menu">
+<div id="layout-sidebar" [ngClass]="{'active': menuActive}">
+  <div class="layout-menu">
 
-      <a id="home_menu" [routerLink]="['/main']" #home_menu_title
-         (click)="menuActive = false"
-         [class.active-menuitem]="home_menu_title.id == activeMenuId">
+    <a id="home_menu" [routerLink]="['/main']" #home_menu_title
+       (click)="menuActive = false"
+       [class.active-menuitem]="home_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
             <i class="pi pi-home menuIcon"></i>
           </div>
           Dashboard
         </span>
-      </a>
+    </a>
 
-      <a id="add_expense_menu" [routerLink]="['add-expense']" #expense_menu_title
-         (click)="menuActive = false"
-         [class.active-menuitem]="expense_menu_title.id == activeMenuId">
+    <a id="add_expense_menu" [routerLink]="['add-expense']" #expense_menu_title
+       (click)="menuActive = false"
+       [class.active-menuitem]="expense_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
             <i class="pi pi-plus menuIcon"></i>
           </div>
           Add Expense
         </span>
-      </a>
+    </a>
 
-      <a id="my_expenses_menu" [routerLink]="['/login']" #my_expenses_menu_title
-         (click)="menuActive = false"
-         [class.active-menuitem]="my_expenses_menu_title.id == activeMenuId">
+    <a id="my_expenses_menu" [routerLink]="['/login']" #my_expenses_menu_title
+       (click)="menuActive = false"
+       [class.active-menuitem]="my_expenses_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
             <i class="pi pi-list menuIcon"></i>
           </div>
           Manage Expenses
         </span>
-      </a>
+    </a>
 
-      <a id="profile_menu" [routerLink]="['/login']" #profile_menu_title
-         (click)="menuActive = false"
-         [class.active-menuitem]="profile_menu_title.id == activeMenuId">
+    <a id="profile_menu" [routerLink]="['/login']" #profile_menu_title
+       (click)="menuActive = false"
+       [class.active-menuitem]="profile_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
             <i class="pi pi-user menuIcon"></i>
           </div>
           Profile
         </span>
-      </a>
+    </a>
 
-      <a id="my_group_menu" [routerLink]="['/login']" #my_group_menu_title
-         (click)="menuActive = false"
-         [class.active-menuitem]="my_group_menu_title.id == activeMenuId">
+    <a id="my_group_menu" [routerLink]="['/login']" #my_group_menu_title
+       (click)="menuActive = false"
+       [class.active-menuitem]="my_group_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
             <i class="pi pi-users menuIcon"></i>
           </div>
           My Group
         </span>
-      </a>
+    </a>
 
-      <a id="about_menu" [routerLink]="['/login']" #about_menu_title
-         (click)="menuActive = false"
-         [class.active-menuitem]="about_menu_title.id == activeMenuId">
+    <a id="about_menu" [routerLink]="['/login']" #about_menu_title
+       (click)="menuActive = false"
+       [class.active-menuitem]="about_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
             <i class="pi pi-question-circle menuIcon"></i>
           </div>
           About Application
         </span>
-      </a>
+    </a>
 
 
-    </div>
+  </div>
+</div>
+
+<div class="layout-mask" *ngIf="menuActive">
+</div>
+
+<div id="layout-content">
+  <div>
+    <router-outlet></router-outlet>
   </div>
 
-  <div class="layout-mask" *ngIf="menuActive">
-  </div>
-
-  <div id="layout-content">
-    <div>
-      <router-outlet></router-outlet>
-    </div>
-
-    <div class="content-section layout-footer clearfix">
-      <span>PrimeNG 7.1.0</span>
-      <div class="footer-links">
-        <a href="https://github.com/primefaces/primeng"><i class="fa fa-github"></i></a>
-        <a href="https://twitter.com/prime_ng"><i class="fa fa-twitter"></i></a>
-      </div>
+  <div class="content-section layout-footer clearfix">
+    <span>PrimeNG 7.1.0</span>
+    <div class="footer-links">
+      <a href="https://github.com/primefaces/primeng"><i class="fa fa-github"></i></a>
+      <a href="https://twitter.com/prime_ng"><i class="fa fa-twitter"></i></a>
     </div>
   </div>
-
 </div>

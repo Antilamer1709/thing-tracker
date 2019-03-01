@@ -67,7 +67,7 @@ body {
   font-size: 20px;
   font-weight: bolder;
   position: relative;
-  top: 4px;
+  bottom: 25px;
 }
 
 #layout-topbar .logo img {
