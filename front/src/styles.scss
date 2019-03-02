@@ -38,3 +38,8 @@ body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-contain
 .margin-top-10 {
   margin-top: 10px;
 }
+
+//prevent auto zoom
+input, input:active, input:focus, input:focus-within, input:hover, input:visited {
+  font-size: 16px !important;
+}
