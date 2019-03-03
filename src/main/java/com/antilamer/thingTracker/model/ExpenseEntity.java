@@ -32,7 +32,7 @@ public class ExpenseEntity {
     private LocalDateTime date;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "expense_to_expense_type_dict",
+    @JoinTable(name = "expense_to_expense_type_dict", schema = "thing_tracker",
             joinColumns = @JoinColumn(name = "expense_id"),
             inverseJoinColumns = @JoinColumn(name = "expense_type_id"))
     @Fetch(FetchMode.SUBSELECT)
