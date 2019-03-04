@@ -16,9 +16,10 @@
             <p-autoComplete
               [(ngModel)]="expense.types"
               [suggestions]="results"
-              (completeMethod)="search($event)"
-              (onKeyUp)="onKeyUp($event)"
-              (onBlur)="onBlur($event)"
+              (completeMethod)="searchExpenseTypes($event)"
+              (onSelect)="expenseTypesOnSelect($event)"
+              (onKeyUp)="expenseTypesOnKeyUp($event)"
+              (onBlur)="expenseTypesOnBlur($event)"
               [multiple]="true"
               name="types"
               id="types">

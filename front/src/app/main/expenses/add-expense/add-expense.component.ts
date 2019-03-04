@@ -27,7 +27,7 @@ export class AddExpenseComponent implements OnInit {
     this.expense.types = [];
   }
 
-  search(event) {
+  public searchExpenseTypes(event): void {
     this.service.searchExpenseTypes(event.query).subscribe(
       (res) => {
         console.log(res);
@@ -36,13 +36,13 @@ export class AddExpenseComponent implements OnInit {
     );
   }
 
-  public onKeyUp(event: KeyboardEvent): void {
+  public expenseTypesOnKeyUp(event: KeyboardEvent): void {
     if (event.key == "Enter") {
       this.addAutocompleteValue(event);
     }
   }
 
-  public onBlur(event: FocusEvent): void {
+  public expenseTypesOnBlur(event: FocusEvent): void {
     this.addAutocompleteValue(event);
   }
 
@@ -52,6 +52,15 @@ export class AddExpenseComponent implements OnInit {
       this.expense.types.push(tokenInput.value);
       tokenInput.value = "";
     }
+  }
+
+  public expenseTypesOnSelect(value: string): void {
+    const hasDuplicate: boolean = this.expense.types.indexOf(value) != -1;
+    this.expense.types.pop();
+    if (hasDuplicate) {
+      this.expense.types.pop();
+    }
+    this.expense.types.push(value);
   }
 
   public saveExpense(form: FormGroup): void {
