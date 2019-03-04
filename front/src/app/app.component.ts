@@ -4,7 +4,6 @@ import {Router} from "@angular/router";
 import {AuthenticationService} from "./authentication/authentication.service";
 import {MessageService} from "primeng/components/common/messageservice";
 import {AppService} from "./app.service";
-import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-root',
@@ -18,9 +17,7 @@ export class AppComponent implements OnInit {
   constructor(public authenticationService: AuthenticationService,
               public appService: AppService,
               private messageService: MessageService,
-              private titleService: Title,
               private router: Router) {
-    this.titleService.setTitle("Thing tracker");
   }
 
   ngOnInit(): void {
