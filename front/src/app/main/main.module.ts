@@ -6,9 +6,10 @@ import {MainMenuComponent} from "./main-menu/main-menu.component";
 import {CommonModule} from "@angular/common";
 import {AppRoutingModule} from "../app-routing.module";
 import {ExpensesModule} from "./expenses/expenses.module";
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [MainComponent, MainMenuComponent],
+  declarations: [MainComponent, MainMenuComponent, DashboardComponent],
   imports: [
     AppRoutingModule,
     CommonModule,

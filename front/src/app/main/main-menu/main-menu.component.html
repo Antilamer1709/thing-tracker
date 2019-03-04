@@ -31,7 +31,7 @@
 <div id="layout-sidebar" [ngClass]="{'active': menuActive}">
   <div class="layout-menu">
 
-    <a id="home_menu" [routerLink]="['/main']" #home_menu_title
+    <a id="home_menu" [routerLink]="['/dashboard']" #home_menu_title
        (click)="menuActive = false"
        [class.active-menuitem]="home_menu_title.id == activeMenuId">
         <span>

@@ -8,7 +8,7 @@ export const routes: Routes = [
   ...MainRoutes,
 
   { path: '**',
-    redirectTo: '/main'
+    redirectTo: '/main/dashboard'
   }
 
 ];
