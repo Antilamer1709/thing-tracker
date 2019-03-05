@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
       this.service.authenticate(this.user).subscribe(
         (res) => {
           console.log(res);
-          this.messageService.add({severity:'info', summary:'Hello', detail:'You are logged in!'});
+          this.messageService.add({severity:'success', summary:'Hello', detail:'You are logged in!'});
           this.authenticationService.loggedUser = res;
           this.router.navigate([this.returnUrl]);
         }

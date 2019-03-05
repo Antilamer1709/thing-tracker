@@ -69,7 +69,7 @@ export class AddExpenseComponent implements OnInit {
         (res) => {
           console.log(res);
           this.createNewExpense();
-          this.messageService.add({severity:'info', summary:'Success', detail:'The expense has been saved!'});
+          this.messageService.add({severity:'success', summary:'Success', detail:'The expense has been saved!'});
         }
       );
     } else {

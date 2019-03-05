@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
     this.authenticationService.logout().subscribe(
       () => {
         this.authenticationService.loggedUser = null;
-        this.messageService.add({severity:'info', summary:'Hello', detail:'You are logged out!'});
+        this.messageService.add({severity:'success', summary:'Hello', detail:'You are logged out!'});
         this.router.navigate(['/']);
       }
     );

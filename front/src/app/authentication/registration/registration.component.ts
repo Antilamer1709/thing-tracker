@@ -28,7 +28,7 @@ export class RegistrationComponent implements OnInit {
     if (form.valid && this.registration.password === this.registration.confirmPassword) {
       this.service.register(this.registration).subscribe(
         () => {
-          this.messageService.add({severity:'info', summary:'Registration', detail:'You can log in now!'});
+          this.messageService.add({severity:'success', summary:'Registration', detail:'You can log in now!'});
           this.router.navigate(['/authentication/login']);
         }
       );
