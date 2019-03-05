@@ -8,11 +8,11 @@ import {routes} from "./app.routes";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {CustomHttpInterceptor} from "./common/http-interceptor";
-import {GrowlModule} from "primeng/growl";
 import {BlockUIModule} from "primeng/blockui";
 import {ButtonModule} from "primeng/button";
 import {ConfirmDialogModule} from "primeng/primeng";
 import {MainModule} from "./main/main.module";
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import {MainModule} from "./main/main.module";
     HttpClientModule,
     RouterModule.forRoot( routes, { useHash: true } ),
     AuthenticationModule,
-    GrowlModule,
+    ToastModule,
     BlockUIModule,
     ButtonModule,
     ConfirmDialogModule,

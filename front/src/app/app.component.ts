@@ -12,8 +12,6 @@ import {AppService} from "./app.service";
 })
 export class AppComponent implements OnInit {
 
-  public msgs: Message[] = [];
-
   constructor(public authenticationService: AuthenticationService,
               public appService: AppService,
               private messageService: MessageService,
