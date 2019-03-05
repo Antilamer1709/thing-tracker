@@ -3,6 +3,7 @@ import {ExpensesService} from "../expenses.service";
 import {FormGroup} from "@angular/forms";
 import {ExpenseDTO} from "../../../../generated/dto";
 import {MessageService} from "primeng/api";
+import {AppService} from "../../../app.service";
 
 @Component({
   selector: 'app-add-expense',
@@ -15,6 +16,7 @@ export class AddExpenseComponent implements OnInit {
   public results: string[];
 
   constructor(private messageService: MessageService,
+              private appService: AppService,
               private service: ExpensesService) { }
 
   ngOnInit() {
@@ -65,9 +67,12 @@ export class AddExpenseComponent implements OnInit {
 
   public saveExpense(form: FormGroup): void {
     if (form.valid) {
+      this.appService.blockedUI = true;
       this.service.saveExpense(this.expense).subscribe(
         (res) => {
           console.log(res);
+          this.appService.blockedUI = false;
+
           this.createNewExpense();
           this.messageService.add({severity:'success', summary:'Success', detail:'The expense has been saved!'});
         }

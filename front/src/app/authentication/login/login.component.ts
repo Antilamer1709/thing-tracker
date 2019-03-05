@@ -5,6 +5,7 @@ import {LoginService} from "./login.service";
 import {MessageService} from "primeng/components/common/messageservice";
 import {AuthenticationService} from "../authentication.service";
 import {UserDTO} from "../../../generated/dto";
+import {AppService} from "../../app.service";
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
   constructor(private messageService: MessageService,
               private authenticationService: AuthenticationService,
               private service: LoginService,
+              private appService: AppService,
               private router: Router,
               private route: ActivatedRoute) {
   }
@@ -30,9 +32,12 @@ export class LoginComponent implements OnInit {
 
   public login(form: FormGroup): void {
     if (form.valid) {
+      this.appService.blockedUI = true;
       this.service.authenticate(this.user).subscribe(
         (res) => {
           console.log(res);
+          this.appService.blockedUI = false;
+
           this.messageService.add({severity:'success', summary:'Hello', detail:'You are logged in!'});
           this.authenticationService.loggedUser = res;
           this.router.navigate([this.returnUrl]);

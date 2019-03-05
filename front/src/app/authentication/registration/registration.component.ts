@@ -4,6 +4,7 @@ import {MessageService} from "primeng/components/common/messageservice";
 import {Router} from "@angular/router";
 import {FormGroup} from "@angular/forms";
 import {RegistrationDTO} from "../../../generated/dto";
+import {AppService} from "../../app.service";
 
 @Component({
   selector: 'app-registration',
@@ -16,6 +17,7 @@ export class RegistrationComponent implements OnInit {
 
   constructor(private service: RegistrationService,
               private router: Router,
+              private appService: AppService,
               private messageService: MessageService) {
   }
 
@@ -26,8 +28,10 @@ export class RegistrationComponent implements OnInit {
   public register(form: FormGroup): void {
     console.log(form);
     if (form.valid && this.registration.password === this.registration.confirmPassword) {
+      this.appService.blockedUI = true;
       this.service.register(this.registration).subscribe(
         () => {
+          this.appService.blockedUI = false;
           this.messageService.add({severity:'success', summary:'Registration', detail:'You can log in now!'});
           this.router.navigate(['/authentication/login']);
         }
