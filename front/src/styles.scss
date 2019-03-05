@@ -35,6 +35,12 @@ body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-contain
   flex-direction: column;
 }
 
+.flex-container-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .margin-top-10 {
   margin-top: 10px;
 }

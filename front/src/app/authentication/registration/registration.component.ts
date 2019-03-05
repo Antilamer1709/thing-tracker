@@ -41,4 +41,8 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
+  public login(): void {
+    this.router.navigate(['login']);
+  }
+
 }

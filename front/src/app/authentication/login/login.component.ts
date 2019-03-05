@@ -48,4 +48,8 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  public registration(): void {
+    this.router.navigate(['registration']);
+  }
+
 }
