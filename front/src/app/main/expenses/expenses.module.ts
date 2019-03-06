@@ -1,7 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AddExpenseComponent } from './add-expense/add-expense.component';
-import {AutoCompleteModule, ButtonModule, CalendarModule, InputTextModule, SpinnerModule} from "primeng/primeng";
+import {
+  AutoCompleteModule,
+  ButtonModule,
+  CalendarModule,
+  ChartModule,
+  InputTextModule,
+  SpinnerModule
+} from "primeng/primeng";
 import {FormsModule} from "@angular/forms";
 import { ManageExpenseComponent } from './manage-expense/manage-expense.component';
 
@@ -14,7 +21,8 @@ import { ManageExpenseComponent } from './manage-expense/manage-expense.componen
     SpinnerModule,
     ButtonModule,
     InputTextModule,
-    CalendarModule
+    CalendarModule,
+    ChartModule
   ]
 })
 export class ExpensesModule { }

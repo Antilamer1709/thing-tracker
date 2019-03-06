@@ -3,7 +3,7 @@ import {FormGroup} from "@angular/forms";
 import {MessageService} from "primeng/api";
 import {AppService} from "../../../app.service";
 import {ExpensesService} from "../expenses.service";
-import {ExpenseSearchDTO} from "../../../../generated/dto";
+import {ExpenseSearchChartDTO, ExpenseSearchDTO} from "../../../../generated/dto";
 
 @Component({
   selector: 'app-manage-expense',
@@ -13,6 +13,7 @@ import {ExpenseSearchDTO} from "../../../../generated/dto";
 export class ManageExpenseComponent implements OnInit {
 
   public expenseSearchDTO: ExpenseSearchDTO;
+  public chartData: any;
 
   constructor(private messageService: MessageService,
               private appService: AppService,
@@ -27,8 +28,42 @@ export class ManageExpenseComponent implements OnInit {
     this.service.searchChartExpenses(this.expenseSearchDTO).subscribe(
       (res) => {
         console.log(res);
+        this.initChartData(res);
       }
     );
   }
 
+  private initChartData(res: ExpenseSearchChartDTO) {
+    this.chartData = {
+      labels: Object.keys(res.data),
+      datasets: [
+        {
+          data: Object.values(res.data),
+          backgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56",
+            "#56ff89",
+            "#c456ff",
+            "#56fff9",
+            "#ff9f56",
+            "#ff56aa",
+            "#ebff56",
+            "#56c6ff"
+          ],
+          hoverBackgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56",
+            "#56ff89",
+            "#c456ff",
+            "#56fff9",
+            "#ff9f56",
+            "#ff56aa",
+            "#ebff56",
+            "#56c6ff"
+          ]
+        }]
+    };
+  }
 }
