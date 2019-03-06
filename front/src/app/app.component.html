@@ -1,4 +1,7 @@
 <p-toast [styleClass]="'toastMessage'"></p-toast>
 <p-blockUI [blocked]="appService.blockedUI"></p-blockUI>
+<div *ngIf="appService.blockedUI" class="progress-spinner-container">
+  <p-progressSpinner></p-progressSpinner>
+</div>
 
 <router-outlet></router-outlet>
