@@ -9,9 +9,9 @@
   <form novalidate #form="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="searchExpenses(form)">
 
     <div class="ui-g ui-fluid">
-      <div class="flex-container-center ui-g-12">
+      <div class="ui-g-12">
 
-        <div class="ui-g-12 ui-lg-4 margin-top-10 font-size-16px">
+        <div class="ui-g-12 ui-lg-6 margin-top-10 font-size-16px">
           <span class="ui-float-label">
             <p-calendar
               [(ngModel)]="expenseSearchDTO.dateFrom"
@@ -28,7 +28,7 @@
           </span>
         </div>
 
-        <div class="ui-g-12 ui-lg-4 margin-top-10 font-size-16px">
+        <div class="ui-g-12 ui-lg-6 margin-top-10 font-size-16px">
           <span class="ui-float-label">
             <p-calendar
               [(ngModel)]="expenseSearchDTO.dateTo"
