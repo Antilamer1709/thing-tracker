@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ExpenseDTO} from "../../../generated/dto";
+import {ExpenseDTO, ExpenseSearchChartDTO, ExpenseSearchDTO} from "../../../generated/dto";
 import {CommonService} from "../../common/common.service";
 
 @Injectable({
@@ -23,6 +23,10 @@ export class ExpensesService extends CommonService {
         predicate: predicate
       }
     });
+  }
+
+  public searchChartExpenses(searchDTO: ExpenseSearchDTO): Observable<ExpenseSearchChartDTO> {
+    return this.http.post<ExpenseSearchChartDTO>('/api/expense/search/chart', searchDTO);
   }
 
 }

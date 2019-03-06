@@ -1,6 +1,8 @@
 package com.antilamer.thingTracker.controller;
 
 import com.antilamer.thingTracker.dto.ExpenseDTO;
+import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
+import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.ExpenseBO;
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +36,19 @@ public class ExpenseController {
         expenseBO.createExpense(expenseDTO);
     }
 
-
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping(value = "/types")
     public List<String> searchExpenseTypes(@RequestParam String predicate) {
         log.debug("*** searchExpenseTypes() predicate: " + predicate);
         return expenseBO.searchExpenseTypes(predicate);
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @PostMapping(value = "/search/chart")
+    @ResponseStatus(value = HttpStatus.OK)
+    public ExpenseSearchChartDTO searchChart(@RequestBody ExpenseSearchDTO expenseSearchDTO) {
+        log.debug("*** searchChart() expenseSearchDTO: " + expenseSearchDTO);
+        return expenseBO.searchChart(expenseSearchDTO);
     }
 
 }

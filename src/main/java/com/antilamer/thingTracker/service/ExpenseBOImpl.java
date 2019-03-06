@@ -1,12 +1,15 @@
 package com.antilamer.thingTracker.service;
 
 import com.antilamer.thingTracker.dto.ExpenseDTO;
+import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
+import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.ExpenseEntity;
 import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.ExpenseRepo;
 import com.antilamer.thingTracker.repository.ExpenseTypeDictRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ExpenseBOImpl implements ExpenseBO {
 
@@ -94,5 +99,24 @@ public class ExpenseBOImpl implements ExpenseBO {
         return expenseTypeDictRepo.findTop5ByNameContainingIgnoreCase(predicate.trim())
                 .stream().map(ExpenseTypeDictEntity::getName)
                 .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public ExpenseSearchChartDTO searchChart(ExpenseSearchDTO expenseSearchDTO) {
+        //todo refactor
+        ExpenseSearchChartDTO searchChartDTO = new ExpenseSearchChartDTO();
+        UserEntity userEntity = authenticationBO.getLoggedUser();
+        List<ExpenseEntity> expenseEntities = expenseRepo.searchChart(userEntity.getId(), expenseSearchDTO.getDateFrom(), expenseSearchDTO.getDateTo());
+
+        expenseEntities.forEach(x -> {
+            Integer price = searchChartDTO.getData().put(x.getExpenseTypeDict().get(0).getName(), x.getPrice());
+            if (price != null) {
+                Integer sum = searchChartDTO.getData().get(x.getExpenseTypeDict().get(0).getName());
+                searchChartDTO.getData().put(x.getExpenseTypeDict().get(0).getName(), price + sum);
+            }
+        });
+
+        return searchChartDTO;
     }
 }
