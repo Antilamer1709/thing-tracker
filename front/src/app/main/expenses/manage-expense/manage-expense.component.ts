@@ -4,20 +4,23 @@ import {MessageService} from "primeng/api";
 import {AppService} from "../../../app.service";
 import {ExpensesService} from "../expenses.service";
 import {ExpenseSearchChartDTO, ExpenseSearchDTO} from "../../../../generated/dto";
+import {CommonComponent} from "../../../common/common-component";
 
 @Component({
   selector: 'app-manage-expense',
   templateUrl: './manage-expense.component.html',
   styleUrls: ['./manage-expense.component.scss']
 })
-export class ManageExpenseComponent implements OnInit {
+export class ManageExpenseComponent extends CommonComponent implements OnInit {
 
   public expenseSearchDTO: ExpenseSearchDTO;
   public chartData: any;
 
   constructor(private messageService: MessageService,
               private appService: AppService,
-              private service: ExpensesService) { }
+              private service: ExpensesService) {
+    super();
+  }
 
   ngOnInit() {
     this.expenseSearchDTO = new ExpenseSearchDTO();
