@@ -1,6 +1,6 @@
 export class CommonComponent {
 
-  protected europeLocale = {
+  public europeLocale = {
     firstDayOfWeek: 0,
     dayNames: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
     dayNamesShort: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
