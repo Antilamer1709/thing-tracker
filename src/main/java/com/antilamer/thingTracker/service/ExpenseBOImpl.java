@@ -9,6 +9,7 @@ import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.ExpenseRepo;
 import com.antilamer.thingTracker.repository.ExpenseTypeDictRepo;
+import com.sun.xml.internal.ws.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,7 +88,7 @@ public class ExpenseBOImpl implements ExpenseBO {
         UserEntity userEntity = authenticationBO.getLoggedUser();
 
         typeDict.setUser(userEntity);
-        typeDict.setName(name);
+        typeDict.setName(StringUtils.capitalize(name.trim()));
         typeDict.setUsedCount(0);
 
         return expenseTypeDictRepo.save(typeDict);
