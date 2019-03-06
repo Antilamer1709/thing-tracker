@@ -53,7 +53,7 @@
         </span>
     </a>
 
-    <a id="my_expenses_menu" [routerLink]="['/login']" #my_expenses_menu_title
+    <a id="my_expenses_menu" [routerLink]="['manage-expense']" #my_expenses_menu_title
        (click)="menuActive = false"
        [class.active-menuitem]="my_expenses_menu_title.id == activeMenuId">
         <span>

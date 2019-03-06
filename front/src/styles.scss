@@ -17,7 +17,14 @@
   background-color: #4a4f52 !important;
   border-color: #EFEFEF !important;
 }
-
+//fix for calendar icon
+.font-size-16px .ui-button{
+  font-size: 16px !important;
+}
+//calendar selected date
+.ui-datepicker a.ui-state-active {
+  background-color: #4a4f52 !important;
+}
 
 
 body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container .ui-autocomplete-token {

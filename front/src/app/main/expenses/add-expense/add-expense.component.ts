@@ -14,6 +14,8 @@ export class AddExpenseComponent implements OnInit {
 
   public expense: ExpenseDTO;
   public results: string[];
+  public date1: Date;
+  public date2: Date;
 
   constructor(private messageService: MessageService,
               private appService: AppService,

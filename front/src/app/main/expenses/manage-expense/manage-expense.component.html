@@ -1,0 +1,47 @@
+<div class="content-section introduction">
+  <div>
+    <span class="feature-title">Manage Expenses</span>
+    <span></span>
+  </div>
+</div>
+
+<div class="content-section implementation">
+  <form novalidate #form="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="searchExpenses(form)">
+
+    <div class="ui-g ui-fluid">
+
+      <div class="ui-g-12 ui-md-6 margin-top-10 font-size-16px">
+        <span class="ui-float-label">
+            <p-calendar
+              [(ngModel)]="date1"
+              [monthNavigator]="true"
+              [yearNavigator]="true"
+              [showIcon]="true"
+              yearRange="2019:2030"
+              id="dateFrom"
+              name="dateFrom">
+            </p-calendar>
+            <label for="dateFrom">Date From</label>
+          </span>
+      </div>
+
+      <div class="ui-g-12 ui-md-6 margin-top-10 font-size-16px">
+        <span class="ui-float-label">
+            <p-calendar
+              [(ngModel)]="date2"
+              [monthNavigator]="true"
+              [yearNavigator]="true"
+              [showIcon]="true"
+              yearRange="2019:2030"
+              id="dateTo"
+              name="dateTo">
+            </p-calendar>
+            <label for="dateTo">Date To</label>
+          </span>
+      </div>
+
+    </div>
+
+  </form>
+</div>
+
