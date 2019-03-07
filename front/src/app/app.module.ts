@@ -13,6 +13,7 @@ import {ButtonModule} from "primeng/button";
 import {ConfirmDialogModule, ProgressSpinnerModule} from "primeng/primeng";
 import {MainModule} from "./main/main.module";
 import {ToastModule} from "primeng/toast";
+import {UpdateDateHttpInterceptor} from "./common/update-date-http-interceptor";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {ToastModule} from "primeng/toast";
   providers: [
     MessageService,
     ConfirmationService,
-    {provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true}],
+    {provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: UpdateDateHttpInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
