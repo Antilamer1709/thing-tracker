@@ -21,7 +21,9 @@ export class AuthenticationService extends CommonService {
 
   getLoggedUser(): Observable<UserDTO> {
     if (this.loggedUser) {
-      return Observable.create(this.loggedUser);
+      return Observable.create((observer) => {
+        observer.next(this.loggedUser);
+      });
     } else {
       return this.http.post<UserDTO>('/api/authentication/loggedUser', {headers: this.getEncodedHeaders()});
     }
