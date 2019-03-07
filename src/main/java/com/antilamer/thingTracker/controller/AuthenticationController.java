@@ -1,5 +1,6 @@
 package com.antilamer.thingTracker.controller;
 
+import com.antilamer.thingTracker.dto.JwtAuthenticationResponseDTO;
 import com.antilamer.thingTracker.dto.RegistrationDTO;
 import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.ValidationException;
@@ -33,6 +34,12 @@ public class AuthenticationController {
     public UserDTO loggedUser() {
         log.debug("*** loggedUser()");
         return authenticationBO.getLoggedUserDTO();
+    }
+
+    @PostMapping("/login")
+    public JwtAuthenticationResponseDTO login(@RequestBody UserDTO userDTO) {
+        log.debug("*** login() userDTO:" + userDTO);
+        return authenticationBO.login(userDTO);
     }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Qualifier("userAuthService")
@@ -23,5 +24,10 @@ public class UserAuthService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.userRepo.findByUsernameIgnoreCase(username);
+    }
+
+    @Transactional
+    public UserDetails loadUserById(Integer id) {
+        return userRepo.findById(id).orElseThrow(() -> new RuntimeException("There no such user with id: " + id));
     }
 }

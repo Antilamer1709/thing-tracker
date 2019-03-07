@@ -1,5 +1,6 @@
 package com.antilamer.thingTracker.service;
 
+import com.antilamer.thingTracker.dto.JwtAuthenticationResponseDTO;
 import com.antilamer.thingTracker.dto.RegistrationDTO;
 import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.enums.UserRole;
@@ -9,8 +10,12 @@ import com.antilamer.thingTracker.model.RoleEntity;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.RoleRepo;
 import com.antilamer.thingTracker.repository.UserRepo;
+import com.antilamer.thingTracker.security.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,14 +35,22 @@ public class AuthenticationBO {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final AuthenticationManager authenticationManager;
+
+    private final JwtTokenProvider tokenProvider;
+
     @Autowired
     public AuthenticationBO(
             UserRepo userRepo,
             RoleRepo roleRepo,
-            PasswordEncoder passwordEncoder) {
+            PasswordEncoder passwordEncoder,
+            JwtTokenProvider tokenProvider,
+            AuthenticationManager authenticationManager) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.passwordEncoder = passwordEncoder;
+        this.authenticationManager = authenticationManager;
+        this.tokenProvider = tokenProvider;
     }
 
     public UserEntity getLoggedUser() {
@@ -113,5 +126,19 @@ public class AuthenticationBO {
                 throw new UnauthorizedException("Permission denied!");
             }
         }
+    }
+
+    public JwtAuthenticationResponseDTO login(UserDTO userDTO) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        userDTO.getUsername(),
+                        userDTO.getPassword()
+                )
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String jwt = tokenProvider.generateToken(authentication);
+        return new JwtAuthenticationResponseDTO(jwt);
     }
 }

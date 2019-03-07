@@ -33,13 +33,13 @@ export class LoginComponent implements OnInit {
   public login(form: FormGroup): void {
     if (form.valid) {
       this.appService.blockedUI = true;
-      this.service.authenticate(this.user).subscribe(
+      this.service.login(this.user).subscribe(
         (res) => {
           console.log(res);
+          this.authenticationService.getLoggedUser();
           this.appService.blockedUI = false;
 
           this.messageService.add({severity:'success', summary:'Hello', detail:'You are logged in!'});
-          this.authenticationService.loggedUser = res;
           this.router.navigate([this.returnUrl]);
         }
       );

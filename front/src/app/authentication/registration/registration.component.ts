@@ -49,13 +49,13 @@ export class RegistrationComponent implements OnInit {
     user.username = this.registration.username;
     user.password = this.registration.password;
 
-    this.loginService.authenticate(user).subscribe(
+    this.loginService.login(user).subscribe(
       (res) => {
         console.log(res);
+        this.authenticationService.getLoggedUser();
         this.appService.blockedUI = false;
 
         this.messageService.add({severity:'info', summary:'Hello', detail:'You are logged in!'});
-        this.authenticationService.loggedUser = res;
         this.router.navigate(['/']);
       }
     );
