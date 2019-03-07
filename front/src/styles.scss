@@ -25,6 +25,13 @@
 .ui-datepicker a.ui-state-active {
   background-color: #4a4f52 !important;
 }
+//calendar touchUI z-index fix
+.ui-widget-overlay.ui-datepicker-mask.ui-datepicker-mask-scrollblocker {
+  z-index: 10000 !important;
+}
+.ng-trigger.ng-trigger-overlayAnimation.ng-tns-c6-1.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all.ui-shadow.ui-datepicker-touch-ui.ng-star-inserted {
+  z-index: 10001 !important;
+}
 
 
 body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container .ui-autocomplete-token {
