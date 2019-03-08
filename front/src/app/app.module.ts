@@ -15,6 +15,7 @@ import {MainModule} from "./main/main.module";
 import {ToastModule} from "primeng/toast";
 import {UpdateDateHttpInterceptor} from "./common/update-date-http-interceptor";
 import {GuardService} from "./common/guard-service";
+import {JwtInterceptor} from "./common/jwt.interceptor";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {GuardService} from "./common/guard-service";
     MessageService,
     ConfirmationService,
     GuardService,
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: CustomHttpInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: UpdateDateHttpInterceptor, multi: true}],
   bootstrap: [AppComponent]
