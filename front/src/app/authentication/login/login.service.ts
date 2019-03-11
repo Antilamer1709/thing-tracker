@@ -16,13 +16,13 @@ export class LoginService extends CommonService {
 
   login(user: UserDTO): Observable<JwtAuthenticationResponseDTO> {
     return this.http.post<any>('api/authentication/login', {
-      username: user.username,
+      email: user.email,
       password: user.password
     })
       .pipe(map(jwt => {
         if (jwt && jwt.accessToken) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes
-          this.authRepo.auth(user.username, jwt);
+          this.authRepo.auth(user.email, jwt);
         }
         return jwt;
       }));

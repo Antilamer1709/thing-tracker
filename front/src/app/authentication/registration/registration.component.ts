@@ -46,7 +46,7 @@ export class RegistrationComponent implements OnInit {
 
   public login(): void {
     let user: UserDTO = new UserDTO();
-    user.username = this.registration.username;
+    user.email = this.registration.email;
     user.password = this.registration.password;
 
     this.loginService.login(user).subscribe(

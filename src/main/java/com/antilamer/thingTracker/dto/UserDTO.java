@@ -12,11 +12,9 @@ public class UserDTO implements Serializable {
 
     private Integer id;
 
-    private String username;
+    private String email;
 
-    private String firstName;
-
-    private String lastName;
+    private String fullName;
 
     private String password;
 
@@ -28,9 +26,8 @@ public class UserDTO implements Serializable {
 
     public UserDTO(UserEntity userEntity) {
         this.id = userEntity.getId();
-        this.username = userEntity.getUsername();
-        this.firstName = userEntity.getFirstName();
-        this.lastName = userEntity.getLastName();
+        this.email = userEntity.getEmail();
+        this.fullName = userEntity.getFullName();
         this.roles = new ArrayList<>();
     }
 

@@ -13,7 +13,6 @@ import com.antilamer.thingTracker.repository.UserRepo;
 import com.antilamer.thingTracker.security.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -90,20 +89,20 @@ public class AuthenticationBO {
         if (registrationDTO.hasNullFields() || registrationDTO.hasEmptyFields()) {
             throw new ValidationException("Registration object is not valid!");
         }
-        UserEntity user = userRepo.findByUsernameIgnoreCase(registrationDTO.getUsername());
+        UserEntity user = userRepo.findByEmailIgnoreCase(registrationDTO.getEmail());
         if (user != null) {
             throw new ValidationException("User with the same username is already registered!");
         }
     }
 
     private void initUser(UserEntity user, RegistrationDTO registrationDTO) {
-        user.setFirstName(registrationDTO.getFirstName());
-        user.setLastName(registrationDTO.getLastName());
-        user.setUsername(registrationDTO.getUsername());
+        user.setFullName(registrationDTO.getFullName());
+        user.setEmail(registrationDTO.getEmail());
         user.setPassword(passwordEncoder.encode(registrationDTO.getPassword()));
     }
 
-    private void addUserRoles(UserEntity user, UserRole... userRoles) {
+    @Transactional
+    public void addUserRoles(UserEntity user, UserRole... userRoles) {
         if (user.getRoles() == null) {
             user.setRoles(new ArrayList<>());
         }
@@ -131,7 +130,7 @@ public class AuthenticationBO {
     public JwtAuthenticationResponseDTO login(UserDTO userDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        userDTO.getUsername(),
+                        userDTO.getEmail(),
                         userDTO.getPassword()
                 )
         );

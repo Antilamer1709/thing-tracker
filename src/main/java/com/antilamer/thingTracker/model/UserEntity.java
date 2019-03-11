@@ -6,29 +6,28 @@ import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Entity
 @Table(name = "user", schema = "thing_tracker")
-public class UserEntity implements UserDetails {
+public class UserEntity implements OAuth2User, UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "email")
+    private String email;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "full_name")
+    private String fullName;
 
     @Column(name = "password")
     private String password;
@@ -40,6 +39,9 @@ public class UserEntity implements UserDetails {
     @Fetch(FetchMode.SUBSELECT)
     private List<RoleEntity> roles;
 
+    @Transient
+    private Map<String, Object> attributes;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -48,7 +50,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -69,5 +71,15 @@ public class UserEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        return String.valueOf(id);
     }
 }
