@@ -4,8 +4,9 @@ import {FormGroup} from "@angular/forms";
 import {LoginService} from "./login.service";
 import {MessageService} from "primeng/components/common/messageservice";
 import {AuthenticationService} from "../authentication.service";
-import {UserDTO} from "../../../generated/dto";
+import {JwtAuthenticationResponseDTO, UserDTO} from "../../../generated/dto";
 import {AppService} from "../../app.service";
+import {AuthRepository} from "../repository/auth.repository";
 
 @Component({
   selector: 'app-login',
@@ -16,18 +17,22 @@ export class LoginComponent implements OnInit {
 
   public user: UserDTO;
   private returnUrl: string;
+  private token: string;
 
   constructor(private messageService: MessageService,
               private authenticationService: AuthenticationService,
               private service: LoginService,
               private appService: AppService,
               private router: Router,
+              private authRepo: AuthRepository,
               private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.user = new UserDTO();
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.token = this.route.snapshot.queryParams['token'];
+    this.checkOauth2();
   }
 
   public login(form: FormGroup): void {
@@ -39,8 +44,7 @@ export class LoginComponent implements OnInit {
           this.authenticationService.getLoggedUser();
           this.appService.blockedUI = false;
 
-          this.messageService.add({severity:'success', summary:'Hello', detail:'You are logged in!'});
-          this.router.navigate([this.returnUrl]);
+          this.successNavigate();
         }
       );
     } else {
@@ -48,8 +52,23 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  private successNavigate(): void {
+    this.messageService.add({severity:'success', summary:'Hello', detail:'You are logged in!'});
+    this.router.navigate([this.returnUrl]);
+  }
+
   public registration(): void {
     this.router.navigate(['registration']);
+  }
+
+  private checkOauth2(): void {
+    if (this.token) {
+      let token: JwtAuthenticationResponseDTO = new JwtAuthenticationResponseDTO();
+      token.accessToken = this.token;
+      token.tokenType = 'Bearer';
+      this.authRepo.auth("facebook", token);
+      this.successNavigate();
+    }
   }
 
 }

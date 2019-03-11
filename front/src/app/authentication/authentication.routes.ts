@@ -7,6 +7,9 @@ export const AuthenticationRoutes: Route[] = [
     path: 'login', component: LoginComponent
   },
   {
+    path: 'login/:token', component: LoginComponent
+  },
+  {
     path: 'registration', component: RegistrationComponent
   },
 ];
