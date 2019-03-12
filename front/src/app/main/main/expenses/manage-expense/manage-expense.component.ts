@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {MessageService} from "primeng/api";
-import {AppService} from "../../../app.service";
+import {AppService} from "../../../../app.service";
 import {ExpensesService} from "../expenses.service";
-import {ExpenseSearchChartDTO, ExpenseSearchDTO} from "../../../../generated/dto";
-import {CommonComponent} from "../../../common/common-component";
+import {ExpenseSearchChartDTO, ExpenseSearchDTO} from "../../../../../generated/dto";
+import {CommonComponent} from "../../../../common/common-component";
 
 @Component({
   selector: 'app-manage-expense',

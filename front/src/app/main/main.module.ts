@@ -5,8 +5,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MainMenuComponent} from "./main-menu/main-menu.component";
 import {CommonModule} from "@angular/common";
 import {AppRoutingModule} from "../app-routing.module";
-import {ExpensesModule} from "./expenses/expenses.module";
-import { DashboardComponent } from './dashboard/dashboard.component';
+import {ExpensesModule} from "./main/expenses/expenses.module";
+import { DashboardComponent } from './main/dashboard/dashboard.component';
+import {UserModule} from "./main/user/user.module";
 
 @NgModule({
   declarations: [MainComponent, MainMenuComponent, DashboardComponent],
@@ -15,7 +16,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     CommonModule,
     BrowserAnimationsModule,
     ButtonModule,
-    ExpensesModule
+    ExpensesModule,
+    UserModule
   ]
 })
 export class MainModule { }

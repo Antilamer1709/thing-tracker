@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ExpenseDTO, ExpenseSearchChartDTO, ExpenseSearchDTO} from "../../../generated/dto";
-import {CommonService} from "../../common/common.service";
+import {ExpenseDTO, ExpenseSearchChartDTO, ExpenseSearchDTO} from "../../../../generated/dto";
+import {CommonService} from "../../../common/common.service";
 
 @Injectable({
   providedIn: 'root'

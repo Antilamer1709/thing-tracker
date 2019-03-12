@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ExpensesService} from "../expenses.service";
 import {FormGroup} from "@angular/forms";
-import {ExpenseDTO} from "../../../../generated/dto";
+import {ExpenseDTO} from "../../../../../generated/dto";
 import {MessageService} from "primeng/api";
-import {AppService} from "../../../app.service";
+import {AppService} from "../../../../app.service";
 
 @Component({
   selector: 'app-add-expense',
