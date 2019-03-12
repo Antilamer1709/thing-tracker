@@ -7,6 +7,7 @@ import {RegistrationDTO, UserDTO} from "../../../generated/dto";
 import {AppService} from "../../app.service";
 import {LoginService} from "../login/login.service";
 import {AuthenticationService} from "../authentication.service";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-registration',
@@ -14,6 +15,10 @@ import {AuthenticationService} from "../authentication.service";
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
+
+  public apiUrl: string = environment.apiUrl;
+
+  public frontUrl: string = environment.frontUrl;
 
   public registration: RegistrationDTO;
 

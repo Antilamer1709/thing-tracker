@@ -7,6 +7,7 @@ import {AuthenticationService} from "../authentication.service";
 import {JwtAuthenticationResponseDTO, UserDTO} from "../../../generated/dto";
 import {AppService} from "../../app.service";
 import {AuthRepository} from "../repository/auth.repository";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,8 @@ import {AuthRepository} from "../repository/auth.repository";
 export class LoginComponent implements OnInit {
 
   public user: UserDTO;
+  public apiUrl: string = environment.apiUrl;
+  public frontUrl: string = environment.frontUrl;
   private returnUrl: string;
   private token: string;
 
