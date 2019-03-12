@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {UserDTO} from "../../../../../generated/dto";
+import {UserService} from "../user.service";
 
 @Component({
   selector: 'app-add-to-group',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddToGroupComponent implements OnInit {
 
-  constructor() { }
+  public users: UserDTO[];
+  public userSuggestions: UserDTO[];
+
+  constructor(private userService: UserService) { }
 
   ngOnInit() {
+    this.users = [];
+  }
+
+  public searchUserSuggestions(event): void {
+    this.userService.searchUserSuggestions(event.query).subscribe(
+      (res) => {
+        console.log(res);
+        this.userSuggestions = res;
+      }
+    );
   }
 
 }

@@ -16,6 +16,8 @@ public class UserDTO implements Serializable {
 
     private String fullName;
 
+    private String fullNameAndEmail;
+
     private String password;
 
     private List<String> roles;
@@ -28,6 +30,7 @@ public class UserDTO implements Serializable {
         this.id = userEntity.getId();
         this.email = userEntity.getEmail();
         this.fullName = userEntity.getFullName();
+        this.fullNameAndEmail = userEntity.getFullName() + " (" + userEntity.getEmail() + ")";
         this.roles = new ArrayList<>();
     }
 

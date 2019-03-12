@@ -7,6 +7,9 @@ import com.antilamer.thingTracker.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class UserBO {
 
@@ -24,4 +27,9 @@ public class UserBO {
         return new UserDTO(userEntity);
     }
 
+    public List<UserDTO> searchUserSuggestions(String predicate) {
+        return userRepo.findTop5ByFullNameContainingIgnoreCase(predicate).stream()
+                .map(UserDTO::new)
+                .collect(Collectors.toList());
+    }
 }

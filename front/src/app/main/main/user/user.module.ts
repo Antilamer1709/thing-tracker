@@ -4,13 +4,17 @@ import { MyGroupComponent } from './my-group/my-group.component';
 import { AddToGroupComponent } from './add-to-group/add-to-group.component';
 import {AppRoutingModule} from "../../../app-routing.module";
 import {ButtonModule} from "primeng/button";
+import {AutoCompleteModule} from "primeng/primeng";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [MyGroupComponent, AddToGroupComponent],
   imports: [
     AppRoutingModule,
     CommonModule,
-    ButtonModule
+    FormsModule,
+    ButtonModule,
+    AutoCompleteModule
   ]
 })
 export class UserModule { }
