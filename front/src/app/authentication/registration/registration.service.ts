@@ -14,7 +14,7 @@ export class RegistrationService extends CommonService {
   }
 
   register(registration: RegistrationDTO): Observable<any> {
-    return this.http.get('api/oauth2/authorize/facebook?redirect_uri=http://localhost:4200/#/login', {headers: this.getHeaders()});
+    return this.http.post('api/authentication/registration', registration, {headers: this.getHeaders()});
   }
 
 }
