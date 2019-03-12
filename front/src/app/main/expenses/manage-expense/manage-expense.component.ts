@@ -28,12 +28,18 @@ export class ManageExpenseComponent extends CommonComponent implements OnInit {
   }
 
   public searchExpenses(form: FormGroup): void {
-    this.service.searchChartExpenses(this.expenseSearchDTO).subscribe(
-      (res) => {
-        console.log(res);
-        this.initChartData(res);
-      }
-    );
+    if (form.valid && this.expenseSearchDTO.dateTo >= this.expenseSearchDTO.dateFrom) {
+      this.appService.blockedUI = true;
+      this.service.searchChartExpenses(this.expenseSearchDTO).subscribe(
+        (res) => {
+          console.log(res);
+          this.appService.blockedUI = false;
+          this.initChartData(res);
+        }
+      );
+    } else {
+      this.messageService.add({severity:'error', summary:'Error', detail:'Please, fill all fields in correct way!'});
+    }
   }
 
   private initChartData(res: ExpenseSearchChartDTO) {
