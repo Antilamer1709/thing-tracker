@@ -23,13 +23,7 @@ export class AppComponent implements OnInit {
   }
 
   private initLoggedUser(): void {
-    this.authenticationService.getLoggedUser().subscribe(
-      res => {
-        console.log("loggedUser: ");
-        console.log(res);
-        this.authenticationService.loggedUser = res;
-      }
-    );
+    this.authenticationService.initLoggedUser();
   }
 
   public logout(): void {

@@ -29,4 +29,14 @@ export class AuthenticationService extends CommonService {
     }
   }
 
+  public initLoggedUser(): void {
+    this.getLoggedUser().subscribe(
+      res => {
+        console.log("loggedUser: ");
+        console.log(res);
+        this.loggedUser = res;
+      }
+    );
+  }
+
 }

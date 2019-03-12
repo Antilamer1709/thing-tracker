@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
       this.service.login(this.user).subscribe(
         (res) => {
           console.log(res);
-          this.authenticationService.getLoggedUser();
+          this.authenticationService.initLoggedUser();
           this.appService.blockedUI = false;
 
           this.successNavigate();
@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
       token.tokenType = 'Bearer';
       this.authRepo.auth("facebook", token);
       this.successNavigate();
+      this.authenticationService.initLoggedUser();
     }
   }
 
