@@ -13,9 +13,7 @@ import {AppService} from "../../../../app.service";
 export class AddExpenseComponent implements OnInit {
 
   public expense: ExpenseDTO;
-  public results: string[];
-  public date1: Date;
-  public date2: Date;
+  public expenseTypes: string[];
 
   constructor(private messageService: MessageService,
               private appService: AppService,
@@ -23,7 +21,7 @@ export class AddExpenseComponent implements OnInit {
 
   ngOnInit() {
     this.createNewExpense();
-    this.results = [];
+    this.expenseTypes = [];
   }
 
   private createNewExpense(): void {
@@ -35,7 +33,7 @@ export class AddExpenseComponent implements OnInit {
     this.service.searchExpenseTypes(event.query).subscribe(
       (res) => {
         console.log(res);
-        this.results = res;
+        this.expenseTypes = res;
       }
     );
   }

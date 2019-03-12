@@ -15,7 +15,7 @@
           <span class="ui-float-label">
             <p-autoComplete
               [(ngModel)]="expense.types"
-              [suggestions]="results"
+              [suggestions]="expenseTypes"
               (completeMethod)="searchExpenseTypes($event)"
               (onSelect)="expenseTypesOnSelect($event)"
               (onKeyUp)="expenseTypesOnKeyUp($event)"
