@@ -32,6 +32,10 @@
 .ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all.ui-shadow.ui-datepicker-touch-ui.ng-star-inserted {
   z-index: 20001 !important;
 }
+//block ui z-index fix
+.ui-blockui.ui-widget-overlay {
+  z-index: 11000 !important;
+}
 
 
 body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container .ui-autocomplete-token {
