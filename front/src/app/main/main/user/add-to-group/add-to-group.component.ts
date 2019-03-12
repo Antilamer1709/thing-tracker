@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserDTO} from "../../../../../generated/dto";
 import {UserService} from "../user.service";
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-add-to-group',
@@ -25,6 +26,10 @@ export class AddToGroupComponent implements OnInit {
         this.userSuggestions = res;
       }
     );
+  }
+
+  public addToGroup(form: FormGroup): void {
+
   }
 
 }
