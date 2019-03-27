@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8080',
-  frontUrl: 'http://localhost:8080'
+  apiUrl: 'https://thing-tracker.ga',
+  frontUrl: 'https://thing-tracker.ga'
 };
