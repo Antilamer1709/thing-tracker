@@ -81,7 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring().
                 antMatchers(HttpMethod.OPTIONS, "/**").
                 antMatchers("/").
@@ -96,7 +96,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         web.ignoring().antMatchers( "/", "/resources/**", "/index.*", "/login.html","/favicon.ico",
                 "/template/**", "/assets", "/assets/**", "/node_modules", "/node_modules/**", "/dist", "/dist/**",
-                "/*.ttf", "/*.woff2", "/login", "/registration");
+                "/*.ttf", "/*.woff2", "/login", "/registration", "/main", "/main/**");
     }
 
     @Override
