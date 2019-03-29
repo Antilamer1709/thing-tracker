@@ -7,6 +7,7 @@ import com.antilamer.thingTracker.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,5 +33,9 @@ public class UserBO {
         return userRepo.findTop5ByFullNameOrUsername(PageRequest.of(0,5), predicate).stream()
                 .map(UserDTO::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void addToGroup(List<UserDTO> users) {
     }
 }

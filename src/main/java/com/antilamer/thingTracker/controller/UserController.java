@@ -25,17 +25,18 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/user/{id}")
-    public UserDTO getUser(@PathVariable Integer id) throws ValidationException {
-        log.debug("*** getUser() id: " + id);
-        return userBO.getUser(id);
-    }
-
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping(value = "/autocomplete")
     public List<UserDTO> searchUserSuggestions(@RequestParam String predicate) {
         log.debug("*** searchUserSuggestions() predicate: " + predicate);
         return userBO.searchUserSuggestions(predicate);
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @PostMapping(value = "/addToGroup")
+    public void addToGroup(@RequestBody List<UserDTO> users) {
+        log.debug("*** addToGroup() users: " + users);
+        userBO.addToGroup(users);
     }
 
 }
