@@ -24,7 +24,7 @@ import {JwtInterceptor} from "./common/jwt.interceptor";
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot( routes, { useHash: true } ),
+    RouterModule.forRoot(routes),
     AuthenticationModule,
     ToastModule,
     BlockUIModule,
