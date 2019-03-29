@@ -5,6 +5,7 @@ import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class UserBO {
     }
 
     public List<UserDTO> searchUserSuggestions(String predicate) {
-        return userRepo.findTop5ByFullNameContainingIgnoreCase(predicate).stream()
+        return userRepo.findTop5ByFullNameOrUsername(PageRequest.of(0,5), predicate).stream()
                 .map(UserDTO::new)
                 .collect(Collectors.toList());
     }
