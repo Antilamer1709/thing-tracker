@@ -8,10 +8,11 @@ import com.antilamer.thingTracker.repository.GroupRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -30,6 +31,7 @@ public class GroupBOImpl implements GroupBO {
 
 
     @Override
+    @Transactional
     public GroupDTO saveGroup(GroupDTO groupDTO) throws ValidationException, UnauthorizedException {
         GroupEntity groupEntity = getGroup(groupDTO);
         validateGroup(groupDTO, groupEntity);
@@ -72,5 +74,11 @@ public class GroupBOImpl implements GroupBO {
         if (!groupEntity.getUsers().contains(authenticationBO.getLoggedUser())) {
             groupEntity.getUsers().add(authenticationBO.getLoggedUser());
         }
+    }
+
+
+    @Override
+    public List<GroupDTO> searchUserGroups() {
+        return authenticationBO.getLoggedUser().getGroups().stream().map(GroupDTO::new).collect(Collectors.toList());
     }
 }

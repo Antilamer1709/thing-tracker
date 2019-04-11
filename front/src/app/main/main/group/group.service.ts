@@ -15,4 +15,8 @@ export class GroupService {
     return this.http.post<GroupDTO>('/api/group', group);
   }
 
+  public searchUserGroups(): Observable<GroupDTO[]> {
+    return this.http.get<GroupDTO[]>('/api/group/search');
+  }
+
 }

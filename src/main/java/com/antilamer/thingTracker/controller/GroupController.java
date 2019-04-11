@@ -6,8 +6,11 @@ import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.GroupBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Slf4j
@@ -29,6 +32,14 @@ public class GroupController {
     public GroupDTO saveGroup(@RequestBody GroupDTO groupDTO) throws ValidationException, UnauthorizedException {
         log.debug("*** saveGroup() groupDTO: " + groupDTO);
         return groupBO.saveGroup(groupDTO);
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @GetMapping(value = "/search")
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<GroupDTO> searchUserGroups() {
+        log.debug("*** searchUserGroups()");
+        return groupBO.searchUserGroups();
     }
 
 }
