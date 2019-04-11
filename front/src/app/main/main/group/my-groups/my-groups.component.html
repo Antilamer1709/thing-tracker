@@ -1,0 +1,30 @@
+<div class="content-section introduction">
+  <div>
+    <span class="feature-title">My Groups</span>
+    <span></span>
+  </div>
+</div>
+
+<div class="content-section implementation ui-fluid">
+  <form novalidate #form="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="createGroup(form)">
+
+    <div class="ui-g">
+      <div class="flex-container ui-g-12">
+
+        <div class="ui-g-12 ui-lg-6 margin-top-10">
+          <span class="ui-float-label">
+            <input [(ngModel)]="groupDTO.name" [required]="true"
+                   id="groupName" name="groupName" type="text" size="64" pInputText>
+            <label for="groupName">Group Name</label>
+          </span>
+        </div>
+
+        <div class="ui-xl-1 ui-lg-2 ui-md-3 ui-sm-6">
+          <button pButton label="Create" icon="fa fa-paper-plane" type="submit"></button>
+        </div>
+
+      </div>
+    </div>
+
+  </form>
+</div>

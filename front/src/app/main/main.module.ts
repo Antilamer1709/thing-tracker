@@ -8,6 +8,7 @@ import {AppRoutingModule} from "../app-routing.module";
 import {ExpensesModule} from "./main/expenses/expenses.module";
 import { DashboardComponent } from './main/dashboard/dashboard.component';
 import {UserModule} from "./main/user/user.module";
+import {GroupModule} from "./main/group/group.module";
 
 @NgModule({
   declarations: [MainComponent, MainMenuComponent, DashboardComponent],
@@ -17,7 +18,8 @@ import {UserModule} from "./main/user/user.module";
     BrowserAnimationsModule,
     ButtonModule,
     ExpensesModule,
-    UserModule
+    UserModule,
+    GroupModule
   ]
 })
 export class MainModule { }

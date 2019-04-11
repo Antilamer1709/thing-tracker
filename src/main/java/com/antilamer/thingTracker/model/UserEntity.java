@@ -39,6 +39,13 @@ public class UserEntity implements OAuth2User, UserDetails {
     @Fetch(FetchMode.SUBSELECT)
     private List<RoleEntity> roles;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "group_user", schema = "thing_tracker",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id"))
+    @Fetch(FetchMode.SUBSELECT)
+    private List<GroupEntity> groups;
+
     @Transient
     private Map<String, Object> attributes;
 
