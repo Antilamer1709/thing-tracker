@@ -1,9 +1,4 @@
-<div class="content-section introduction">
-  <div>
-    <span class="feature-title">Add To Group</span>
-    <span></span>
-  </div>
-</div>
+<app-header title="Add To Group"></app-header>
 
 <div class="content-section implementation ui-fluid">
   <form novalidate #form="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="addToGroup(form)">

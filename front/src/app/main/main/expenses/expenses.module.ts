@@ -11,6 +11,7 @@ import {
 } from "primeng/primeng";
 import {FormsModule} from "@angular/forms";
 import { ManageExpenseComponent } from './manage-expense/manage-expense.component';
+import {CommonSharedModule} from "../../../common/common-shared.module";
 
 @NgModule({
   declarations: [AddExpenseComponent, ManageExpenseComponent],
@@ -22,7 +23,8 @@ import { ManageExpenseComponent } from './manage-expense/manage-expense.componen
     ButtonModule,
     InputTextModule,
     CalendarModule,
-    ChartModule
+    ChartModule,
+    CommonSharedModule
   ]
 })
 export class ExpensesModule { }

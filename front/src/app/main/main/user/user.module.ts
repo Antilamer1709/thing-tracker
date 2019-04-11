@@ -5,6 +5,7 @@ import {AppRoutingModule} from "../../../app-routing.module";
 import {ButtonModule} from "primeng/button";
 import {AutoCompleteModule} from "primeng/primeng";
 import {FormsModule} from "@angular/forms";
+import {CommonSharedModule} from "../../../common/common-shared.module";
 
 @NgModule({
   declarations: [AddToGroupComponent],
@@ -13,7 +14,8 @@ import {FormsModule} from "@angular/forms";
     CommonModule,
     FormsModule,
     ButtonModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    CommonSharedModule
   ]
 })
 export class UserModule { }

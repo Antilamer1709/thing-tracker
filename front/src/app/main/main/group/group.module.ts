@@ -4,6 +4,7 @@ import { MyGroupsComponent } from './my-groups/my-groups.component';
 import {FormsModule} from "@angular/forms";
 import {ButtonModule} from "primeng/button";
 import {CardModule, InputTextModule} from "primeng/primeng";
+import {CommonSharedModule} from "../../../common/common-shared.module";
 
 @NgModule({
   declarations: [MyGroupsComponent],
@@ -12,7 +13,8 @@ import {CardModule, InputTextModule} from "primeng/primeng";
     FormsModule,
     ButtonModule,
     InputTextModule,
-    CardModule
+    CardModule,
+    CommonSharedModule
   ]
 })
 export class GroupModule { }

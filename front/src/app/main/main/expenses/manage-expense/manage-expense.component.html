@@ -1,9 +1,5 @@
-<div class="content-section introduction">
-  <div>
-    <span class="feature-title">Manage Expenses</span>
-    <span></span>
-  </div>
-</div>
+<app-header title="Manage Expenses"></app-header>
+
 
 <div class="content-section implementation">
   <form novalidate #form="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="searchExpenses(form)">

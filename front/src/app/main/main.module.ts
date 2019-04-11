@@ -9,6 +9,7 @@ import {ExpensesModule} from "./main/expenses/expenses.module";
 import { DashboardComponent } from './main/dashboard/dashboard.component';
 import {UserModule} from "./main/user/user.module";
 import {GroupModule} from "./main/group/group.module";
+import {CommonSharedModule} from "../common/common-shared.module";
 
 @NgModule({
   declarations: [MainComponent, MainMenuComponent, DashboardComponent],
@@ -19,7 +20,8 @@ import {GroupModule} from "./main/group/group.module";
     ButtonModule,
     ExpensesModule,
     UserModule,
-    GroupModule
+    GroupModule,
+    CommonSharedModule
   ]
 })
 export class MainModule { }

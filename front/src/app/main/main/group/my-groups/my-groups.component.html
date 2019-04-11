@@ -1,9 +1,4 @@
-<div class="content-section introduction">
-  <div>
-    <span class="feature-title">My Groups</span>
-    <span></span>
-  </div>
-</div>
+<app-header title="My Groups"></app-header>
 
 <div class="content-section implementation ui-fluid">
   <form novalidate #form="ngForm" (keydown.enter)="$event.preventDefault()" (ngSubmit)="createGroup(form)">

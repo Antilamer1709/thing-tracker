@@ -7,6 +7,7 @@ import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/primeng";
 import {AngularFontAwesomeModule} from "angular-font-awesome";
 import { RegistrationComponent } from './registration/registration.component';
+import {CommonSharedModule} from "../common/common-shared.module";
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { RegistrationComponent } from './registration/registration.component';
     FormsModule,
     ButtonModule,
     InputTextModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    CommonSharedModule
   ],
   declarations: [LoginComponent, RegistrationComponent],
   providers: [LoginService]
