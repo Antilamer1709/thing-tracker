@@ -4,6 +4,7 @@ import {MessageService} from "primeng/api";
 import {GroupService} from "../group.service";
 import {GroupDTO} from "../../../../../generated/dto";
 import {AppService} from "../../../../app.service";
+import {NavigationExtras, Router} from "@angular/router";
 
 @Component({
   selector: 'app-my-groups',
@@ -17,6 +18,7 @@ export class MyGroupsComponent implements OnInit {
 
   constructor(private messageService: MessageService,
               private appService: AppService,
+              private router: Router,
               private service: GroupService) { }
 
   ngOnInit() {
@@ -48,6 +50,10 @@ export class MyGroupsComponent implements OnInit {
         this.appService.blockedUI = false;
       }
     );
+  }
+
+  public selectGroup(groupDTO: GroupDTO): void {
+    this.router.navigate(['/main/my-groups/' + groupDTO.id]);
   }
 
 }

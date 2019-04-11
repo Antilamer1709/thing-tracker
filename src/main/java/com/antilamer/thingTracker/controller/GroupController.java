@@ -36,10 +36,16 @@ public class GroupController {
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping(value = "/search")
-    @ResponseStatus(value = HttpStatus.OK)
     public List<GroupDTO> searchUserGroups() {
         log.debug("*** searchUserGroups()");
         return groupBO.searchUserGroups();
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @GetMapping(value = "{id}")
+    public GroupDTO getUserGroup(@PathVariable Integer id) throws UnauthorizedException, ValidationException {
+        log.debug("*** getUserGroup() id: " + id);
+        return groupBO.getUserGroup(id);
     }
 
 }

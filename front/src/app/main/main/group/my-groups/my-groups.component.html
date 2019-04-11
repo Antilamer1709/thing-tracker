@@ -27,11 +27,13 @@
     <div class="flex-container-cards ui-g-12">
 
       <div *ngFor="let group of myGroups">
-        <p-card header="{{group.name}}" [style]="{margin: '30px'}">
-          <div *ngFor="let user of group.users">
-            {{user.fullName + '(' + user.email + ')'}}
-          </div>
-        </p-card>
+        <div (click)="selectGroup(group)" style="cursor: pointer">
+          <p-card header="{{group.name}}" [style]="{margin: '30px'}">
+            <div *ngFor="let user of group.users">
+              {{user.fullName + '(' + user.email + ')'}}
+            </div>
+          </p-card>
+        </div>
       </div>
 
     </div>

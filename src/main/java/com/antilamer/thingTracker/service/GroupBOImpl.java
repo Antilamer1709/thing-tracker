@@ -57,7 +57,7 @@ public class GroupBOImpl implements GroupBO {
     private GroupEntity getGroup(GroupDTO groupDTO) throws ValidationException {
         if (groupDTO.getId() != null) {
             return groupRepo.findById(groupDTO.getId())
-                    .orElseThrow(() -> new ValidationException("There no such group with id " + groupDTO.getId()));
+                    .orElseThrow(() -> new ValidationException("There no such group with id: " + groupDTO.getId()));
         } else {
             return new GroupEntity();
         }
@@ -80,5 +80,15 @@ public class GroupBOImpl implements GroupBO {
     @Override
     public List<GroupDTO> searchUserGroups() {
         return authenticationBO.getLoggedUser().getGroups().stream().map(GroupDTO::new).collect(Collectors.toList());
+    }
+
+
+    @Override
+    public GroupDTO getUserGroup(Integer id) throws ValidationException, UnauthorizedException {
+        GroupEntity groupEntity = groupRepo.findById(id)
+                .orElseThrow(() -> new ValidationException("There no such group with id: " + id));
+        authenticationBO.checkUserAccess(groupEntity.getUsers());
+
+        return new GroupDTO(groupEntity);
     }
 }

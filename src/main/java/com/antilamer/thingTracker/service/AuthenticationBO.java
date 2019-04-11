@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -123,6 +125,18 @@ public class AuthenticationBO {
             throw new UnauthorizedException("There is no such user in database!");
         }
         if (!loggedUser.getId().equals(user.getId())) {
+            boolean isAdmin = loggedUser.getRoles().stream().anyMatch(x -> x.getCode().equals(UserRole.ADMIN.getValue()));
+            if (!isAdmin) {
+                throw new UnauthorizedException("Permission denied!");
+            }
+        }
+    }
+
+    @Transactional
+    public void checkUserAccess(Collection<UserEntity> users) throws UnauthorizedException {
+        UserEntity loggedUser = getLoggedUser();
+        boolean userContains = users.stream().map(UserEntity::getId).anyMatch(x -> x.equals(loggedUser.getId()));
+        if (!userContains) {
             boolean isAdmin = loggedUser.getRoles().stream().anyMatch(x -> x.getCode().equals(UserRole.ADMIN.getValue()));
             if (!isAdmin) {
                 throw new UnauthorizedException("Permission denied!");

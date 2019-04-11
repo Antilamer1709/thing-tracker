@@ -11,4 +11,6 @@ public interface GroupBO {
     GroupDTO saveGroup(GroupDTO groupDTO) throws ValidationException, UnauthorizedException;
 
     List<GroupDTO> searchUserGroups();
+
+    GroupDTO getUserGroup(Integer id) throws ValidationException, UnauthorizedException;
 }
