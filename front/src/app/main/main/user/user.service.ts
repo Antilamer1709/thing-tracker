@@ -18,8 +18,4 @@ export class UserService {
     });
   }
 
-  public addUsersToGroup(users: UserDTO[]): Observable<void> {
-    return this.http.post<void>('/api/user/addToGroup', users);
-  }
-
 }

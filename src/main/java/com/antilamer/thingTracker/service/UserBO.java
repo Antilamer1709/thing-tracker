@@ -7,7 +7,6 @@ import com.antilamer.thingTracker.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,7 +34,4 @@ public class UserBO {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public void addToGroup(List<UserDTO> users) {
-    }
 }

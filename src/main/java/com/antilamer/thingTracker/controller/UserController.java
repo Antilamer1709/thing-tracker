@@ -1,7 +1,6 @@
 package com.antilamer.thingTracker.controller;
 
 import com.antilamer.thingTracker.dto.UserDTO;
-import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.UserBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +29,6 @@ public class UserController {
     public List<UserDTO> searchUserSuggestions(@RequestParam String predicate) {
         log.debug("*** searchUserSuggestions() predicate: " + predicate);
         return userBO.searchUserSuggestions(predicate);
-    }
-
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    @PostMapping(value = "/addToGroup")
-    public void addToGroup(@RequestBody List<UserDTO> users) {
-        log.debug("*** addToGroup() users: " + users);
-        userBO.addToGroup(users);
     }
 
 }

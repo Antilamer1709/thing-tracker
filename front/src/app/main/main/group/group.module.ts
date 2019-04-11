@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MyGroupsComponent } from './my-groups/my-groups.component';
 import {FormsModule} from "@angular/forms";
 import {ButtonModule} from "primeng/button";
-import {CardModule, InputTextModule} from "primeng/primeng";
+import {AutoCompleteModule, CardModule, InputTextModule} from "primeng/primeng";
 import {CommonSharedModule} from "../../../common/common-shared.module";
 import { GroupComponent } from './group/group.component';
 
@@ -15,7 +15,8 @@ import { GroupComponent } from './group/group.component';
     ButtonModule,
     InputTextModule,
     CardModule,
-    CommonSharedModule
+    CommonSharedModule,
+    AutoCompleteModule
   ]
 })
 export class GroupModule { }

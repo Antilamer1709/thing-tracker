@@ -1,6 +1,7 @@
 package com.antilamer.thingTracker.controller;
 
 import com.antilamer.thingTracker.dto.GroupDTO;
+import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.GroupBO;
@@ -46,6 +47,14 @@ public class GroupController {
     public GroupDTO getUserGroup(@PathVariable Integer id) throws UnauthorizedException, ValidationException {
         log.debug("*** getUserGroup() id: " + id);
         return groupBO.getUserGroup(id);
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @PostMapping(value = "{groupId}/addToGroup")
+    public void addToGroup(@PathVariable Integer groupId, @RequestBody List<UserDTO> users) throws UnauthorizedException, ValidationException {
+        log.debug("*** addToGroup() users: " + users);
+        log.debug("*** addToGroup() groupId: " + groupId);
+        groupBO.addToGroup(groupId, users);
     }
 
 }
