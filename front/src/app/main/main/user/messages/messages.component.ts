@@ -4,9 +4,11 @@ import SockJS from 'sockjs-client';
 import {environment} from "../../../../../environments/environment";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MessageService} from "primeng/api";
-import {Message} from "./message-model";
 import {UserMessageService} from "./user-message.service";
 import {AuthRepository} from "../../../../authentication/repository/auth.repository";
+import {MessageDTO} from "../../../../../generated/dto";
+import {AppService} from "../../../../app.service";
+import {AuthenticationService} from "../../../../authentication/authentication.service";
 
 @Component({
   selector: 'app-messages',
@@ -14,15 +16,18 @@ import {AuthRepository} from "../../../../authentication/repository/auth.reposit
   styleUrls: ['./messages.component.scss']
 })
 export class MessagesComponent implements OnInit {
+
   private serverUrl = environment.apiUrl + '/socket';
   isLoaded: boolean = false;
   isCustomSocketOpened = false;
   private stompClient;
   private form: FormGroup;
   private userForm: FormGroup;
-  messages: Message[] = [];
+  messages: MessageDTO[] = [];
+
   constructor(private socketService: UserMessageService,
               private authRepo: AuthRepository,
+              private authenticationService: AuthenticationService,
               private messageService: MessageService
   ) { }
 
@@ -39,14 +44,14 @@ export class MessagesComponent implements OnInit {
 
   sendMessageUsingSocket() {
     if (this.form.valid) {
-      let message: Message = { message: this.form.value.message, fromId: this.userForm.value.fromId, toId: this.userForm.value.toId };
+      let message: MessageDTO = { message: this.form.value.message, fromId: this.userForm.value.fromId, toId: this.userForm.value.toId };
       this.stompClient.send("/socket-subscriber/send/message", {}, JSON.stringify(message));
     }
   }
 
   sendMessageUsingRest() {
     if (this.form.valid) {
-      let message: Message = { message: this.form.value.message, fromId: this.userForm.value.fromId, toId: this.userForm.value.toId };
+      let message: MessageDTO = { message: this.form.value.message, fromId: this.userForm.value.fromId, toId: this.userForm.value.toId };
       this.socketService.post(message).subscribe(res => {
         console.log(res);
       })
@@ -80,7 +85,7 @@ export class MessagesComponent implements OnInit {
 
   handleResult(message){
     if (message.body) {
-      let messageResult: Message = JSON.parse(message.body);
+      let messageResult: MessageDTO = JSON.parse(message.body);
       console.log(messageResult);
       this.messages.push(messageResult);
       this.messageService.add({severity:'success', summary:'Success', detail:'New message recieved!'});

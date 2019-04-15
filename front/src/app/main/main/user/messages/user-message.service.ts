@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
-import {Message} from "./message-model";
+import {MessageDTO} from "../../../../../generated/dto";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class UserMessageService {
 
   constructor(private http: HttpClient) { }
 
-  post(data: Message) {
+  post(data: MessageDTO) {
     return this.http.post(this.url, data);
   }
 }
