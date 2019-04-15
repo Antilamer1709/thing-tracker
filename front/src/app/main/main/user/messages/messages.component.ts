@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Stomp} from 'stompjs/lib/stomp.js';
-import SockJS from 'sockjs-client';
+import {Component, OnInit} from '@angular/core';
 import {environment} from "../../../../../environments/environment";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MessageService} from "primeng/api";
 import {UserMessageService} from "./user-message.service";
 import {AuthRepository} from "../../../../authentication/repository/auth.repository";
 import {MessageDTO} from "../../../../../generated/dto";
-import {AppService} from "../../../../app.service";
 import {AuthenticationService} from "../../../../authentication/authentication.service";
 
 @Component({
@@ -17,19 +14,21 @@ import {AuthenticationService} from "../../../../authentication/authentication.s
 })
 export class MessagesComponent implements OnInit {
 
-  private serverUrl = environment.apiUrl + '/socket';
   isLoaded: boolean = false;
   isCustomSocketOpened = false;
+  messages: MessageDTO[] = [];
+  private serverUrl = environment.apiUrl + '/socket';
   private stompClient;
   private form: FormGroup;
   private userForm: FormGroup;
-  messages: MessageDTO[] = [];
+  private stompClient;
 
-  constructor(private socketService: UserMessageService,
+  constructor(private userMessageService: UserMessageService,
               private authRepo: AuthRepository,
               private authenticationService: AuthenticationService,
               private messageService: MessageService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -44,28 +43,26 @@ export class MessagesComponent implements OnInit {
 
   sendMessageUsingSocket() {
     if (this.form.valid) {
-      let message: MessageDTO = { message: this.form.value.message, fromId: this.userForm.value.fromId, toId: this.userForm.value.toId };
+      let message: MessageDTO = {
+        message: this.form.value.message,
+        fromId: this.userForm.value.fromId,
+        toId: this.userForm.value.toId
+      };
       this.stompClient.send("/socket-subscriber/send/message", {}, JSON.stringify(message));
     }
   }
 
   sendMessageUsingRest() {
     if (this.form.valid) {
-      let message: MessageDTO = { message: this.form.value.message, fromId: this.userForm.value.fromId, toId: this.userForm.value.toId };
-      this.socketService.post(message).subscribe(res => {
+      let message: MessageDTO = {
+        message: this.form.value.message,
+        fromId: this.userForm.value.fromId,
+        toId: this.userForm.value.toId
+      };
+      this.userMessageService.post(message).subscribe(res => {
         console.log(res);
       })
     }
-  }
-
-  initializeWebSocketConnection() {
-    let ws = new SockJS(this.serverUrl + '?jwt=' + this.authRepo.getJWT().accessToken);
-    this.stompClient = Stomp.over(ws);
-    let that = this;
-    this.stompClient.connect({}, function (frame) {
-      that.isLoaded = true;
-      that.openGlobalSocket()
-    });
   }
 
   openGlobalSocket() {
@@ -77,19 +74,28 @@ export class MessagesComponent implements OnInit {
   openSocket() {
     if (this.isLoaded) {
       this.isCustomSocketOpened = true;
-      this.stompClient.subscribe("/socket-publisher/"+this.userForm.value.fromId, (message) => {
+      this.stompClient.subscribe("/socket-publisher/" + this.userForm.value.fromId, (message) => {
         this.handleResult(message);
       });
     }
   }
 
-  handleResult(message){
+  handleResult(message) {
     if (message.body) {
       let messageResult: MessageDTO = JSON.parse(message.body);
       console.log(messageResult);
       this.messages.push(messageResult);
-      this.messageService.add({severity:'success', summary:'Success', detail:'New message recieved!'});
+      this.messageService.add({severity: 'success', summary: 'Success', detail: 'New message recieved!'});
     }
+  }
+
+  private initializeWebSocketConnection(): void {
+    this.stompClient = this.userMessageService.connect();
+
+    this.stompClient.connect({}, frame => {
+      this.isLoaded = true;
+      this.openGlobalSocket();
+    });
   }
 
 }
