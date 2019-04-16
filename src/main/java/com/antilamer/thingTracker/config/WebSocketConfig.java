@@ -20,7 +20,7 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/socket-subscriber")
+        registry.setApplicationDestinationPrefixes("/user-messages-subscriber")
                 .enableSimpleBroker("/user-messages");
     }
 
