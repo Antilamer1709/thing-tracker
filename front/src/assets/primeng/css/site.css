@@ -691,9 +691,13 @@ body {
     height: 42px;
   }
 
-  .topMenuItemOffser{
+  .topMenuItemOffset{
     position: relative;
     bottom: 10px;
+  }
+
+  .messageOffset {
+    position: static !important;
   }
 
   .layout-mask {
