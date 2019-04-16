@@ -4,6 +4,7 @@ import {MessageDTO} from "../../../generated/dto";
 import {AuthRepository} from "../../authentication/repository/auth.repository";
 import {MessageService} from "primeng/api";
 import {MainMenuService} from "./main-menu.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-main-menu',
@@ -21,6 +22,7 @@ export class MainMenuComponent implements OnInit {
   private stompClient: any;
 
   constructor(public authenticationService: AuthenticationService,
+              private router: Router,
               private service: MainMenuService,
               private authRepo: AuthRepository,
               private messageService: MessageService) { }
@@ -34,10 +36,12 @@ export class MainMenuComponent implements OnInit {
   private initializeWebSocketConnection(): void {
     this.stompClient = this.service.connect();
 
-    this.stompClient.connect({}, frame => {
-      this.openGlobalSocket();
-      this.openSocket();
-    });
+    if (this.stompClient) {
+      this.stompClient.connect({}, frame => {
+        this.openGlobalSocket();
+        this.openSocket();
+      });
+    }
   }
 
   private openGlobalSocket(): void {
@@ -70,6 +74,11 @@ export class MainMenuComponent implements OnInit {
   onMenuButtonClick(event: Event) {
     this.menuActive = !this.menuActive;
     event.preventDefault();
+  }
+
+  public logout(): void {
+    this.authenticationService.logout();
+    this.router.navigate(['/login']);
   }
 
 }

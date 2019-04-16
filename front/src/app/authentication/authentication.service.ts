@@ -3,6 +3,7 @@ import {CommonService} from "../common/common.service";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {UserDTO} from "../../generated/dto";
+import {AuthRepository} from "./repository/auth.repository";
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,14 @@ export class AuthenticationService extends CommonService {
 
   public loggedUser: UserDTO;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private authRepo: AuthRepository) {
     super()
   }
 
-  logout(): Observable<any> {
-    return this.http.get('/api/logout', {headers: this.getHeaders()});
+  logout(): void {
+    this.authRepo.clearAuth();
+    this.loggedUser = null;
   }
 
   getLoggedUser(): Observable<UserDTO> {

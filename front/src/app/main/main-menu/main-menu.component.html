@@ -9,17 +9,25 @@
   </a>
 
   <ul class="topbar-menu">
-    <li>
-      <a href="#" [routerLink]="['/setup']" class="topMenuItemOffset">{{authenticationService.loggedUser?.email}}</a>
+    <li *ngIf="authenticationService.loggedUser == null" class="topMenuItemOffser">
+      <a [routerLink]="['/login']">Login</a>
     </li>
 
-    <li style="cursor: pointer" (click)="op2.toggle($event)">
+    <li  *ngIf="authenticationService.loggedUser != null" (click)="op1.toggle($event)">
+      <a class="topMenuItemOffset">{{authenticationService.loggedUser?.email}}</a>
+    </li>
+    <p-overlayPanel #op1>
+      <div>
+        <button pButton icon="fa fa-sign-out" title="Вийти" label="Вийти" (click)="logout()"></button>
+      </div>
+    </p-overlayPanel>
+
+    <li *ngIf="authenticationService.loggedUser != null" style="cursor: pointer" (click)="op2.toggle($event)">
       <a>
         <span class="pi pi-envelope messageIcon messageOffset"></span>
         <span class="messageOffset">{{messages?.length != 0 ? messages?.length : null}}</span>
       </a>
     </li>
-
     <p-overlayPanel #op2>
       <div *ngIf="messages?.length > 0">
         <div *ngFor="let row of messages">
@@ -32,6 +40,7 @@
         <div style="white-space: nowrap">Nothing new</div>
       </div>
     </p-overlayPanel>
+
   </ul>
 </div>
 

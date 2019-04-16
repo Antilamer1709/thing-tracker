@@ -8,6 +8,6 @@ export const GroupRoutes: Route[] = [
     path: 'my-groups', component: MyGroupsComponent, canActivate: [GuardService]
   },
   {
-    path : 'my-groups/:id', component : GroupComponent
+    path : 'my-groups/:id', component : GroupComponent, canActivate: [GuardService]
   }
 ];

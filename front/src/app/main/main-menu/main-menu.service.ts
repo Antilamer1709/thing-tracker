@@ -13,8 +13,11 @@ export class MainMenuService {
 
 
   public connect(): any {
-    let socket = new SockJS(environment.apiUrl + '/socket?jwt=' + this.authRepo.getJWT().accessToken);
+    const jwt = this.authRepo.getJWT();
+    if (jwt) {
+      let socket = new SockJS(environment.apiUrl + '/socket?jwt=' + this.authRepo.getJWT().accessToken);
 
-    return Stomp.over(socket);
+      return Stomp.over(socket);
+    }
   }
 }
