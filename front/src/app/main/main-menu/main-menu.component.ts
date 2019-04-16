@@ -28,10 +28,26 @@ export class MainMenuComponent implements OnInit {
               private messageService: MessageService) { }
 
   ngOnInit() {
-    this.messages = [];
+    this.initUserMessages();
     this.initializeWebSocketConnection();
   }
 
+  private initUserMessages(): void {
+    this.messages = [];
+
+    this.authenticationService.getLoggedUser().subscribe(res => {
+
+        if (res && res.id) {
+          this.service.getUserMessages().subscribe(messages => {
+              this.messages = messages;
+            }
+          )
+        }
+
+      }
+    );
+
+  }
 
   private initializeWebSocketConnection(): void {
     this.stompClient = this.service.connect();

@@ -31,9 +31,10 @@
     <p-overlayPanel #op2>
       <div *ngIf="messages?.length > 0">
         <div *ngFor="let row of messages">
-          <button pButton icon="pi pi-check" title="Прочитано" [ngClass]="{'messageButton': !row.hasFile}"></button>
-          <button *ngIf="row.hasFile" icon="pi pi-download" pButton title="Скачати" class="messageButton"></button>
-          <span>{{row.text}}</span>
+          <button pButton icon="pi pi-check" title="Accept"></button>
+          <button pButton icon="pi pi-times" title="Reject"></button>
+          <span>{{row.sender}}</span>
+          <div>{{row.message}}</div>
         </div>
       </div>
       <div *ngIf="!(messages?.length > 0)">
