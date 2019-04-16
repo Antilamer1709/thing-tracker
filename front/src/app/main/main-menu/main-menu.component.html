@@ -18,7 +18,7 @@
     </li>
     <p-overlayPanel #op1>
       <div>
-        <button pButton icon="fa fa-sign-out" title="Вийти" label="Вийти" (click)="logout()"></button>
+        <button pButton icon="fa fa-sign-out" title="Log out" label="Log out" (click)="logout()"></button>
       </div>
     </p-overlayPanel>
 
@@ -31,10 +31,15 @@
     <p-overlayPanel #op2>
       <div *ngIf="messages?.length > 0">
         <div *ngFor="let row of messages">
-          <button pButton icon="pi pi-check" title="Accept"></button>
-          <button pButton icon="pi pi-times" title="Reject"></button>
-          <span>{{row.sender}}</span>
-          <div>{{row.message}}</div>
+
+          <p-card header="{{row.sender}}" [style]="{width: '360px'}" styleClass="ui-card-shadow">
+            <div>{{row.message}}</div>
+            <p-footer>
+              <button pButton icon="pi pi-check" label="Accept" title="Accept"></button>
+              <button pButton icon="pi pi-times" label="Reject" title="Reject"></button>
+            </p-footer>
+          </p-card>
+
         </div>
       </div>
       <div *ngIf="!(messages?.length > 0)">

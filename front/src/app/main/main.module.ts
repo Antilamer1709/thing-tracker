@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main/main.component';
-import {ButtonModule, OverlayPanelModule} from "primeng/primeng";
+import {ButtonModule, CardModule, OverlayPanelModule} from "primeng/primeng";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MainMenuComponent} from "./main-menu/main-menu.component";
 import {CommonModule} from "@angular/common";
@@ -22,7 +22,8 @@ import {CommonSharedModule} from "../common/common-shared.module";
     UserModule,
     GroupModule,
     CommonSharedModule,
-    OverlayPanelModule
+    OverlayPanelModule,
+    CardModule
   ]
 })
 export class MainModule { }
