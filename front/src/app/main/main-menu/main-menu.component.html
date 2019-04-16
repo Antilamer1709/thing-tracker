@@ -16,7 +16,7 @@
     <li style="cursor: pointer" (click)="op2.toggle($event)">
       <a>
         <span class="pi pi-envelope messageIcon messageOffset"></span>
-        <span class="messageOffset">{{messages?.length}}</span>
+        <span class="messageOffset">{{messages?.length != 0 ? messages?.length : null}}</span>
       </a>
     </li>
 
