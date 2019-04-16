@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from "../../authentication/authentication.service";
 import {MessageDTO} from "../../../generated/dto";
+import {AuthRepository} from "../../authentication/repository/auth.repository";
+import {MessageService} from "primeng/api";
+import {MainMenuService} from "./main-menu.service";
 
 @Component({
   selector: 'app-main-menu',
@@ -15,10 +18,53 @@ export class MainMenuComponent implements OnInit {
 
   public messages: MessageDTO[];
 
-  constructor(public authenticationService: AuthenticationService) { }
+  private stompClient: any;
+
+  constructor(public authenticationService: AuthenticationService,
+              private service: MainMenuService,
+              private authRepo: AuthRepository,
+              private messageService: MessageService) { }
 
   ngOnInit() {
     this.messages = [];
+    this.initializeWebSocketConnection();
+  }
+
+
+  private initializeWebSocketConnection(): void {
+    this.stompClient = this.service.connect();
+
+    this.stompClient.connect({}, frame => {
+      this.openGlobalSocket();
+      this.openSocket();
+    });
+  }
+
+  private openGlobalSocket(): void {
+    this.stompClient.subscribe("/user-messages", (message) => {
+      this.handleResult(message);
+    });
+  }
+
+  private handleResult(message): void {
+    if (message.body) {
+      let messageResult: MessageDTO = JSON.parse(message.body);
+      console.log(messageResult);
+      this.messages.push(messageResult);
+      this.messageService.add({severity: 'info', summary: 'Info', detail: 'New message received!'});
+    }
+  }
+
+  private openSocket(): void {
+    this.authenticationService.getLoggedUser().subscribe(
+      res => {
+        if (res && res.id) {
+          this.stompClient.subscribe("/user-messages/" + res.id, (message) => {
+            this.handleResult(message);
+          });
+        }
+      }
+    );
   }
 
   onMenuButtonClick(event: Event) {

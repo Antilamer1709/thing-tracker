@@ -15,9 +15,9 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/api/socket")
 @CrossOrigin("*")
-public class MessageController {
-    @Autowired
+public class UserMessageController {
 
+    @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @RequestMapping(method = RequestMethod.POST)
@@ -25,10 +25,10 @@ public class MessageController {
         if(message.containsKey("message")){
             //if the toId is present the message will be sent privately else broadcast it to all users
             if(message.containsKey("toId") && message.get("toId")!=null && !message.get("toId").equals("")){
-                this.simpMessagingTemplate.convertAndSend("/socket-publisher/"+message.get("toId"),message);
-                this.simpMessagingTemplate.convertAndSend("/socket-publisher/"+message.get("fromId"),message);
+                this.simpMessagingTemplate.convertAndSend("/user-messages/"+message.get("toId"),message);
+                this.simpMessagingTemplate.convertAndSend("/user-messages/"+message.get("fromId"),message);
             }else{
-                this.simpMessagingTemplate.convertAndSend("/socket-publisher",message);
+                this.simpMessagingTemplate.convertAndSend("/user-messages",message);
             }
             return new ResponseEntity<>(message, new HttpHeaders(), HttpStatus.OK);
         }
@@ -46,10 +46,10 @@ public class MessageController {
         }
         if(messageConverted!=null){
             if(messageConverted.containsKey("toId") && messageConverted.get("toId")!=null && !messageConverted.get("toId").equals("")){
-                this.simpMessagingTemplate.convertAndSend("/socket-publisher/"+messageConverted.get("toId"),messageConverted);
-                this.simpMessagingTemplate.convertAndSend("/socket-publisher/"+messageConverted.get("fromId"),message);
+                this.simpMessagingTemplate.convertAndSend("/user-messages/"+messageConverted.get("toId"),messageConverted);
+                this.simpMessagingTemplate.convertAndSend("/user-messages/"+messageConverted.get("fromId"),message);
             }else{
-                this.simpMessagingTemplate.convertAndSend("/socket-publisher",messageConverted);
+                this.simpMessagingTemplate.convertAndSend("/user-messages",messageConverted);
             }
         }
         return messageConverted;

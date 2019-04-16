@@ -1,6 +1,7 @@
 package com.antilamer.thingTracker.service;
 
 import com.antilamer.thingTracker.dto.GroupDTO;
+import com.antilamer.thingTracker.dto.MessageDTO;
 import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
@@ -12,6 +13,7 @@ import com.antilamer.thingTracker.repository.UserInviteRepo;
 import com.antilamer.thingTracker.repository.UserRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,17 +29,20 @@ public class GroupBOImpl implements GroupBO {
     private final UserRepo userRepo;
     private final UserInviteRepo userInviteRepo;
     private final AuthenticationBO authenticationBO;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
     public GroupBOImpl(
             GroupRepo groupRepo,
             UserRepo userRepo,
             UserInviteRepo userInviteRepo,
-            AuthenticationBO authenticationBO) {
+            AuthenticationBO authenticationBO,
+            SimpMessagingTemplate simpMessagingTemplate) {
         this.groupRepo = groupRepo;
         this.userRepo = userRepo;
         this.userInviteRepo = userInviteRepo;
         this.authenticationBO = authenticationBO;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
 
@@ -122,5 +127,20 @@ public class GroupBOImpl implements GroupBO {
                 userInviteRepo.save(inviteEntity);
             }
         }
+
+        notifyUsers(users);
+    }
+
+    private void notifyUsers(List<UserDTO> users) {
+        users.forEach(user -> {
+            simpMessagingTemplate.convertAndSend("/user-messages/" + user.getId(), createInviteGroupMessage());
+        });
+    }
+
+    private MessageDTO createInviteGroupMessage() {
+        MessageDTO messageDTO = new MessageDTO();
+        String username = authenticationBO.getLoggedUser().getFullName() + "(" + authenticationBO.getLoggedUser().getUsername() + ")";
+        messageDTO.setMessage(username + " invited you to join group!");
+        return messageDTO;
     }
 }

@@ -63,7 +63,7 @@ export class MessagesComponent implements OnInit {
   }
 
   openGlobalSocket() {
-    this.stompClient.subscribe("/socket-publisher", (message) => {
+    this.stompClient.subscribe("/user-messages", (message) => {
       this.handleResult(message);
     });
   }
@@ -71,7 +71,7 @@ export class MessagesComponent implements OnInit {
   openSocket() {
     if (this.isLoaded) {
       this.isCustomSocketOpened = true;
-      this.stompClient.subscribe("/socket-publisher/" + this.userForm.value.fromId, (message) => {
+      this.stompClient.subscribe("/user-messages/" + this.userForm.value.fromId, (message) => {
         this.handleResult(message);
       });
     }
