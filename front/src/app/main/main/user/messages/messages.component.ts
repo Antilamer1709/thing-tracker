@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {environment} from "../../../../../environments/environment";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MessageService} from "primeng/api";
 import {UserMessageService} from "./user-message.service";
@@ -14,11 +13,9 @@ import {AuthenticationService} from "../../../../authentication/authentication.s
 })
 export class MessagesComponent implements OnInit {
 
-  isLoaded: boolean = false;
-  isCustomSocketOpened = false;
-  messages: MessageDTO[] = [];
-  private serverUrl = environment.apiUrl + '/socket';
-  private stompClient;
+  public messages: MessageDTO[] = [];
+  private isLoaded: boolean = false;
+  private isCustomSocketOpened = false;
   private form: FormGroup;
   private userForm: FormGroup;
   private stompClient;
