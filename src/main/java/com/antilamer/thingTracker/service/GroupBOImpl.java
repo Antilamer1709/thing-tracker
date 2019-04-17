@@ -112,6 +112,7 @@ public class GroupBOImpl implements GroupBO {
     @Override
     @Transactional
     public void addToGroup(Integer groupId, List<UserDTO> users) throws ValidationException, UnauthorizedException {
+        List<UserInviteEntity> invites = new ArrayList<>();
         GroupEntity groupEntity = groupRepo.findById(groupId)
                 .orElseThrow(() -> new ValidationException("There no such group with id: " + groupId));
         authenticationBO.checkUserAccess(groupEntity.getUsers());
@@ -124,23 +125,36 @@ public class GroupBOImpl implements GroupBO {
                 UserInviteEntity inviteEntity = new UserInviteEntity();
                 inviteEntity.setInviter(authenticationBO.getLoggedUser());
                 inviteEntity.setTarget(userEntity);
-                userInviteRepo.save(inviteEntity);
+                inviteEntity.setGroup(groupEntity);
+                invites.add(userInviteRepo.save(inviteEntity));
             }
         }
 
-        notifyUsers(users);
+        notifyUsers(invites);
     }
 
-    private void notifyUsers(List<UserDTO> users) {
-        users.forEach(user -> {
-            simpMessagingTemplate.convertAndSend("/user-messages/" + user.getId(), createInviteGroupMessage());
+    private void notifyUsers(List<UserInviteEntity> invites) {
+        invites.forEach(invite -> {
+            simpMessagingTemplate.convertAndSend("/user-messages/" +
+                    invite.getTarget().getId(), createInviteGroupMessage(invite));
         });
     }
 
-    private MessageDTO createInviteGroupMessage() {
+    private MessageDTO createInviteGroupMessage(UserInviteEntity invite) {
         MessageDTO messageDTO = new MessageDTO();
         String username = authenticationBO.getLoggedUser().getFullName() + "(" + authenticationBO.getLoggedUser().getUsername() + ")";
         messageDTO.setMessage(username + " invited you to join group!");
+        messageDTO.setId(invite.getId());
         return messageDTO;
+    }
+
+    @Override
+    @Transactional
+    public void acceptInvite(UserInviteEntity inviteEntity) {
+        GroupEntity groupEntity = inviteEntity.getGroup();
+        if (!groupEntity.getUsers().contains(inviteEntity.getTarget())) {
+            groupEntity.getUsers().add(inviteEntity.getTarget());
+        }
+        groupRepo.save(groupEntity);
     }
 }

@@ -21,4 +21,8 @@ public class UserInviteEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "target_id")
     private UserEntity target;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private GroupEntity group;
 }

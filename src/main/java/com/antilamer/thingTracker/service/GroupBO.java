@@ -4,6 +4,7 @@ import com.antilamer.thingTracker.dto.GroupDTO;
 import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
+import com.antilamer.thingTracker.model.UserInviteEntity;
 
 import java.util.List;
 
@@ -16,4 +17,7 @@ public interface GroupBO {
     GroupDTO getUserGroup(Integer id) throws ValidationException, UnauthorizedException;
 
     void addToGroup(Integer groupId, List<UserDTO> users) throws ValidationException, UnauthorizedException;
+
+    void acceptInvite(UserInviteEntity inviteEntity);
+
 }

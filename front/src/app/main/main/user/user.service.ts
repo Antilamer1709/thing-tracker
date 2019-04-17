@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {UserDTO} from "../../../../generated/dto";
+import {ResponseToMessageDTO, UserDTO} from "../../../../generated/dto";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,10 @@ export class UserService {
         predicate: predicate
       }
     });
+  }
+
+  public respondToMessage(response: ResponseToMessageDTO): Observable<void> {
+    return this.http.post<void>('/api/message/respond', response);
   }
 
 }

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from "../../authentication/authentication.service";
-import {MessageDTO} from "../../../generated/dto";
+import {MessageDTO, ResponseToMessageDTO} from "../../../generated/dto";
 import {AuthRepository} from "../../authentication/repository/auth.repository";
 import {MessageService} from "primeng/api";
 import {MainMenuService} from "./main-menu.service";
 import {Router} from "@angular/router";
+import {UserService} from "../main/user/user.service";
 
 @Component({
   selector: 'app-main-menu',
@@ -24,6 +25,7 @@ export class MainMenuComponent implements OnInit {
   constructor(public authenticationService: AuthenticationService,
               private router: Router,
               private service: MainMenuService,
+              private userService: UserService,
               private authRepo: AuthRepository,
               private messageService: MessageService) { }
 
@@ -85,6 +87,16 @@ export class MainMenuComponent implements OnInit {
         }
       }
     );
+  }
+
+  public respondToMessage(messageDTO: MessageDTO, response: boolean): void {
+    const responseDTO: ResponseToMessageDTO = new ResponseToMessageDTO();
+    responseDTO.response = response;
+    responseDTO.messageId = messageDTO.id;
+
+    this.userService.respondToMessage(responseDTO).subscribe(() => {
+      this.initUserMessages();
+    });
   }
 
   onMenuButtonClick(event: Event) {

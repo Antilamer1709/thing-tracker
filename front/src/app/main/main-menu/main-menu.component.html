@@ -35,8 +35,8 @@
           <p-card header="{{row.sender}}" [style]="{width: '360px'}" styleClass="ui-card-shadow">
             <div>{{row.message}}</div>
             <p-footer>
-              <button pButton icon="pi pi-check" label="Accept" title="Accept"></button>
-              <button pButton icon="pi pi-times" label="Reject" title="Reject"></button>
+              <button (click)="respondToMessage(row, true)" pButton icon="pi pi-check" label="Accept" title="Accept"></button>
+              <button (click)="respondToMessage(row, false)" pButton icon="pi pi-times" label="Reject" title="Reject"></button>
             </p-footer>
           </p-card>
 
