@@ -1,8 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Message} from "primeng/api";
-import {Router} from "@angular/router";
 import {AuthenticationService} from "./authentication/authentication.service";
-import {MessageService} from "primeng/components/common/messageservice";
 import {AppService} from "./app.service";
 
 @Component({
@@ -13,9 +10,7 @@ import {AppService} from "./app.service";
 export class AppComponent implements OnInit {
 
   constructor(public authenticationService: AuthenticationService,
-              public appService: AppService,
-              private messageService: MessageService,
-              private router: Router) {
+              public appService: AppService) {
   }
 
   ngOnInit(): void {
@@ -24,16 +19,6 @@ export class AppComponent implements OnInit {
 
   private initLoggedUser(): void {
     this.authenticationService.initLoggedUser();
-  }
-
-  public logout(): void {
-    this.authenticationService.logout().subscribe(
-      () => {
-        this.authenticationService.loggedUser = null;
-        this.messageService.add({severity:'success', summary:'Hello', detail:'You are logged out!'});
-        this.router.navigate(['/']);
-      }
-    );
   }
 
 }
