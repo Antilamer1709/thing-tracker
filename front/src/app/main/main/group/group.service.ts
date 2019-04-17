@@ -23,8 +23,8 @@ export class GroupService {
     return this.http.get<GroupDTO>('/api/group/' + id);
   }
 
-  public addUsersToGroup(id: number, users: UserDTO[]): Observable<void> {
-    return this.http.post<void>('/api/group/' + id + '/addToGroup', users);
+  public inviteUsersToGroup(id: number, users: UserDTO[]): Observable<void> {
+    return this.http.post<void>('/api/group/' + id + '/inviteToGroup', users);
   }
 
 }

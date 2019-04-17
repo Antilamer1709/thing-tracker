@@ -49,11 +49,11 @@ public class GroupController {
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    @PostMapping(value = "{groupId}/addToGroup")
-    public void addToGroup(@PathVariable Integer groupId, @RequestBody List<UserDTO> users) throws UnauthorizedException, ValidationException {
-        log.debug("*** addToGroup() users: " + users);
-        log.debug("*** addToGroup() groupId: " + groupId);
-        groupBO.addToGroup(groupId, users);
+    @PostMapping(value = "{groupId}/inviteToGroup")
+    public void inviteToGroup(@PathVariable Integer groupId, @RequestBody List<UserDTO> users) throws UnauthorizedException, ValidationException {
+        log.debug("*** inviteToGroup() users: " + users);
+        log.debug("*** inviteToGroup() groupId: " + groupId);
+        groupBO.inviteToGroup(groupId, users);
     }
 
 }

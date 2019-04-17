@@ -111,7 +111,7 @@ public class GroupBOImpl implements GroupBO {
 
     @Override
     @Transactional
-    public void addToGroup(Integer groupId, List<UserDTO> users) throws ValidationException, UnauthorizedException {
+    public void inviteToGroup(Integer groupId, List<UserDTO> users) throws ValidationException, UnauthorizedException {
         List<UserInviteEntity> invites = new ArrayList<>();
         GroupEntity groupEntity = groupRepo.findById(groupId)
                 .orElseThrow(() -> new ValidationException("There no such group with id: " + groupId));

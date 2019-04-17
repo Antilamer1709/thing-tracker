@@ -61,11 +61,11 @@ export class GroupComponent implements OnInit {
     );
   }
 
-  public addToGroup(form: FormGroup): void {
+  public inviteToGroup(form: FormGroup): void {
     if (form.valid) {
       this.appService.blockedUI = true;
 
-      this.service.addUsersToGroup(this.groupId, this.users).subscribe(
+      this.service.inviteUsersToGroup(this.groupId, this.users).subscribe(
         (res) => {
           console.log(res);
           this.appService.blockedUI = false;

@@ -16,7 +16,7 @@ public interface GroupBO {
 
     GroupDTO getUserGroup(Integer id) throws ValidationException, UnauthorizedException;
 
-    void addToGroup(Integer groupId, List<UserDTO> users) throws ValidationException, UnauthorizedException;
+    void inviteToGroup(Integer groupId, List<UserDTO> users) throws ValidationException, UnauthorizedException;
 
     void acceptInvite(UserInviteEntity inviteEntity);
 
