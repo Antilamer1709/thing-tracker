@@ -20,6 +20,36 @@
   margin-right: 4px !important;
 }
 
+.user-messages-container {
+  overflow: auto;
+  padding-bottom: 15px;
+}
+
+/* width */
+.user-messages-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+.user-messages-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.user-messages-container::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+.user-messages-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+.break-word {
+  word-wrap: break-word;
+}
+
 
 .ui-button {
   background-color: #34393a !important;

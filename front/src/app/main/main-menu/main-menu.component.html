@@ -29,7 +29,7 @@
       </a>
     </li>
     <p-overlayPanel #op2>
-      <div *ngIf="messages?.length > 0">
+      <div *ngIf="messages?.length > 0" class="user-messages-container break-word">
         <div *ngFor="let row of messages">
 
           <p-card header="{{row.sender}}" [style]="{width: '360px'}" styleClass="ui-card-shadow">

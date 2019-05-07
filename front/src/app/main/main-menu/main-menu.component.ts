@@ -30,8 +30,16 @@ export class MainMenuComponent implements OnInit {
               private messageService: MessageService) { }
 
   ngOnInit() {
+    this.initSyles();
     this.initUserMessages();
     this.initializeWebSocketConnection();
+  }
+
+  private initSyles() {
+    this.darkDemoStyle = document.createElement('style');
+    this.darkDemoStyle.type = 'text/css';
+    this.darkDemoStyle.innerHTML = '.user-messages-container {  max-height: ' + window.innerHeight + 'px; }';
+    document.body.appendChild(this.darkDemoStyle);
   }
 
   private initUserMessages(): void {
