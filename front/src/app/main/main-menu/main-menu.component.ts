@@ -22,6 +22,8 @@ export class MainMenuComponent implements OnInit {
 
   private stompClient: any;
 
+  userMessagesStyle: HTMLElement;
+
   constructor(public authenticationService: AuthenticationService,
               private router: Router,
               private service: MainMenuService,
@@ -36,10 +38,9 @@ export class MainMenuComponent implements OnInit {
   }
 
   private initSyles() {
-    this.darkDemoStyle = document.createElement('style');
-    this.darkDemoStyle.type = 'text/css';
-    this.darkDemoStyle.innerHTML = '.user-messages-container {  max-height: ' + window.innerHeight + 'px; }';
-    document.body.appendChild(this.darkDemoStyle);
+    this.userMessagesStyle = document.createElement('style');
+    this.userMessagesStyle.innerHTML = '.user-messages-container {  max-height: ' + window.innerHeight + 'px; }';
+    document.body.appendChild(this.userMessagesStyle);
   }
 
   private initUserMessages(): void {
