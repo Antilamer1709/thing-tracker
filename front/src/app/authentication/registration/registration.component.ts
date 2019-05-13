@@ -57,7 +57,7 @@ export class RegistrationComponent implements OnInit {
     this.loginService.login(user).subscribe(
       (res) => {
         console.log(res);
-        this.authenticationService.getLoggedUser();
+        this.authenticationService.initLoggedUser();
         this.appService.blockedUI = false;
 
         this.messageService.add({severity:'info', summary:'Hello', detail:'You are logged in!'});

@@ -33,6 +33,7 @@ export class AuthenticationService extends CommonService {
   }
 
   public initLoggedUser(): void {
+    this.loggedUser = null;
     this.getLoggedUser().subscribe(
       res => {
         console.log("loggedUser: ");
