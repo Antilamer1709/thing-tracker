@@ -44,20 +44,15 @@ export class MainMenuComponent implements OnInit {
   }
 
   private initUserMessages(): void {
-    this.messages = [];
-
     this.authenticationService.getLoggedUser().subscribe(res => {
 
         if (res && res.id) {
           this.service.getUserMessages().subscribe(messages => {
               this.messages = messages;
-            }
-          )
+          })
         }
 
-      }
-    );
-
+    });
   }
 
   private initializeWebSocketConnection(): void {
@@ -99,6 +94,8 @@ export class MainMenuComponent implements OnInit {
   }
 
   public respondToMessage(messageDTO: MessageDTO, response: boolean): void {
+    messageDTO.loading = true;
+
     const responseDTO: ResponseToMessageDTO = new ResponseToMessageDTO();
     responseDTO.response = response;
     responseDTO.messageId = messageDTO.id;

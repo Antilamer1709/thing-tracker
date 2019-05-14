@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MainComponent } from './main/main.component';
-import {ButtonModule, CardModule, OverlayPanelModule} from "primeng/primeng";
+import {ButtonModule, CardModule, OverlayPanelModule, ProgressBarModule} from "primeng/primeng";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MainMenuComponent} from "./main-menu/main-menu.component";
 import {CommonModule} from "@angular/common";
@@ -23,7 +23,8 @@ import {CommonSharedModule} from "../common/common-shared.module";
     GroupModule,
     CommonSharedModule,
     OverlayPanelModule,
-    CardModule
+    CardModule,
+    ProgressBarModule
   ]
 })
 export class MainModule { }

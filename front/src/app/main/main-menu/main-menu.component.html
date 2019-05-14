@@ -35,8 +35,9 @@
           <p-card header="{{row.sender}}" [style]="{width: '360px'}" styleClass="ui-card-shadow">
             <div>{{row.message}}</div>
             <p-footer>
-              <button (click)="respondToMessage(row, true)" pButton icon="pi pi-check" label="Accept" title="Accept"></button>
-              <button (click)="respondToMessage(row, false)" pButton icon="pi pi-times" label="Reject" title="Reject"></button>
+              <button [disabled]="row.loading" (click)="respondToMessage(row, true)" pButton icon="pi pi-check" label="Accept" title="Accept"></button>
+              <button [disabled]="row.loading" (click)="respondToMessage(row, false)" pButton icon="pi pi-times" label="Reject" title="Reject"></button>
+              <p-progressBar *ngIf="row.loading" mode="indeterminate" [style]="{'height': '6px', 'margin': '6px 0'}"></p-progressBar>
             </p-footer>
           </p-card>
 
@@ -45,6 +46,9 @@
       <div *ngIf="!(messages?.length > 0)">
         <div style="white-space: nowrap">Nothing new</div>
       </div>
+      <!--<div *ngIf="!messages" class="flex-container-center" style="height: 360px; width: 360px">-->
+        <!--<p-progressSpinner [style]="{width: '150px', height: '150px'}"></p-progressSpinner>-->
+      <!--</div>-->
     </p-overlayPanel>
 
   </ul>

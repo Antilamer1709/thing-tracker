@@ -17,6 +17,8 @@ public class MessageDTO {
 
     private String toId;
 
+    private Boolean loading;
+
 
     public MessageDTO() {
 
