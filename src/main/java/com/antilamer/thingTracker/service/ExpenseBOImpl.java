@@ -118,6 +118,7 @@ public class ExpenseBOImpl implements ExpenseBO {
     @Override
     @Transactional
     public ExpenseSearchChartDTO searchChart(ExpenseSearchDTO expenseSearchDTO) throws ValidationException {
+        validateSearchDTO(expenseSearchDTO);
         ExpenseSearchChartDTO searchChartDTO = new ExpenseSearchChartDTO();
         Set<Integer> userIds = processUserIds(expenseSearchDTO.getSelectGroupmates());
         List<ExpenseEntity> expenseEntities = expenseRepo.searchChart(userIds, expenseSearchDTO.getDateFrom(), expenseSearchDTO.getDateTo());
@@ -131,6 +132,15 @@ public class ExpenseBOImpl implements ExpenseBO {
         });
 
         return searchChartDTO;
+    }
+
+    private void validateSearchDTO(ExpenseSearchDTO expenseSearchDTO) throws ValidationException {
+        if (expenseSearchDTO.getDateTo() == null) {
+            throw new ValidationException("You have to select \"Date To\" field!");
+        }
+        if (expenseSearchDTO.getDateFrom() == null) {
+            expenseSearchDTO.setDateFrom(LocalDateTime.parse("0001-01-01T00:00:00"));
+        }
     }
 
     private Set<Integer> processUserIds(List<SelectGroupmateDTO> selectGroupmates) throws ValidationException {

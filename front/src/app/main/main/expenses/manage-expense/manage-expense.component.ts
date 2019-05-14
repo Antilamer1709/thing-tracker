@@ -6,6 +6,7 @@ import {ExpensesService} from "../expenses.service";
 import {ExpenseSearchChartDTO, ExpenseSearchDTO, SelectGroupmateDTO} from "../../../../../generated/dto";
 import {CommonComponent} from "../../../../common/common-component";
 import {GroupService} from "../../group/group.service";
+import {from} from "rxjs";
 
 @Component({
   selector: 'app-manage-expense',
@@ -47,7 +48,7 @@ export class ManageExpenseComponent extends CommonComponent implements OnInit {
   }
 
   public searchExpenses(form: FormGroup): void {
-    if (form.valid && this.expenseSearchDTO.dateTo >= this.expenseSearchDTO.dateFrom) {
+    if (form.valid && this.expenseSearchDTO.dateTo >= this.expenseSearchDTO.dateFrom || form.valid && !this.expenseSearchDTO.dateFrom) {
       this.appService.blockedUI = true;
       this.service.searchChartExpenses(this.expenseSearchDTO).subscribe(
         (res) => {
