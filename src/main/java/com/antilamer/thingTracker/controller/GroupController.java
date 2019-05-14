@@ -1,6 +1,7 @@
 package com.antilamer.thingTracker.controller;
 
 import com.antilamer.thingTracker.dto.GroupDTO;
+import com.antilamer.thingTracker.dto.SelectGroupmateDTO;
 import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
@@ -54,6 +55,13 @@ public class GroupController {
         log.debug("*** inviteToGroup() users: " + users);
         log.debug("*** inviteToGroup() groupId: " + groupId);
         groupBO.inviteToGroup(groupId, users);
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @GetMapping(value = "/groupmates")
+    public List<SelectGroupmateDTO> getGroupmates() {
+        log.debug("*** getGroupmates()");
+        return groupBO.getGroupmates();
     }
 
 }

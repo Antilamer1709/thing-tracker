@@ -1,6 +1,7 @@
 package com.antilamer.thingTracker.service;
 
 import com.antilamer.thingTracker.dto.GroupDTO;
+import com.antilamer.thingTracker.dto.SelectGroupmateDTO;
 import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
@@ -20,4 +21,5 @@ public interface GroupBO {
 
     void acceptInvite(UserInviteEntity inviteEntity);
 
+    List<SelectGroupmateDTO> getGroupmates();
 }

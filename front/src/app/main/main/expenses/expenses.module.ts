@@ -6,7 +6,7 @@ import {
   ButtonModule,
   CalendarModule,
   ChartModule,
-  InputTextModule,
+  InputTextModule, MultiSelectModule,
   SpinnerModule
 } from "primeng/primeng";
 import {FormsModule} from "@angular/forms";
@@ -24,7 +24,8 @@ import {CommonSharedModule} from "../../../common/common-shared.module";
     InputTextModule,
     CalendarModule,
     ChartModule,
-    CommonSharedModule
+    CommonSharedModule,
+    MultiSelectModule
   ]
 })
 export class ExpensesModule { }

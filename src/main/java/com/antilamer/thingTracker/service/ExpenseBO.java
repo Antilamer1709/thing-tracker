@@ -13,6 +13,6 @@ public interface ExpenseBO {
 
     List<String> searchExpenseTypes(String predicate);
 
-    ExpenseSearchChartDTO searchChart(ExpenseSearchDTO expenseSearchDTO);
+    ExpenseSearchChartDTO searchChart(ExpenseSearchDTO expenseSearchDTO) throws ValidationException;
 
 }

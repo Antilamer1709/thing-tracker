@@ -3,21 +3,28 @@ package com.antilamer.thingTracker.service;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
+import com.antilamer.thingTracker.dto.SelectGroupmateDTO;
+import com.antilamer.thingTracker.enums.GroupmateType;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.ExpenseEntity;
 import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.ExpenseRepo;
 import com.antilamer.thingTracker.repository.ExpenseTypeDictRepo;
+import com.antilamer.thingTracker.repository.GroupRepo;
+import com.antilamer.thingTracker.repository.UserRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -26,15 +33,21 @@ public class ExpenseBOImpl implements ExpenseBO {
 
     private final ExpenseRepo expenseRepo;
     private final ExpenseTypeDictRepo expenseTypeDictRepo;
+    private final UserRepo userRepo;
+    private final GroupRepo groupRepo;
     private final AuthenticationBO authenticationBO;
 
     @Autowired
     public ExpenseBOImpl(
             ExpenseRepo expenseRepo,
             ExpenseTypeDictRepo expenseTypeDictRepo,
+            UserRepo userRepo,
+            GroupRepo groupRepo,
             AuthenticationBO authenticationBO) {
         this.expenseRepo = expenseRepo;
         this.expenseTypeDictRepo = expenseTypeDictRepo;
+        this.userRepo = userRepo;
+        this.groupRepo = groupRepo;
         this.authenticationBO = authenticationBO;
     }
 
@@ -103,20 +116,63 @@ public class ExpenseBOImpl implements ExpenseBO {
 
 
     @Override
-    public ExpenseSearchChartDTO searchChart(ExpenseSearchDTO expenseSearchDTO) {
-        //todo refactor
+    @Transactional
+    public ExpenseSearchChartDTO searchChart(ExpenseSearchDTO expenseSearchDTO) throws ValidationException {
         ExpenseSearchChartDTO searchChartDTO = new ExpenseSearchChartDTO();
-        UserEntity userEntity = authenticationBO.getLoggedUser();
-        List<ExpenseEntity> expenseEntities = expenseRepo.searchChart(userEntity.getId(), expenseSearchDTO.getDateFrom(), expenseSearchDTO.getDateTo());
+        Set<Integer> userIds = processUserIds(expenseSearchDTO.getSelectGroupmates());
+        List<ExpenseEntity> expenseEntities = expenseRepo.searchChart(userIds, expenseSearchDTO.getDateFrom(), expenseSearchDTO.getDateTo());
 
         expenseEntities.forEach(x -> {
-            Integer price = searchChartDTO.getData().put(x.getExpenseTypeDict().get(0).getName(), x.getPrice());
-            if (price != null) {
-                Integer sum = searchChartDTO.getData().get(x.getExpenseTypeDict().get(0).getName());
-                searchChartDTO.getData().put(x.getExpenseTypeDict().get(0).getName(), price + sum);
+            Integer previousValue = searchChartDTO.getData().put(x.getExpenseTypeDict().get(0).getName(), x.getPrice());
+            if (previousValue != null) {
+                Integer newValue = searchChartDTO.getData().get(x.getExpenseTypeDict().get(0).getName());
+                searchChartDTO.getData().put(x.getExpenseTypeDict().get(0).getName(), previousValue + newValue);
             }
         });
 
         return searchChartDTO;
+    }
+
+    private Set<Integer> processUserIds(List<SelectGroupmateDTO> selectGroupmates) throws ValidationException {
+        Set<Integer> userIds = new HashSet<>();
+
+        if (selectGroupmates != null && !selectGroupmates.isEmpty()) {
+            for (SelectGroupmateDTO groupmateDTO : selectGroupmates) {
+                if (groupmateDTO.getType().equals(GroupmateType.USER)) {
+                    userIds.add(processUserId(groupmateDTO));
+                }
+                if (groupmateDTO.getType().equals(GroupmateType.GROUP)) {
+                    userIds.addAll(processGroupIds(groupmateDTO));
+                }
+            }
+        } else {
+            userIds.add(authenticationBO.getLoggedUser().getId());
+        }
+
+        return userIds;
+    }
+
+    private Integer processUserId(SelectGroupmateDTO user) throws ValidationException {
+        UserEntity userEntity = userRepo.findById(user.getUserId())
+                .orElseThrow(() -> new ValidationException("There no such user with id: " + user.getUserId()));
+        validateUserRelationToGroup(user, userEntity);
+
+        return user.getUserId();
+    }
+
+    private void validateUserRelationToGroup(SelectGroupmateDTO groupmateDTO, UserEntity userEntity) throws ValidationException {
+        if (userEntity.getGroups().stream().noneMatch(x -> x.getId().equals(groupmateDTO.getGroupId()))) {
+            throw new ValidationException("User with id: " + groupmateDTO.getUserId() + " do not belong to selected group!");
+        }
+    }
+
+    private List<Integer> processGroupIds(SelectGroupmateDTO group) throws ValidationException {
+        UserEntity userEntity = authenticationBO.getLoggedUser();
+
+        validateUserRelationToGroup(group, userEntity);
+
+        return groupRepo.findById(group.getGroupId())
+                .orElseThrow(() -> new ValidationException("There no such group with id: " + group.getGroupId()))
+                .getUsers().stream().map(UserEntity::getId).collect(Collectors.toList());
     }
 }

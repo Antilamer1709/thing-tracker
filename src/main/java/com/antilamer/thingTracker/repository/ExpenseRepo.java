@@ -7,12 +7,13 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 public interface ExpenseRepo extends JpaRepository<ExpenseEntity, Integer> {
 
     @Query(value = "SELECT e FROM ExpenseEntity e " +
             "JOIN e.user u " +
-            "WHERE u.id = :userId AND e.date BETWEEN :dateFrom AND :dateTo")
-    List<ExpenseEntity> searchChart(@Param("userId") Integer userId, @Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
+            "WHERE u.id in :userIds AND e.date BETWEEN :dateFrom AND :dateTo")
+    List<ExpenseEntity> searchChart(@Param("userIds") Set<Integer> userIds, @Param("dateFrom") LocalDateTime dateFrom, @Param("dateTo") LocalDateTime dateTo);
 
 }

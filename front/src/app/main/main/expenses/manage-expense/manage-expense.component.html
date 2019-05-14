@@ -7,7 +7,7 @@
     <div class="ui-g ui-fluid">
       <div class="ui-g-12">
 
-        <div class="ui-g-12 ui-lg-6 margin-top-10 font-size-16px">
+        <div class="ui-g-12 ui-lg-4 margin-top-10 font-size-16px">
           <span class="ui-float-label">
             <p-calendar
               [(ngModel)]="expenseSearchDTO.dateFrom"
@@ -26,7 +26,7 @@
           </span>
         </div>
 
-        <div class="ui-g-12 ui-lg-6 margin-top-10 font-size-16px">
+        <div class="ui-g-12 ui-lg-4 margin-top-10 font-size-16px">
           <span class="ui-float-label">
             <p-calendar
               [(ngModel)]="expenseSearchDTO.dateTo"
@@ -42,6 +42,28 @@
               name="dateTo">
             </p-calendar>
             <label for="dateTo">Date To</label>
+          </span>
+        </div>
+
+        <div class="ui-g-12 ui-lg-4 margin-top-10 font-size-16px">
+          <span class="ui-float-label">
+
+            <p-multiSelect [options]="groupmatesOptions" [(ngModel)]="expenseSearchDTO.selectGroupmates" id="groupmates" name="groupmates" optionLabel="label">
+              <ng-template let-value pTemplate="selectedItems">
+                <div *ngFor="let val of value" class="ui-multiselected-item-token ui-corner-all">
+                  <i class="pi pi-users" *ngIf="val.type == 'GROUP'"></i>
+                  <span style="margin-left:.25em">{{val.label}}</span>
+                </div>
+                <span *ngIf="!value || value.length === 0" class="ui-multiselected-empty-token ui-corner-all">Choose</span>
+              </ng-template>
+
+              <ng-template let-group pTemplate="group">
+                <i class="pi pi-users" *ngIf="group.value.type == 'GROUP'"></i>
+                <span style="margin-left:.25em">{{group.label}}</span>
+              </ng-template>
+            </p-multiSelect>
+
+            <label for="groupmates">Groupmates</label>
           </span>
         </div>
 

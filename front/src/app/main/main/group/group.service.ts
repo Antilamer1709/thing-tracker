@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {GroupDTO, UserDTO} from "../../../../generated/dto";
+import {GroupDTO, SelectGroupmateDTO, UserDTO} from "../../../../generated/dto";
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,10 @@ export class GroupService {
 
   public inviteUsersToGroup(id: number, users: UserDTO[]): Observable<void> {
     return this.http.post<void>('/api/group/' + id + '/inviteToGroup', users);
+  }
+
+  public getGroupmates(): Observable<SelectGroupmateDTO[]> {
+    return this.http.get<SelectGroupmateDTO[]>('/api/group/groupmates');
   }
 
 }

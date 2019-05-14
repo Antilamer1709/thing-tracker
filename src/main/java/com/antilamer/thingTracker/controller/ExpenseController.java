@@ -46,7 +46,7 @@ public class ExpenseController {
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping(value = "/search/chart")
     @ResponseStatus(value = HttpStatus.OK)
-    public ExpenseSearchChartDTO searchChart(@RequestBody ExpenseSearchDTO expenseSearchDTO) {
+    public ExpenseSearchChartDTO searchChart(@RequestBody ExpenseSearchDTO expenseSearchDTO) throws ValidationException {
         log.debug("*** searchChart() expenseSearchDTO: " + expenseSearchDTO);
         return expenseBO.searchChart(expenseSearchDTO);
     }

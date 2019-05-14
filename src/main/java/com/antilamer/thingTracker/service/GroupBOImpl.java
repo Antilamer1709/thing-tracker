@@ -2,6 +2,7 @@ package com.antilamer.thingTracker.service;
 
 import com.antilamer.thingTracker.dto.GroupDTO;
 import com.antilamer.thingTracker.dto.MessageDTO;
+import com.antilamer.thingTracker.dto.SelectGroupmateDTO;
 import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
@@ -156,5 +157,18 @@ public class GroupBOImpl implements GroupBO {
             groupEntity.getUsers().add(inviteEntity.getTarget());
         }
         groupRepo.save(groupEntity);
+    }
+
+    @Override
+    @Transactional
+    public List<SelectGroupmateDTO> getGroupmates() {
+        List<SelectGroupmateDTO> result = new ArrayList<>();
+
+        authenticationBO.getLoggedUser().getGroups().forEach(group -> {
+            result.add(new SelectGroupmateDTO(group));
+            group.getUsers().forEach(user -> result.add(new SelectGroupmateDTO(group, user)));
+        });
+
+        return result;
     }
 }
