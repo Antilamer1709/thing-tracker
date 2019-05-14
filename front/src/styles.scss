@@ -89,6 +89,16 @@ body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-contain
   color: #ffffff !important;
 }
 
+.ui-multiselect-item.ui-state-highlight {
+  background: #404C51 !important;
+  color: #ffffff !important;
+}
+.ui-chkbox-box.ui-state-active {
+  border-color: #ffffff !important;
+  background-color: #ffffff !important;
+  color: #404C51 !important;
+}
+
 .flex-container {
   display: flex;
   align-items: center;
