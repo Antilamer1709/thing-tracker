@@ -44,12 +44,11 @@ export class ManageExpenseComponent extends ExpenseTypeComponent implements OnIn
     this.expenseSearchDTO = new ExpenseSearchDTO();
     this.expenseSearchDTO.selectGroupmates = [];
     this.expenseSearchDTO.expenseTypes = [];
-    this.expenseSearchDTO.dateTo = new Date();
     this.getGroupmates();
   }
 
   public searchExpenses(form: FormGroup): void {
-    if (form.valid && this.expenseSearchDTO.dateTo >= this.expenseSearchDTO.dateFrom || form.valid && !this.expenseSearchDTO.dateFrom) {
+    if (form.valid && this.expenseSearchDTO.dateTo >= this.expenseSearchDTO.dateFrom || !this.expenseSearchDTO.dateFrom && !this.expenseSearchDTO.dateTo) {
       this.appService.blockedUI = true;
       this.expenseSearchDTO.expenseTypes = this.selectedExpenseTypes;
       this.service.searchChartExpenses(this.expenseSearchDTO).subscribe(

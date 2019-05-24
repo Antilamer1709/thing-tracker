@@ -133,9 +133,9 @@ public class ExpenseBOImpl implements ExpenseBO {
         return searchChartDTO;
     }
 
-    private void validateSearchDTO(ExpenseSearchDTO expenseSearchDTO) throws ValidationException {
+    private void validateSearchDTO(ExpenseSearchDTO expenseSearchDTO) {
         if (expenseSearchDTO.getDateTo() == null) {
-            throw new ValidationException("You have to select \"Date To\" field!");
+            expenseSearchDTO.setDateTo(LocalDateTime.now());
         }
         if (expenseSearchDTO.getDateFrom() == null) {
             expenseSearchDTO.setDateFrom(LocalDateTime.parse("0001-01-01T00:00:00"));
