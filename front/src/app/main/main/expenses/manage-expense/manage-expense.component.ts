@@ -22,7 +22,7 @@ import {ExpenseTypeComponent} from "../../../../common/expense-type.component";
         }
 
         :host ::ng-deep .ui-multiselected-item-token {
-            background: #404C51;
+            background: #34393a;
             color: #ffffff;
         }
     `]
