@@ -43,6 +43,7 @@ export class ManageExpenseComponent extends ExpenseTypeComponent implements OnIn
   ngOnInit() {
     this.expenseSearchDTO = new ExpenseSearchDTO();
     this.expenseSearchDTO.selectGroupmates = [];
+    this.expenseSearchDTO.expenseTypes = [];
     this.expenseSearchDTO.dateTo = new Date();
     this.getGroupmates();
   }

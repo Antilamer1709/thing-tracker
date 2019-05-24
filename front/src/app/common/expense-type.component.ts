@@ -50,4 +50,11 @@ export class ExpenseTypeComponent extends CommonComponent {
     this.selectedExpenseTypes.push(value);
   }
 
+  public onUnselect(value: string): void {
+    const index = this.selectedExpenseTypes.indexOf(value, 0);
+    if (index > -1) {
+      this.selectedExpenseTypes.splice(index, 1);
+    }
+  }
+
 }
