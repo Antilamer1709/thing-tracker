@@ -6,7 +6,7 @@ import {ExpensesService} from "../expenses.service";
 import {ExpenseSearchChartDTO, ExpenseSearchDTO, SelectGroupmateDTO} from "../../../../../generated/dto";
 import {CommonComponent} from "../../../../common/common-component";
 import {GroupService} from "../../group/group.service";
-import {from} from "rxjs";
+import {ExpenseTypeComponent} from "../../../../common/expense-type.component";
 
 @Component({
   selector: 'app-manage-expense',
@@ -27,7 +27,7 @@ import {from} from "rxjs";
         }
     `]
 })
-export class ManageExpenseComponent extends CommonComponent implements OnInit {
+export class ManageExpenseComponent extends ExpenseTypeComponent implements OnInit {
 
   public expenseSearchDTO: ExpenseSearchDTO;
   public groupmatesOptions: SelectGroupmateDTO[];
@@ -36,8 +36,8 @@ export class ManageExpenseComponent extends CommonComponent implements OnInit {
   constructor(private messageService: MessageService,
               private appService: AppService,
               private groupService: GroupService,
-              private service: ExpensesService) {
-    super();
+              protected service: ExpensesService) {
+    super(service);
   }
 
   ngOnInit() {
@@ -50,6 +50,7 @@ export class ManageExpenseComponent extends CommonComponent implements OnInit {
   public searchExpenses(form: FormGroup): void {
     if (form.valid && this.expenseSearchDTO.dateTo >= this.expenseSearchDTO.dateFrom || form.valid && !this.expenseSearchDTO.dateFrom) {
       this.appService.blockedUI = true;
+      this.expenseSearchDTO.expenseTypes = this.selectedExpenseTypes;
       this.service.searchChartExpenses(this.expenseSearchDTO).subscribe(
         (res) => {
           console.log(res);

@@ -1,9 +1,6 @@
 package com.antilamer.thingTracker.service;
 
-import com.antilamer.thingTracker.dto.ExpenseDTO;
-import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
-import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
-import com.antilamer.thingTracker.dto.SelectGroupmateDTO;
+import com.antilamer.thingTracker.dto.*;
 import com.antilamer.thingTracker.enums.GroupmateType;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.ExpenseEntity;
@@ -120,8 +117,10 @@ public class ExpenseBOImpl implements ExpenseBO {
     public ExpenseSearchChartDTO searchChart(ExpenseSearchDTO expenseSearchDTO) throws ValidationException {
         validateSearchDTO(expenseSearchDTO);
         ExpenseSearchChartDTO searchChartDTO = new ExpenseSearchChartDTO();
-        Set<Integer> userIds = processUserIds(expenseSearchDTO.getSelectGroupmates());
-        List<ExpenseEntity> expenseEntities = expenseRepo.searchChart(userIds, expenseSearchDTO.getDateFrom(), expenseSearchDTO.getDateTo());
+        processUserIds(expenseSearchDTO);
+        SearchDTO<ExpenseSearchDTO> searchDTO = new SearchDTO<>(expenseSearchDTO, 0, Integer.MAX_VALUE);
+
+        List<ExpenseEntity> expenseEntities = expenseRepo.getPagedData(searchDTO).getContent();
 
         expenseEntities.forEach(x -> {
             Integer previousValue = searchChartDTO.getData().put(x.getExpenseTypeDict().get(0).getName(), x.getPrice());
@@ -143,11 +142,11 @@ public class ExpenseBOImpl implements ExpenseBO {
         }
     }
 
-    private Set<Integer> processUserIds(List<SelectGroupmateDTO> selectGroupmates) throws ValidationException {
+    private void processUserIds(ExpenseSearchDTO expenseSearchDTO) throws ValidationException {
         Set<Integer> userIds = new HashSet<>();
 
-        if (selectGroupmates != null && !selectGroupmates.isEmpty()) {
-            for (SelectGroupmateDTO groupmateDTO : selectGroupmates) {
+        if (expenseSearchDTO.getSelectGroupmates() != null && !expenseSearchDTO.getSelectGroupmates().isEmpty()) {
+            for (SelectGroupmateDTO groupmateDTO : expenseSearchDTO.getSelectGroupmates()) {
                 if (groupmateDTO.getType().equals(GroupmateType.USER)) {
                     userIds.add(processUserId(groupmateDTO));
                 }
@@ -159,7 +158,7 @@ public class ExpenseBOImpl implements ExpenseBO {
             userIds.add(authenticationBO.getLoggedUser().getId());
         }
 
-        return userIds;
+        expenseSearchDTO.getSelectGroupmateIds().addAll(userIds);
     }
 
     private Integer processUserId(SelectGroupmateDTO user) throws ValidationException {

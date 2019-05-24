@@ -4,65 +4,30 @@ import {FormGroup} from "@angular/forms";
 import {ExpenseDTO} from "../../../../../generated/dto";
 import {MessageService} from "primeng/api";
 import {AppService} from "../../../../app.service";
+import {ExpenseTypeComponent} from "../../../../common/expense-type.component";
 
 @Component({
   selector: 'app-add-expense',
   templateUrl: './add-expense.component.html',
   styleUrls: ['./add-expense.component.scss']
 })
-export class AddExpenseComponent implements OnInit {
+export class AddExpenseComponent extends ExpenseTypeComponent implements OnInit {
 
   public expense: ExpenseDTO;
-  public expenseTypes: string[];
 
   constructor(private messageService: MessageService,
               private appService: AppService,
-              private service: ExpensesService) { }
+              protected service: ExpensesService) {
+    super(service);
+  }
 
   ngOnInit() {
     this.createNewExpense();
-    this.expenseTypes = [];
   }
 
   private createNewExpense(): void {
     this.expense = new ExpenseDTO();
     this.expense.types = [];
-  }
-
-  public searchExpenseTypes(event): void {
-    this.service.searchExpenseTypes(event.query).subscribe(
-      (res) => {
-        console.log(res);
-        this.expenseTypes = res;
-      }
-    );
-  }
-
-  public expenseTypesOnKeyUp(event: KeyboardEvent): void {
-    if (event.key == "Enter") {
-      this.addAutocompleteValue(event);
-    }
-  }
-
-  public expenseTypesOnBlur(event: FocusEvent): void {
-    this.addAutocompleteValue(event);
-  }
-
-  private addAutocompleteValue(event): void {
-    let tokenInput = event.srcElement as any;
-    if (tokenInput.value && tokenInput.value.length > 0) {
-      this.expense.types.push(tokenInput.value);
-      tokenInput.value = "";
-    }
-  }
-
-  public expenseTypesOnSelect(value: string): void {
-    const hasDuplicate: boolean = this.expense.types.indexOf(value) != -1;
-    this.expense.types.pop();
-    if (hasDuplicate) {
-      this.expense.types.pop();
-    }
-    this.expense.types.push(value);
   }
 
   public saveExpense(form: FormGroup): void {

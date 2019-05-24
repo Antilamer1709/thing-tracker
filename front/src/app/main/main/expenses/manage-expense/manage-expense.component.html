@@ -7,7 +7,7 @@
     <div class="ui-g ui-fluid">
       <div class="ui-g-12">
 
-        <div class="ui-g-12 ui-lg-4 margin-top-10 font-size-16px">
+        <div class="ui-g-12 ui-lg-2 margin-top-10 font-size-16px">
           <span class="ui-float-label">
             <p-calendar
               [(ngModel)]="expenseSearchDTO.dateFrom"
@@ -25,7 +25,7 @@
           </span>
         </div>
 
-        <div class="ui-g-12 ui-lg-4 margin-top-10 font-size-16px">
+        <div class="ui-g-12 ui-lg-2 margin-top-10 font-size-16px">
           <span class="ui-float-label">
             <p-calendar
               [(ngModel)]="expenseSearchDTO.dateTo"
@@ -44,7 +44,7 @@
           </span>
         </div>
 
-        <div class="ui-g-12 ui-lg-4 margin-top-10 font-size-16px">
+        <div class="ui-g-12 ui-lg-3 margin-top-10 font-size-16px">
           <span class="ui-float-label">
 
             <p-multiSelect [options]="groupmatesOptions" [(ngModel)]="expenseSearchDTO.selectGroupmates" id="groupmates" name="groupmates" optionLabel="label">
@@ -63,6 +63,23 @@
             </p-multiSelect>
 
             <label for="groupmates">Groupmates</label>
+          </span>
+        </div>
+
+        <div class="ui-g-12 ui-lg-5 margin-top-10 font-size-16px">
+          <span class="ui-float-label">
+            <p-autoComplete
+              [(ngModel)]="expenseSearchDTO.expenseTypes"
+              [suggestions]="expenseTypes"
+              (completeMethod)="searchExpenseTypes($event)"
+              (onSelect)="expenseTypesOnSelect($event)"
+              (onKeyUp)="expenseTypesOnKeyUp($event)"
+              (onBlur)="expenseTypesOnBlur($event)"
+              [multiple]="true"
+              name="types"
+              id="types">
+            </p-autoComplete>
+            <label for="types">Types</label>
           </span>
         </div>
 
