@@ -1,0 +1,39 @@
+<div class="ui-g">
+  <div class="flex-container ui-g-12">
+
+    <div class="ui-xl-6 ui-lg-6 ui-md-6 ui-sm-12 margin-top-10">
+      <span class="ui-float-label">
+        <input [(ngModel)]="user.id" [required]="true" [disabled]="true"
+               id="userId" name="userId" type="text" size="64" pInputText>
+        <label for="userId">ID</label>
+      </span>
+    </div>
+
+    <div class="ui-xl-6 ui-lg-6 ui-md-6 ui-sm-12 margin-top-10">
+      <span class="ui-float-label">
+        <input [(ngModel)]="user.fullName" [required]="true" [disabled]="true"
+               id="fullName" name="fullName" type="text" size="64" pInputText>
+        <label for="fullName">Full Name</label>
+      </span>
+    </div>
+
+    <div class="ui-xl-6 ui-lg-6 ui-md-6 ui-sm-12 margin-top-10">
+      <span class="ui-float-label">
+        <input [(ngModel)]="user.email" [required]="true" [disabled]="true"
+               id="email" name="email" type="email" size="64" pInputText>
+        <label for="email">Email</label>
+      </span>
+    </div>
+
+    <div class="ui-xl-6 ui-lg-6 ui-md-6 ui-sm-12 margin-top-10">
+      <span class="ui-float-label">
+        <input [ngModel]="user.roles | roles" [required]="true" [disabled]="true"
+               id="roles" name="roles" type="roles" size="64" pInputText>
+        <label for="roles">Roles</label>
+      </span>
+    </div>
+
+  </div>
+
+
+</div>

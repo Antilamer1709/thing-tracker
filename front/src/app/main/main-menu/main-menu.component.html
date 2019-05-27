@@ -98,9 +98,7 @@
       </span>
     </a>
     <div [ngClass]="{submenushow: (my_group_menu_title.id == activeMenuId), 'submenuhide': (my_group_menu_title.id != activeMenuId)}">
-      <a [routerLink]="['add-to-group']" (click)="menuActive = false">&#9679; Profile</a>
-      <a [routerLink]="['add-to-group']" (click)="menuActive = false">&#9679; Notifications</a>
-      <a [routerLink]="['add-to-group']" (click)="menuActive = false">&#9679; Add User</a>
+      <a [routerLink]="['profile']" (click)="menuActive = false">&#9679; Profile</a>
       <a [routerLink]="['my-groups']" (click)="menuActive = false">&#9679; My Groups</a>
     </div>
 

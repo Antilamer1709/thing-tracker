@@ -85,21 +85,21 @@ body .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-contain
   color: #EFEFEF !important;
 }
 .ui-autocomplete-list-item.ui-state-highlight {
-  background: #404C51 !important;
+  background: #34393a !important;
   color: #ffffff !important;
 }
 
 .ui-multiselect-item.ui-state-highlight {
-  background: #404C51 !important;
+  background: #34393a !important;
   color: #ffffff !important;
 }
 .ui-chkbox-box.ui-state-active {
   border-color: #ffffff !important;
   background-color: #ffffff !important;
-  color: #404C51 !important;
+  color: #34393a !important;
 }
 .ui-progressbar .ui-progressbar-value {
-  background: #404C51 !important;
+  background: #34393a !important;
 }
 
 .flex-container {
@@ -143,4 +143,20 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
   top: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
+}
+
+// TabView
+.ui-tabview-nav li.ui-state-active {
+  border: 1px solid #34393a !important;
+  background-color: #34393a !important;
+}
+.ui-tabview-nav li.ui-state-active a {
+  color: #ffffff !important;
+}
+.ui-tabview-nav li {
+  border: 1px solid #eeeeee !important;
+  background-color: #eeeeee !important;
+}
+.ui-tabview-nav li a {
+  color: #34393a !important;
 }

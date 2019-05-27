@@ -10,6 +10,7 @@ import { DashboardComponent } from './main/dashboard/dashboard.component';
 import {UserModule} from "./main/user/user.module";
 import {GroupModule} from "./main/group/group.module";
 import {CommonSharedModule} from "../common/common-shared.module";
+import {ProfileModule} from "./main/profile/profile.module";
 
 @NgModule({
   declarations: [MainComponent, MainMenuComponent, DashboardComponent],
@@ -24,7 +25,8 @@ import {CommonSharedModule} from "../common/common-shared.module";
     CommonSharedModule,
     OverlayPanelModule,
     CardModule,
-    ProgressBarModule
+    ProgressBarModule,
+    ProfileModule
   ]
 })
 export class MainModule { }
