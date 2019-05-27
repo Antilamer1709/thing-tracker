@@ -66,8 +66,8 @@ public class GroupBOImpl implements GroupBO {
             throw new ValidationException("Group name already exists!");
         }
 
-        if (groupEntity.getUser() != null) {
-            authenticationBO.checkUserAccess(groupEntity.getUser());
+        if (groupEntity.getCreator() != null) {
+            authenticationBO.checkUserAccess(groupEntity.getCreator());
         }
     }
 
@@ -82,8 +82,8 @@ public class GroupBOImpl implements GroupBO {
 
     private void initGroupEntity(GroupEntity groupEntity, GroupDTO groupDTO) {
         groupEntity.setName(groupDTO.getName());
-        if (groupEntity.getUser() == null) {
-            groupEntity.setUser(authenticationBO.getLoggedUser());
+        if (groupEntity.getCreator() == null) {
+            groupEntity.setCreator(authenticationBO.getLoggedUser());
         }
         if (groupEntity.getUsers() == null) {
             groupEntity.setUsers(new ArrayList<>());
@@ -177,7 +177,7 @@ public class GroupBOImpl implements GroupBO {
     public void kickUserFromGroup(Integer groupId, Integer userId) throws UnauthorizedException, ValidationException {
         GroupEntity groupEntity = groupRepo.findById(groupId)
                 .orElseThrow(() -> new ValidationException("There no such group with id: " + groupId));
-        authenticationBO.checkUserAccess(groupEntity.getUser());
+        authenticationBO.checkUserAccess(groupEntity.getCreator());
 
         boolean removed = groupEntity.getUsers().removeIf(x -> x.getId().equals(userId));
         if (!removed) {

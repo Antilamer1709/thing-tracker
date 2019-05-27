@@ -21,8 +21,8 @@ public class GroupEntity {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserEntity user; // group admin
+    @JoinColumn(name = "creator_id")
+    private UserEntity creator;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "group_user", schema = "thing_tracker",

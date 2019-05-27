@@ -22,7 +22,7 @@ public class GroupDTO {
     public GroupDTO(GroupEntity groupEntity) {
         this.id = groupEntity.getId();
         this.name = groupEntity.getName();
-        this.creator = new UserDTO(groupEntity.getUser());
+        this.creator = new UserDTO(groupEntity.getCreator());
         this.users = groupEntity.getUsers().stream().map(UserDTO::new).collect(Collectors.toList());
     }
 }
