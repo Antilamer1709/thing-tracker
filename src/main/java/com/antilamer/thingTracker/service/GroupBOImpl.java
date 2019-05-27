@@ -124,11 +124,14 @@ public class GroupBOImpl implements GroupBO {
                     .orElseThrow(() -> new ValidationException("There no such user with id: " + user.getId()));
 
             if (!groupEntity.getUsers().contains(userEntity)) {
-                UserInviteEntity inviteEntity = new UserInviteEntity();
-                inviteEntity.setInviter(authenticationBO.getLoggedUser());
-                inviteEntity.setTarget(userEntity);
-                inviteEntity.setGroup(groupEntity);
-                invites.add(userInviteRepo.save(inviteEntity));
+                Optional<UserInviteEntity> inviteOpt = userInviteRepo.findAllByInviterAndTarget(authenticationBO.getLoggedUser(), userEntity);
+                if (!inviteOpt.isPresent()) {
+                    UserInviteEntity inviteEntity = new UserInviteEntity();
+                    inviteEntity.setInviter(authenticationBO.getLoggedUser());
+                    inviteEntity.setTarget(userEntity);
+                    inviteEntity.setGroup(groupEntity);
+                    invites.add(userInviteRepo.save(inviteEntity));
+                }
             }
         }
 
