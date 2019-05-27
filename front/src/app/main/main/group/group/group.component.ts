@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {GroupDTO, UserDTO} from "../../../../../generated/dto";
 import {GroupService} from "../group.service";
 import {AppService} from "../../../../app.service";
@@ -26,6 +26,7 @@ export class GroupComponent implements OnInit {
               private appService: AppService,
               private messageService: MessageService,
               private userService: UserService,
+              private router: Router,
               private authenticationService: AuthenticationService,
               private service: GroupService) { }
 
@@ -100,6 +101,17 @@ export class GroupComponent implements OnInit {
       (res) => {
         this.messageService.add({severity:'success', summary:'Success', detail:'User has been kicked!'});
         this.initGroup();
+      }
+    );
+  }
+
+  public leaveGroup(): void {
+    this.appService.blockedUI = true;
+
+    this.service.kickUserFromGroup(this.groupId, this.authenticationService.loggedUser.id).subscribe(
+      (res) => {
+        this.messageService.add({severity:'success', summary:'Success', detail:'You have left the group!'});
+        this.router.navigate(['/main/my-groups']);
       }
     );
   }

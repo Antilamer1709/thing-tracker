@@ -1,4 +1,12 @@
-<app-header title="{{groupDTO?.name}}"></app-header>
+<div class="content-section introduction">
+  <div>
+    <div class="feature-title">{{groupDTO?.name}}</div>
+    <div style="float: right">
+      <button (click)="leaveGroup()" pButton type="button" label="Leave Group" icon="pi pi-user-minus"></button>
+    </div>
+  </div>
+</div>
+
 
 
 <div class="content-section implementation ui-fluid">
@@ -42,7 +50,7 @@
         <div style="cursor: pointer">
           <p-card header="{{user.fullName + '(' + user.email + ')'}}" [style]="{margin: '30px'}">
             <p-footer *ngIf="showKickButton(user)">
-              <button (click)="kickUser(user)" pButton type="button" label="Kick" icon="pi pi-times"></button>
+              <button (click)="kickUser(user)" pButton type="button" label="Kick" icon="pi pi-user-minus"></button>
             </p-footer>
           </p-card>
         </div>

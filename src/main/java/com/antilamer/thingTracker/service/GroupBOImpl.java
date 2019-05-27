@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -183,8 +184,18 @@ public class GroupBOImpl implements GroupBO {
         if (!removed) {
             throw new ValidationException("There no such user in group with userId: " + userId);
         }
+        if (groupEntity.getCreator().getId().equals(userId)) {
+            Optional<UserEntity> newCreatorOpt = groupEntity.getUsers().stream()
+                    .filter(x -> !x.getId().equals(userId))
+                    .findFirst();
+            if (newCreatorOpt.isPresent()) {
+                groupEntity.setCreator(newCreatorOpt.get());
+                groupRepo.save(groupEntity);
+            } else {
+                groupRepo.delete(groupEntity);
+            }
+        }
 
-        groupRepo.save(groupEntity);
     }
 
 }
