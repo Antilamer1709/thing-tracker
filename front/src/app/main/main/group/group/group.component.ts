@@ -79,7 +79,7 @@ export class GroupComponent implements OnInit {
       this.messageService.add({severity:'error', summary:'Error', detail:'Please, fill all fields in correct way!'});
     }
   }
-  
+
   public showKickButton(user: UserDTO): boolean {
     if (user.id !== this.groupDTO.creator.id) {
       if (this.authenticationService.hasRole(Roles.ADMIN)) {
@@ -91,6 +91,17 @@ export class GroupComponent implements OnInit {
     }
 
     return false;
+  }
+
+  public kickUser(user: UserDTO): void {
+    this.appService.blockedUI = true;
+
+    this.service.kickUserFromGroup(this.groupId, user.id).subscribe(
+      (res) => {
+        this.messageService.add({severity:'success', summary:'Success', detail:'User has been kicked!'});
+        this.initGroup();
+      }
+    );
   }
 
 }

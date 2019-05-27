@@ -125,10 +125,15 @@ public class AuthenticationBO {
             throw new UnauthorizedException("There is no such user in database!");
         }
         if (!loggedUser.getId().equals(user.getId())) {
-            boolean isAdmin = loggedUser.getRoles().stream().anyMatch(x -> x.getCode().equals(UserRole.ADMIN.getValue()));
-            if (!isAdmin) {
-                throw new UnauthorizedException("Permission denied!");
-            }
+            checkAdminAccess(loggedUser);
+        }
+    }
+
+    @Transactional
+    public void checkAdminAccess(UserEntity user) throws UnauthorizedException {
+        boolean isAdmin = user.getRoles().stream().anyMatch(x -> x.getCode().equals(UserRole.ADMIN.getValue()));
+        if (!isAdmin) {
+            throw new UnauthorizedException("Permission denied!");
         }
     }
 
@@ -137,10 +142,7 @@ public class AuthenticationBO {
         UserEntity loggedUser = getLoggedUser();
         boolean userContains = users.stream().map(UserEntity::getId).anyMatch(x -> x.equals(loggedUser.getId()));
         if (!userContains) {
-            boolean isAdmin = loggedUser.getRoles().stream().anyMatch(x -> x.getCode().equals(UserRole.ADMIN.getValue()));
-            if (!isAdmin) {
-                throw new UnauthorizedException("Permission denied!");
-            }
+            checkAdminAccess(loggedUser);
         }
     }
 

@@ -42,7 +42,7 @@
         <div style="cursor: pointer">
           <p-card header="{{user.fullName + '(' + user.email + ')'}}" [style]="{margin: '30px'}">
             <p-footer *ngIf="showKickButton(user)">
-              <button pButton type="button" label="Kick" icon="pi pi-times"></button>
+              <button (click)="kickUser(user)" pButton type="button" label="Kick" icon="pi pi-times"></button>
             </p-footer>
           </p-card>
         </div>

@@ -22,4 +22,6 @@ public interface GroupBO {
     void acceptInvite(UserInviteEntity inviteEntity);
 
     List<SelectGroupmateDTO> getGroupmates();
+
+    void kickUserFromGroup(Integer groupId, Integer userId) throws UnauthorizedException, ValidationException;
 }

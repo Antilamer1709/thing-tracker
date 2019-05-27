@@ -31,4 +31,8 @@ export class GroupService {
     return this.http.get<SelectGroupmateDTO[]>('/api/group/groupmates');
   }
 
+  public kickUserFromGroup(groupId: number, userId: number): Observable<void> {
+    return this.http.post<void>('/api/group/' + groupId + '/kick/' + userId, {});
+  }
+
 }

@@ -22,7 +22,7 @@ public class GroupEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    private UserEntity user; // group admin
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "group_user", schema = "thing_tracker",

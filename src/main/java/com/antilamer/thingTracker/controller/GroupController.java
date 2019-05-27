@@ -64,4 +64,12 @@ public class GroupController {
         return groupBO.getGroupmates();
     }
 
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @PostMapping(value = "{groupId}/kick/{userId}")
+    public void kickUserFromGroup(@PathVariable Integer groupId, @PathVariable Integer userId) throws UnauthorizedException, ValidationException {
+        log.debug("*** kickUserFromGroup() groupId: " + groupId);
+        log.debug("*** inviteToGroup() userId: " + userId);
+        groupBO.kickUserFromGroup(groupId, userId);
+    }
+
 }
