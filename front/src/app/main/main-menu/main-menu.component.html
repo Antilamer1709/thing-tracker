@@ -43,12 +43,9 @@
 
         </div>
       </div>
-      <div *ngIf="!(messages?.length > 0)">
+      <div *ngIf="!(messages?.length > 0)" class="flex-container-center" style="height: 360px; width: 360px">
         <div style="white-space: nowrap">Nothing new</div>
       </div>
-      <!--<div *ngIf="!messages" class="flex-container-center" style="height: 360px; width: 360px">-->
-        <!--<p-progressSpinner [style]="{width: '150px', height: '150px'}"></p-progressSpinner>-->
-      <!--</div>-->
     </p-overlayPanel>
 
   </ul>
