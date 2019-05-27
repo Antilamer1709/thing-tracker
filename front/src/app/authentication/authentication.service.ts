@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
 import {UserDTO} from "../../generated/dto";
 import {AuthRepository} from "./repository/auth.repository";
+import {Roles} from "../common/enums/RoleEnum";
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,10 @@ export class AuthenticationService extends CommonService {
         this.loggedUser = res;
       }
     );
+  }
+
+  public hasRole(role: Roles): boolean {
+    return this.loggedUser.roles.includes(role.toString());
   }
 
 }

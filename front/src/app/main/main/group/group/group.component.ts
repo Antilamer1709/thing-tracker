@@ -6,6 +6,8 @@ import {AppService} from "../../../../app.service";
 import {FormGroup} from "@angular/forms";
 import {MessageService} from "primeng/api";
 import {UserService} from "../../user/user.service";
+import {AuthenticationService} from "../../../../authentication/authentication.service";
+import {Roles} from "../../../../common/enums/RoleEnum";
 
 @Component({
   selector: 'app-group',
@@ -24,6 +26,7 @@ export class GroupComponent implements OnInit {
               private appService: AppService,
               private messageService: MessageService,
               private userService: UserService,
+              private authenticationService: AuthenticationService,
               private service: GroupService) { }
 
   ngOnInit() {
@@ -75,6 +78,19 @@ export class GroupComponent implements OnInit {
     } else {
       this.messageService.add({severity:'error', summary:'Error', detail:'Please, fill all fields in correct way!'});
     }
+  }
+  
+  public showKickButton(user: UserDTO): boolean {
+    if (user.id !== this.groupDTO.creator.id) {
+      if (this.authenticationService.hasRole(Roles.ADMIN)) {
+        return true;
+      }
+      if (this.groupDTO.creator.id === this.authenticationService.loggedUser.id) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
 }

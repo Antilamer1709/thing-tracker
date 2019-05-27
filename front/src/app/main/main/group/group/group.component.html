@@ -33,4 +33,22 @@
     </div>
 
   </form>
+
+
+  <div *ngIf="groupDTO" class="ui-g">
+    <div class="flex-container-cards ui-g-12">
+
+      <div *ngFor="let user of groupDTO.users">
+        <div style="cursor: pointer">
+          <p-card header="{{user.fullName + '(' + user.email + ')'}}" [style]="{margin: '30px'}">
+            <p-footer *ngIf="showKickButton(user)">
+              <button pButton type="button" label="Kick" icon="pi pi-times"></button>
+            </p-footer>
+          </p-card>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
