@@ -38,9 +38,6 @@ export class GroupComponent implements OnInit {
   private initGroup(): void {
     this.appService.blockedUI = true;
 
-    this.route.queryParams.subscribe(params => {
-      this.groupId = params["id"];
-    });
     this.route.params.subscribe((params: Params) => {
 
       this.groupId = params['id'];
