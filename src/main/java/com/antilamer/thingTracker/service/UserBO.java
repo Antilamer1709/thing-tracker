@@ -1,6 +1,7 @@
 package com.antilamer.thingTracker.service;
 
 import com.antilamer.thingTracker.dto.UserDTO;
+import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.UserRepo;
@@ -15,17 +16,34 @@ import java.util.stream.Collectors;
 public class UserBO {
 
     private final UserRepo userRepo;
+    private final AuthenticationBO authenticationBO;
 
     @Autowired
     public UserBO(
-            UserRepo userRepo) {
+            UserRepo userRepo,
+            AuthenticationBO authenticationBO) {
         this.userRepo = userRepo;
+        this.authenticationBO = authenticationBO;
     }
 
 
-    public UserDTO getUser(Integer id) throws ValidationException {
+    public UserDTO getUser(Integer id) throws ValidationException, UnauthorizedException {
         UserEntity userEntity = userRepo.findById(id).orElseThrow(() -> new ValidationException("There is no user with id: " + id));
-        return new UserDTO(userEntity);
+        checkUserAuthorization(userEntity);
+
+        UserDTO userDTO = new UserDTO(userEntity);
+        userEntity.getRoles().forEach(x -> userDTO.getRoles().add(x.getCode()));
+        return userDTO;
+    }
+
+    private void checkUserAuthorization(UserEntity userEntity) throws UnauthorizedException {
+        UserEntity loggedUser = authenticationBO.getLoggedUser();
+        boolean authorized = loggedUser.getGroups()
+                .stream().anyMatch(group -> group.getUsers()
+                        .stream().anyMatch(user -> user.getId().equals(userEntity.getId())));
+        if (!authorized) {
+            throw new UnauthorizedException("User does not belong to any of your groups!");
+        }
     }
 
     public List<UserDTO> searchUserSuggestions(String predicate) {

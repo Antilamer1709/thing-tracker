@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {AppService} from "../../../../../app.service";
 import {ProfileService} from "../../profile.service";
 import {UserDTO} from "../../../../../../generated/dto";
@@ -16,6 +16,7 @@ export class ProfileInfoComponent implements OnInit {
   private userId: number;
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private appService: AppService,
               private authenticationService: AuthenticationService,
               private service: ProfileService) { }
@@ -37,12 +38,17 @@ export class ProfileInfoComponent implements OnInit {
 
   private fillProfileData(): void {
     if (this.userId) {
-      // this.service.getProfileInfo(this.userId).subscribe(
-      //   (res) => {
-      //     console.log(res);
-      //     this.appService.blockedUI = false;
-      //   }
-      // );
+      this.appService.blockedUI = true;
+
+      this.service.getUser(this.userId).subscribe(
+        (res) => {
+          console.log(res);
+          this.user = res;
+          this.appService.blockedUI = false;
+        }, err => {
+          this.router.navigate(['/main/my-groups']);
+        }
+      );
     } else {
       this.user = this.authenticationService.loggedUser;
       this.appService.blockedUI = false;

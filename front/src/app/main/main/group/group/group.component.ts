@@ -113,4 +113,8 @@ export class GroupComponent implements OnInit {
     );
   }
 
+  public openProfile(user: UserDTO): void {
+    this.router.navigate(['/main/profile/' + user.id]);
+  }
+
 }

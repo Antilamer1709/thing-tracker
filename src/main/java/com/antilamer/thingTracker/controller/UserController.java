@@ -1,6 +1,8 @@
 package com.antilamer.thingTracker.controller;
 
 import com.antilamer.thingTracker.dto.UserDTO;
+import com.antilamer.thingTracker.exception.UnauthorizedException;
+import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.UserBO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,13 @@ public class UserController {
         this.userBO = userBO;
     }
 
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @GetMapping(value = "{id}")
+    public UserDTO getUser(@PathVariable Integer id) throws ValidationException, UnauthorizedException {
+        log.debug("*** getUser() id: " + id);
+        return userBO.getUser(id);
+    }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping(value = "/autocomplete")

@@ -47,7 +47,7 @@
     <div class="flex-container-cards ui-g-12">
 
       <div *ngFor="let user of groupDTO.users">
-        <div style="cursor: pointer">
+        <div style="cursor: pointer" (click)="openProfile(user)">
           <p-card header="{{user.fullName + '(' + user.email + ')'}}" [style]="{margin: '30px'}">
             <p-footer *ngIf="showKickButton(user)">
               <button (click)="kickUser(user)" pButton type="button" label="Kick" icon="pi pi-user-minus"></button>
