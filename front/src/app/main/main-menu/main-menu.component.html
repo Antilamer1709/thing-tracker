@@ -87,20 +87,27 @@
         </span>
     </a>
 
-    <a id="my_group_menu"
-       #my_group_menu_title [class.active-menuitem]="my_group_menu_title.id == activeMenuId"
-       (click)="activeMenuId = (activeMenuId === my_group_menu_title.id ? null : my_group_menu_title.id)">
-      <span>
-        <div class="menuIconContainer">
-          <i class="pi pi-user menuIcon"></i>
-        </div>
-        Profile
-      </span>
+    <a id="profile_menu" [routerLink]="['profile']" #profile_menu_title
+       (click)="menuActive = false"
+       [class.active-menuitem]="profile_menu_title.id == activeMenuId">
+        <span>
+          <div class="menuIconContainer">
+            <i class="pi pi-user menuIcon"></i>
+          </div>
+          Profile
+        </span>
     </a>
-    <div [ngClass]="{submenushow: (my_group_menu_title.id == activeMenuId), 'submenuhide': (my_group_menu_title.id != activeMenuId)}">
-      <a [routerLink]="['profile']" (click)="menuActive = false">&#9679; Profile</a>
-      <a [routerLink]="['my-groups']" (click)="menuActive = false">&#9679; My Groups</a>
-    </div>
+
+    <a id="my_groups_menu" [routerLink]="['my-groups']" #my_groups_menu_title
+       (click)="menuActive = false"
+       [class.active-menuitem]="my_groups_menu_title.id == activeMenuId">
+        <span>
+          <div class="menuIconContainer">
+            <i class="pi pi-users menuIcon"></i>
+          </div>
+          My Groups
+        </span>
+    </a>
 
     <a id="about_menu" [routerLink]="['/login']" #about_menu_title
        (click)="menuActive = false"
