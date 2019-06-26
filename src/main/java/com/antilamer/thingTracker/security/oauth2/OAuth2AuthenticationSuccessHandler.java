@@ -4,6 +4,7 @@ import com.antilamer.thingTracker.config.AppProperties;
 import com.antilamer.thingTracker.exception.BadRequestException;
 import com.antilamer.thingTracker.security.JwtTokenProvider;
 import com.antilamer.thingTracker.util.CookieUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -19,7 +20,7 @@ import java.util.Optional;
 
 import static com.antilamer.thingTracker.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
-
+@Slf4j
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -40,6 +41,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        log.debug("*** onAuthenticationSuccess() authentication: " + authentication);
         String targetUrl = determineTargetUrl(request, response, authentication);
 
         if (response.isCommitted()) {
