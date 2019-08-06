@@ -27,7 +27,8 @@ export class AddExpenseComponent extends ExpenseTypeComponent implements OnInit 
 
   private createNewExpense(): void {
     this.expense = new ExpenseDTO();
-    this.expense.types = [];
+    this.selectedExpenseTypes = [];
+    this.expense.types = this.selectedExpenseTypes;
   }
 
   public saveExpense(form: FormGroup): void {
