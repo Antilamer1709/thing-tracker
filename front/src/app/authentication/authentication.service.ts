@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {CommonService} from "../common/common.service";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/internal/Observable";
-import {UserDTO} from "../../generated/dto";
+import {HostDTO, UserDTO} from "../../generated/dto";
 import {AuthRepository} from "./repository/auth.repository";
 import {Roles} from "../common/enums/RoleEnum";
 
@@ -46,6 +46,10 @@ export class AuthenticationService extends CommonService {
 
   public hasRole(role: Roles): boolean {
     return this.loggedUser.roles.includes(role.toString());
+  }
+
+  public getHostName(): Observable<HostDTO> {
+    return this.http.get<HostDTO>('/api/authentication/getHostName');
   }
 
 }

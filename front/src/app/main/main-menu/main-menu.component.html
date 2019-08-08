@@ -120,6 +120,12 @@
         </span>
     </a>
 
+    <div *ngIf="host" class="layout-version">
+      <div>
+        {{' Host name: ' + host.hostName}}
+      </div>
+    </div>
+
 
   </div>
 </div>

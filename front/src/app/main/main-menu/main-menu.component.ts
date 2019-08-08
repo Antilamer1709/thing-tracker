@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from "../../authentication/authentication.service";
-import {MessageDTO, ResponseToMessageDTO} from "../../../generated/dto";
+import {HostDTO, MessageDTO, ResponseToMessageDTO} from "../../../generated/dto";
 import {AuthRepository} from "../../authentication/repository/auth.repository";
 import {MessageService} from "primeng/api";
 import {MainMenuService} from "./main-menu.service";
@@ -17,6 +17,8 @@ export class MainMenuComponent implements OnInit {
   public menuActive: boolean;
 
   public activeMenuId: string;
+
+  public host: HostDTO;
 
   public messages: MessageDTO[];
 
@@ -35,6 +37,7 @@ export class MainMenuComponent implements OnInit {
     this.initSyles();
     this.initUserMessages();
     this.initializeWebSocketConnection();
+    this.initHostName();
   }
 
   private initSyles() {
@@ -113,6 +116,13 @@ export class MainMenuComponent implements OnInit {
   public logout(): void {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
+  }
+
+  private initHostName(): void {
+    this.authenticationService.getHostName().subscribe(res => {
+      console.log('HostName: ' + res.hostName);
+      this.host = res;
+    });
   }
 
 }
