@@ -124,7 +124,7 @@
       <div *ngIf="host">
         {{' Host name: ' + host.hostName}}
       </div>
-      <div *ngIf="version">
+      <div *ngIf="version && !version.error">
         <div>
           {{'Branch ' + version['git.branch']}},
           {{' Commit time '}} {{version['git.commit.time'] | date: 'dd.MM.yyyy HH:mm:ss'}},

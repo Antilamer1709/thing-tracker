@@ -171,7 +171,7 @@ public class AuthenticationBO {
             return readFromInputStream(inputStream);
         } catch (Exception e) {
             e.printStackTrace();
-            return "Version information could not be retrieved";
+            return "{ \"error\" : \"Version information could not be retrieved\" }";
         }
     }
 
