@@ -24,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         // RabbitMQ
         registry.enableStompBrokerRelay("/topic")
-                .setRelayHost("localhost")
+                .setRelayHost("13.53.83.131") //todo move to properties
                 .setRelayPort(61613)
                 .setClientLogin("guest")
                 .setClientPasscode("guest");
