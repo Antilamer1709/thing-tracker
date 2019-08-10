@@ -18,5 +18,11 @@ services:
     - "80:80"
     networks:
     - webnet
+  rabbitmq-stomp:
+    image: antilamer/rabbitmq-stomp:3.7
+    ports:
+    - "5672:5672"
+    - "15672:15672"
+    - "61613:61613"
 networks:
   webnet:
