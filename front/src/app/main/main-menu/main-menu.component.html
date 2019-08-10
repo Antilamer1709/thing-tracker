@@ -136,6 +136,9 @@
           {{'User ' + version['git.commit.user.name']}}
         </div>
         <div>
+          {{' Build time '}} {{version['git.build.time'] | date: 'dd.MM.yyyy HH:mm:ss'}},
+        </div>
+        <div>
           {{version['git.commit.message.short']}}
         </div>
       </div>
