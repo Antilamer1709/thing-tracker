@@ -120,12 +120,24 @@
         </span>
     </a>
 
-    <div *ngIf="host" class="layout-version">
-      <div>
+    <div class="layout-version">
+      <div *ngIf="host">
         {{' Host name: ' + host.hostName}}
       </div>
-      <div>
-        {{' -v 1.3.9'}}
+      <div *ngIf="version">
+        <div>
+          {{'Branch ' + version['git.branch']}},
+          {{' Commit time '}} {{version['git.commit.time'] | date: 'dd.MM.yyyy HH:mm:ss'}},
+        </div>
+        <div>
+          {{'Commit id ' + version['git.commit.id']}}
+        </div>
+        <div>
+          {{'User ' + version['git.commit.user.name']}}
+        </div>
+        <div>
+          {{version['git.commit.message.short']}}
+        </div>
       </div>
     </div>
 

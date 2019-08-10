@@ -49,7 +49,11 @@ export class AuthenticationService extends CommonService {
   }
 
   public getHostName(): Observable<HostDTO> {
-    return this.http.get<HostDTO>('/api/authentication/getHostName');
+    return this.http.get<HostDTO>('/api/authentication/hostName');
+  }
+
+  public getAppVersion(): Observable<any> {
+    return this.http.get<any>('/api/authentication/version');
   }
 
 }

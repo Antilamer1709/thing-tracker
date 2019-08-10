@@ -20,6 +20,8 @@ export class MainMenuComponent implements OnInit {
 
   public host: HostDTO;
 
+  public version: any;
+
   public messages: MessageDTO[];
 
   private stompClient: any;
@@ -38,6 +40,7 @@ export class MainMenuComponent implements OnInit {
     this.initUserMessages();
     this.initializeWebSocketConnection();
     this.initHostName();
+    this.getVersion();
   }
 
   private initSyles() {
@@ -123,6 +126,14 @@ export class MainMenuComponent implements OnInit {
       console.log('HostName: ' + res.hostName);
       this.host = res;
     });
+  }
+
+  private getVersion(): void {
+    this.authenticationService.getAppVersion().subscribe(
+      res => {
+        this.version = res;
+      }
+    );
   }
 
 }

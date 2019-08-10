@@ -45,7 +45,7 @@ public class AuthenticationController {
         return authenticationBO.login(userDTO);
     }
 
-    @GetMapping(value = "/getHostName")
+    @GetMapping(value = "/hostName")
     public HostDTO getHostName() {
         log.debug("*** getHostName()");
         HostDTO hostDTO;
@@ -61,6 +61,11 @@ public class AuthenticationController {
         }
 
         return hostDTO;
+    }
+
+    @GetMapping(value = "/version")
+    public String versionInformation() {
+        return authenticationBO.getGitProperties();
     }
 
 }
