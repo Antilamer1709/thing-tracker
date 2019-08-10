@@ -140,7 +140,7 @@ public class GroupBOImpl implements GroupBO {
 
     private void notifyUsers(List<UserInviteEntity> invites) {
         invites.forEach(invite -> {
-            simpMessagingTemplate.convertAndSend("/user-messages/" +
+            simpMessagingTemplate.convertAndSend("/topic/" +
                     invite.getTarget().getId(), createInviteGroupMessage(invite));
         });
     }

@@ -23,7 +23,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.setApplicationDestinationPrefixes("/user-messages-subscriber");
 
         // RabbitMQ
-        registry.enableStompBrokerRelay("/user-messages")
+        registry.enableStompBrokerRelay("/topic")
                 .setRelayHost("localhost")
                 .setRelayPort(61613)
                 .setClientLogin("guest")

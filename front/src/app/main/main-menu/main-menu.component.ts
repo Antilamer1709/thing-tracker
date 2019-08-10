@@ -73,7 +73,7 @@ export class MainMenuComponent implements OnInit {
   }
 
   private openGlobalSocket(): void {
-    this.stompClient.subscribe("/user-messages", (message) => {
+    this.stompClient.subscribe("/topic/user-messages", (message) => {
       this.handleResult(message);
     });
   }
@@ -91,7 +91,7 @@ export class MainMenuComponent implements OnInit {
     this.authenticationService.getLoggedUser().subscribe(
       res => {
         if (res && res.id) {
-          this.stompClient.subscribe("/user-messages/" + res.id, (message) => {
+          this.stompClient.subscribe("/topic/" + res.id, (message) => {
             this.handleResult(message);
           });
         }
