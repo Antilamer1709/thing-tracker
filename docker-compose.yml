@@ -4,6 +4,7 @@ services:
     image: antilamer/thing-tracker:ssl2
     volumes:
     - /etc/letsencrypt/live/thing-tracker.ga:/etc/letsencrypt/live/thing-tracker.ga
+    - /opt/logs/thing-tracker:/opt/logs/thing-tracker
     deploy:
       replicas: 2
       resources:
