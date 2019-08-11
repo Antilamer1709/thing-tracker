@@ -20,6 +20,10 @@ services:
     - webnet
   rabbitmq-stomp:
     image: antilamer/rabbitmq-stomp:3.7
+    deploy:
+      placement:
+        constraints:
+        - node.role == manager
     ports:
     - "5672:5672"
     - "15672:15672"
