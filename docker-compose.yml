@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 services:
   web:
     image: antilamer/thing-tracker:ssl2
@@ -6,11 +6,12 @@ services:
     - /etc/letsencrypt/live/thing-tracker.ga:/etc/letsencrypt/live/thing-tracker.ga
     - /opt/logs/thing-tracker:/opt/logs/thing-tracker
     deploy:
-      replicas: 2
+      replicas: 1
+#      max-replicas-per-node: 1
       resources:
         limits:
-          cpus: "0.3"
-          memory: 250M
+          cpus: "0.5"
+          memory: 270M
       restart_policy:
         condition: on-failure
     ports:
