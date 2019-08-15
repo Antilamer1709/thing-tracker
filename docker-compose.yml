@@ -11,7 +11,7 @@ services:
       resources:
         limits:
           cpus: "0.5"
-          memory: 270M
+          memory: 300M
       restart_policy:
         condition: on-failure
     ports:
@@ -29,5 +29,16 @@ services:
     - "5672:5672"
     - "15672:15672"
     - "61613:61613"
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+    - "8080:8080"
+    volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+    - webnet
 networks:
   webnet:
