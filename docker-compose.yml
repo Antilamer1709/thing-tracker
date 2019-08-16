@@ -41,7 +41,7 @@ services:
     networks:
     - webnet
   postgres:
-    image: antilamer/postgres:11
+    image: antilamer/postgres:tracker1.1
     deploy:
       placement:
         constraints:
