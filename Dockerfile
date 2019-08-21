@@ -5,4 +5,4 @@ EXPOSE 8443
 EXPOSE 443
 EXPOSE 8080
 EXPOSE 80
-ENTRYPOINT ["java", "-jar", "ROOT.jar"]
+ENTRYPOINT ["java", "-jar", "-Dspring.config.location=file:/home/antilamer1709/thing-tracker.properties", "ROOT.jar"]
