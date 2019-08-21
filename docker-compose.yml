@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   web:
-    image: antilamer/thing-tracker:ssl2
+    image: antilamer/thing-tracker:ssl3
     volumes:
     - /etc/letsencrypt/live/thing-tracker.ga:/etc/letsencrypt/live/thing-tracker.ga
     - /opt/logs/thing-tracker:/opt/logs/thing-tracker
