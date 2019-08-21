@@ -2,6 +2,8 @@ version: "3.7"
 services:
   web:
     image: antilamer/thing-tracker:ssl3
+    environment:
+    - SPRING_DATASOURCE_URL=jdbc:postgresql://34.77.197.231:5432/thing_tracker
     volumes:
     - /etc/letsencrypt/live/thing-tracker.ga:/etc/letsencrypt/live/thing-tracker.ga
     - /opt/logs/thing-tracker:/opt/logs/thing-tracker
@@ -10,13 +12,12 @@ services:
 #      max-replicas-per-node: 1
       resources:
         limits:
-          cpus: "1.6"
-          memory: 300M
+          cpus: "0.9"
+          memory: 500M
       restart_policy:
         condition: on-failure
     ports:
     - "443:8443"
-    - "80:80"
     networks:
     - webnet
   rabbitmq-stomp:
