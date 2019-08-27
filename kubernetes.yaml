@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tracker
+spec:
+  replicas: 1
+  # How do want to update the pods?
+  #strategy: Recreate
+
+  # Which pods are managed by this deployment?
+  selector:
+    # This must match the labels we set on the pod!
+    matchLabels:
+      app: tracker
+  template:
+    metadata:
+      # Set labels on the pod.
+      # This is used in the deployment selector.
+      labels:
+        app: tracker
+    spec:
+      hostNetwork: true
+      containers:
+      - name: tracker
+        ports:
+        - containerPort: 8443
+        image: antilamer/thing-tracker:ssl3
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://34.77.197.231:5432/thing_tracker"
+        volumeMounts:
+        - name: letsencrypt-volume
+          mountPath: /etc/letsencrypt/live/thing-tracker.ga
+        - name: logs-volume
+          mountPath: /opt/logs/thing-tracker
+      volumes:
+      - name: letsencrypt-volume
+        hostPath:
+          path: /etc/letsencrypt/live/thing-tracker.ga
+          type: Directory
+      - name: logs-volume
+        hostPath:
+          path: /opt/logs/thing-tracker
+          type: Directory
