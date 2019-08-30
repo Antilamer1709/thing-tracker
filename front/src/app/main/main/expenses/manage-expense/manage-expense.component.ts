@@ -44,7 +44,9 @@ export class ManageExpenseComponent extends ExpenseTypeComponent implements OnIn
     this.expenseSearchDTO = new ExpenseSearchDTO();
     this.expenseSearchDTO.selectGroupmates = [];
     this.expenseSearchDTO.expenseTypes = [];
-    this.getGroupmates();
+    Promise.resolve().then(()=> {
+      this.getGroupmates();
+    });
   }
 
   public searchExpenses(form: FormGroup): void {
