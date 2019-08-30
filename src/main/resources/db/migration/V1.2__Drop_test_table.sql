@@ -1,1 +1,0 @@
-drop table thing_tracker.test;
