@@ -22,7 +22,9 @@ export class MyGroupsComponent implements OnInit {
               private service: GroupService) { }
 
   ngOnInit() {
-    this.searchUserGroups();
+    Promise.resolve().then(() => {
+      this.searchUserGroups();
+    });
     this.groupDTO = new GroupDTO();
   }
 

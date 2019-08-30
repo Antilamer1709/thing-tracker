@@ -181,7 +181,10 @@ public class GroupBOImpl implements GroupBO {
     public void kickUserFromGroup(Integer groupId, Integer userId) throws UnauthorizedException, ValidationException {
         GroupEntity groupEntity = groupRepo.findById(groupId)
                 .orElseThrow(() -> new ValidationException("There no such group with id: " + groupId));
-        authenticationBO.checkUserAccess(groupEntity.getCreator());
+        // User can kick himself
+        if (!authenticationBO.getLoggedUser().getId().equals(userId)) {
+            authenticationBO.checkUserAccess(groupEntity.getCreator());
+        }
 
         boolean removed = groupEntity.getUsers().removeIf(x -> x.getId().equals(userId));
         if (!removed) {
