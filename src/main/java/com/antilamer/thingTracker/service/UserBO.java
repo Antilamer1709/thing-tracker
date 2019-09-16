@@ -5,26 +5,21 @@ import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class UserBO {
 
     private final UserRepo userRepo;
     private final AuthenticationBO authenticationBO;
-
-    @Autowired
-    public UserBO(
-            UserRepo userRepo,
-            AuthenticationBO authenticationBO) {
-        this.userRepo = userRepo;
-        this.authenticationBO = authenticationBO;
-    }
 
 
     public UserDTO getUser(Integer id) throws ValidationException, UnauthorizedException {

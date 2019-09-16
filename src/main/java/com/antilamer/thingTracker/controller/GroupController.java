@@ -6,6 +6,7 @@ import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.GroupBO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -16,16 +17,11 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/group")
 public class GroupController {
 
     private final GroupBO groupBO;
-
-    @Autowired
-    public GroupController(
-            GroupBO expenseBO) {
-        this.groupBO = expenseBO;
-    }
 
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})

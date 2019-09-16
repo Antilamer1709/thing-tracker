@@ -5,6 +5,7 @@ import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.ExpenseBO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,16 +17,11 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/expense")
 public class ExpenseController {
 
     private final ExpenseBO expenseBO;
-
-    @Autowired
-    public ExpenseController(
-            ExpenseBO expenseBO) {
-        this.expenseBO = expenseBO;
-    }
 
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})

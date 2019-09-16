@@ -4,6 +4,7 @@ import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.UserBO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -14,16 +15,11 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/user")
 public class UserController {
 
     private final UserBO userBO;
-
-    @Autowired
-    public UserController(
-            UserBO userBO) {
-        this.userBO = userBO;
-    }
 
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})

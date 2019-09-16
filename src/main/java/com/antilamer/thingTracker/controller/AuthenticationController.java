@@ -6,6 +6,7 @@ import com.antilamer.thingTracker.dto.RegistrationDTO;
 import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.AuthenticationBO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,16 +16,12 @@ import java.net.InetAddress;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("api/authentication")
 public class AuthenticationController {
 
     private final AuthenticationBO authenticationBO;
 
-    @Autowired
-    public AuthenticationController(
-            AuthenticationBO authenticationBO) {
-        this.authenticationBO = authenticationBO;
-    }
 
     @PostMapping(value = "/registration")
     @ResponseStatus(value = HttpStatus.OK)

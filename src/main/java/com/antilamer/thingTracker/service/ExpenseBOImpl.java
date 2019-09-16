@@ -10,8 +10,8 @@ import com.antilamer.thingTracker.repository.ExpenseRepo;
 import com.antilamer.thingTracker.repository.ExpenseTypeDictRepo;
 import com.antilamer.thingTracker.repository.GroupRepo;
 import com.antilamer.thingTracker.repository.UserRepo;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ExpenseBOImpl implements ExpenseBO {
 
     private final ExpenseRepo expenseRepo;
@@ -32,20 +33,6 @@ public class ExpenseBOImpl implements ExpenseBO {
     private final UserRepo userRepo;
     private final GroupRepo groupRepo;
     private final AuthenticationBO authenticationBO;
-
-    @Autowired
-    public ExpenseBOImpl(
-            ExpenseRepo expenseRepo,
-            ExpenseTypeDictRepo expenseTypeDictRepo,
-            UserRepo userRepo,
-            GroupRepo groupRepo,
-            AuthenticationBO authenticationBO) {
-        this.expenseRepo = expenseRepo;
-        this.expenseTypeDictRepo = expenseTypeDictRepo;
-        this.userRepo = userRepo;
-        this.groupRepo = groupRepo;
-        this.authenticationBO = authenticationBO;
-    }
 
 
     @Override

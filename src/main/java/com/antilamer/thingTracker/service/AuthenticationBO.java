@@ -11,8 +11,8 @@ import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.RoleRepo;
 import com.antilamer.thingTracker.repository.UserRepo;
 import com.antilamer.thingTracker.security.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,6 +31,7 @@ import java.util.Collection;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AuthenticationBO {
 
     private final UserRepo userRepo;
@@ -43,19 +44,6 @@ public class AuthenticationBO {
 
     private final JwtTokenProvider tokenProvider;
 
-    @Autowired
-    public AuthenticationBO(
-            UserRepo userRepo,
-            RoleRepo roleRepo,
-            PasswordEncoder passwordEncoder,
-            JwtTokenProvider tokenProvider,
-            AuthenticationManager authenticationManager) {
-        this.userRepo = userRepo;
-        this.roleRepo = roleRepo;
-        this.passwordEncoder = passwordEncoder;
-        this.authenticationManager = authenticationManager;
-        this.tokenProvider = tokenProvider;
-    }
 
     public UserEntity getLoggedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

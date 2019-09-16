@@ -12,8 +12,8 @@ import com.antilamer.thingTracker.model.UserInviteEntity;
 import com.antilamer.thingTracker.repository.GroupRepo;
 import com.antilamer.thingTracker.repository.UserInviteRepo;
 import com.antilamer.thingTracker.repository.UserRepo;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class GroupBOImpl implements GroupBO {
 
     private final GroupRepo groupRepo;
@@ -32,20 +33,6 @@ public class GroupBOImpl implements GroupBO {
     private final UserInviteRepo userInviteRepo;
     private final AuthenticationBO authenticationBO;
     private final SimpMessagingTemplate simpMessagingTemplate;
-
-    @Autowired
-    public GroupBOImpl(
-            GroupRepo groupRepo,
-            UserRepo userRepo,
-            UserInviteRepo userInviteRepo,
-            AuthenticationBO authenticationBO,
-            SimpMessagingTemplate simpMessagingTemplate) {
-        this.groupRepo = groupRepo;
-        this.userRepo = userRepo;
-        this.userInviteRepo = userInviteRepo;
-        this.authenticationBO = authenticationBO;
-        this.simpMessagingTemplate = simpMessagingTemplate;
-    }
 
 
     @Override
