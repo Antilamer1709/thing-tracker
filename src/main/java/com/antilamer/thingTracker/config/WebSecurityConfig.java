@@ -2,10 +2,13 @@ package com.antilamer.thingTracker.config;
 
 import com.antilamer.thingTracker.security.JwtAuthenticationEntryPoint;
 import com.antilamer.thingTracker.security.JwtAuthenticationFilter;
+import com.antilamer.thingTracker.security.JwtTokenProvider;
 import com.antilamer.thingTracker.security.oauth2.CustomOAuth2UserService;
 import com.antilamer.thingTracker.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.antilamer.thingTracker.security.oauth2.OAuth2AuthenticationFailureHandler;
 import com.antilamer.thingTracker.security.oauth2.OAuth2AuthenticationSuccessHandler;
+import com.antilamer.thingTracker.service.UserAuthService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +31,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -36,18 +40,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomOAuth2UserService customOAuth2UserService;
 
-    @Autowired
-    private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
-    @Autowired
-    private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
+    private final JwtTokenProvider tokenProvider;
 
-    @Autowired
-    public WebSecurityConfig(
-            JwtAuthenticationEntryPoint unauthorizedHandler) {
-        this.unauthorizedHandler = unauthorizedHandler;
-    }
+    private final UserAuthService customUserDetailsService;
+
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth, @Qualifier("userAuthService") UserDetailsService userDetailsService) throws Exception {
@@ -74,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
+        return new JwtAuthenticationFilter(tokenProvider, customUserDetailsService);
     }
 
     @Bean

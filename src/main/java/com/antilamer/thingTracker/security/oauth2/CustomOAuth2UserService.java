@@ -7,8 +7,8 @@ import com.antilamer.thingTracker.repository.UserRepo;
 import com.antilamer.thingTracker.security.oauth2.user.OAuth2UserInfo;
 import com.antilamer.thingTracker.security.oauth2.user.OAuth2UserInfoFactory;
 import com.antilamer.thingTracker.service.AuthenticationBO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -19,14 +19,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    @Autowired
-    private UserRepo userRepository;
+    private final UserRepo userRepository;
 
-    @Autowired
-    private AuthenticationBO authenticationBO;
+    private final AuthenticationBO authenticationBO;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
