@@ -47,7 +47,7 @@ public class ExpenseBOTest {
 
 
     @Test
-    public void whenSavesValidExpense() throws ValidationException {
+    public void whenCreateExpense_Valid() throws ValidationException {
         ExpenseTypeDictEntity type = new ExpenseTypeDictEntity();
         type.setName("Food");
         type.setUsedCount(0);
@@ -64,7 +64,7 @@ public class ExpenseBOTest {
     }
 
     @Test
-    public void whenSavesValidExpenseWithNoType() throws ValidationException {
+    public void whenCreateExpense_ValidWithNoType() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(70000);
         expenseDTO.setTypes(new ArrayList<>());
@@ -77,7 +77,7 @@ public class ExpenseBOTest {
     }
 
     @Test(expected = ValidationException.class)
-    public void whenSavesInvalidExpenseWithNoPrice() throws ValidationException {
+    public void whenCreateExpense_InvalidWithNoPrice() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setTypes(new ArrayList<>());
         expenseDTO.getTypes().add("Car");
@@ -86,7 +86,7 @@ public class ExpenseBOTest {
     }
 
     @Test(expected = ValidationException.class)
-    public void whenSavesInvalidExpenseWithNoType() throws ValidationException {
+    public void whenCreateExpense_InvalidWithNoType() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(70000);
 
