@@ -18,10 +18,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ExpenseBOImpl.class)
@@ -57,8 +62,8 @@ public class ExpenseBOTest {
         expenseDTO.setTypes(new ArrayList<>());
         expenseDTO.getTypes().add(type.getName());
 
-        when(expenseTypeDictRepo.findByNameIgnoreCase("Food")).thenReturn(Optional.of(type));
-        when(expenseTypeDictRepo.save(type)).thenReturn(type);
+        given(expenseTypeDictRepo.findByNameIgnoreCase("Food")).willReturn(Optional.of(type));
+        given(expenseTypeDictRepo.save(type)).willReturn(type);
 
         expenseBO.createExpense(expenseDTO);
     }
@@ -70,8 +75,8 @@ public class ExpenseBOTest {
         expenseDTO.setTypes(new ArrayList<>());
         expenseDTO.getTypes().add("Car");
 
-        when(expenseTypeDictRepo.findByNameIgnoreCase(any())).thenReturn(Optional.empty());
-        when(expenseTypeDictRepo.save(any())).thenAnswer(i -> i.getArguments()[0]);
+        given(expenseTypeDictRepo.findByNameIgnoreCase(any())).willReturn(Optional.empty());
+        given(expenseTypeDictRepo.save(any())).willAnswer(i -> i.getArguments()[0]);
 
         expenseBO.createExpense(expenseDTO);
     }
@@ -91,5 +96,40 @@ public class ExpenseBOTest {
         expenseDTO.setPrice(70000);
 
         expenseBO.createExpense(expenseDTO);
+    }
+
+
+    @Test()
+    public void whenSearchExpenseTypes_Valid() throws ValidationException {
+        List<ExpenseTypeDictEntity> typeDictEntity = createTypeDictEntityList();
+        given(expenseTypeDictRepo.findTop5ByNameContainingIgnoreCase("Tes")).willReturn(typeDictEntity);
+
+        List<String> expenseTypes = expenseBO.searchExpenseTypes("Tes");
+
+        assertThat(expenseTypes.size(), is(3));
+        String testString = expenseTypes.stream().filter(x -> x.equals("Test")).findFirst()
+                .orElseThrow(() -> new ValidationException("List does not contain 'Test' element"));
+        assertThat(testString, is("Test"));
+    }
+
+    private List<ExpenseTypeDictEntity> createTypeDictEntityList() {
+        List<ExpenseTypeDictEntity> expenseTypeDictEntity = new ArrayList<>();
+
+        ExpenseTypeDictEntity entity = new ExpenseTypeDictEntity();
+        entity.setName("Food");
+        entity.setUsedCount(100);
+        expenseTypeDictEntity.add(entity);
+
+        entity = new ExpenseTypeDictEntity();
+        entity.setName("Test");
+        entity.setUsedCount(0);
+        expenseTypeDictEntity.add(entity);
+
+        entity = new ExpenseTypeDictEntity();
+        entity.setName("Car");
+        entity.setUsedCount(25);
+        expenseTypeDictEntity.add(entity);
+
+        return expenseTypeDictEntity;
     }
 }
