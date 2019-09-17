@@ -1,6 +1,7 @@
 package com.antilamer.thingTracker;
 
 import com.antilamer.thingTracker.dto.ExpenseDTO;
+import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
 import com.antilamer.thingTracker.repository.ExpenseRepo;
 import com.antilamer.thingTracker.repository.ExpenseTypeDictRepo;
@@ -46,7 +47,7 @@ public class ExpenseBOTest {
 
 
     @Test
-    public void whenSavesValidExpense_pass() throws Exception {
+    public void whenSavesValidExpense() throws ValidationException {
         ExpenseTypeDictEntity type = new ExpenseTypeDictEntity();
         type.setName("Food");
         type.setUsedCount(0);
@@ -63,7 +64,7 @@ public class ExpenseBOTest {
     }
 
     @Test
-    public void whenSavesValidExpenseWithNoType_pass() throws Exception {
+    public void whenSavesValidExpenseWithNoType() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(70000);
         expenseDTO.setTypes(new ArrayList<>());
@@ -71,6 +72,23 @@ public class ExpenseBOTest {
 
         when(expenseTypeDictRepo.findByNameIgnoreCase(any())).thenReturn(Optional.empty());
         when(expenseTypeDictRepo.save(any())).thenAnswer(i -> i.getArguments()[0]);
+
+        expenseBO.createExpense(expenseDTO);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void whenSavesInvalidExpenseWithNoPrice() throws ValidationException {
+        ExpenseDTO expenseDTO = new ExpenseDTO();
+        expenseDTO.setTypes(new ArrayList<>());
+        expenseDTO.getTypes().add("Car");
+
+        expenseBO.createExpense(expenseDTO);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void whenSavesInvalidExpenseWithNoType() throws ValidationException {
+        ExpenseDTO expenseDTO = new ExpenseDTO();
+        expenseDTO.setPrice(70000);
 
         expenseBO.createExpense(expenseDTO);
     }
