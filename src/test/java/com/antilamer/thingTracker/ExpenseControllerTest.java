@@ -32,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ExpenseControllerTest {
 
-
     @Autowired
     private MockMvc mockMvc;
 
