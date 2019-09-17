@@ -1,5 +1,6 @@
 package com.antilamer.thingTracker;
 
+import com.antilamer.thingTracker.config.WebSecurityConfig;
 import com.antilamer.thingTracker.controller.ExpenseController;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import com.antilamer.thingTracker.service.ExpenseBO;
@@ -10,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ExpenseController.class, ObjectMapper.class})
+@SpringBootTest(classes = {ExpenseController.class, ObjectMapper.class, Config.class})
 @EnableWebMvc
 @AutoConfigureMockMvc
 public class ExpenseControllerTest {
