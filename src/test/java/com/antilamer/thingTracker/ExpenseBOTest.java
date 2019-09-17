@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -57,6 +58,19 @@ public class ExpenseBOTest {
 
         when(expenseTypeDictRepo.findByNameIgnoreCase("Food")).thenReturn(Optional.of(type));
         when(expenseTypeDictRepo.save(type)).thenReturn(type);
+
+        expenseBO.createExpense(expenseDTO);
+    }
+
+    @Test
+    public void whenSavesValidExpenseWithNoType_pass() throws Exception {
+        ExpenseDTO expenseDTO = new ExpenseDTO();
+        expenseDTO.setPrice(70000);
+        expenseDTO.setTypes(new ArrayList<>());
+        expenseDTO.getTypes().add("Car");
+
+        when(expenseTypeDictRepo.findByNameIgnoreCase(any())).thenReturn(Optional.empty());
+        when(expenseTypeDictRepo.save(any())).thenAnswer(i -> i.getArguments()[0]);
 
         expenseBO.createExpense(expenseDTO);
     }
