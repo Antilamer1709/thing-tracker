@@ -42,7 +42,7 @@ public class ExpenseControllerTest {
 
     @Test
     @WithMockUser(username = "user1", password = "user1", roles = "USER")
-    public void whenValidInput_thenReturns200() throws Exception {
+    public void whenSaveValidExpense_thenReturns200() throws Exception {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setId(1);
         expenseDTO.setPrice(500);
