@@ -5,33 +5,29 @@ import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
+import com.antilamer.thingTracker.model.RoleEntity;
+import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.*;
 import com.antilamer.thingTracker.security.JwtTokenProvider;
 import com.antilamer.thingTracker.service.AuthenticationBO;
 import com.antilamer.thingTracker.service.AuthenticationBOImpl;
 import com.antilamer.thingTracker.service.ExpenseBO;
 import com.antilamer.thingTracker.service.ExpenseBOImpl;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,14 +37,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ExpenseBOImpl.class, AuthenticationBOImpl.class, ExpenseBOTest.TestConfig.class})
+@SpringBootTest(classes = {ExpenseBOImpl.class, AuthenticationBOImpl.class})
 public class ExpenseBOTest {
 
     @Autowired
     private ExpenseBO expenseBO;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
 
     @Autowired
     private AuthenticationBO authenticationBO;
@@ -78,16 +71,19 @@ public class ExpenseBOTest {
     private JwtTokenProvider tokenProvider;
 
 
-    @TestConfiguration
-    static class TestConfig {
+    @Before
+    public void onSetUpTestUser() {
+        UserEntity userDetails2 = new UserEntity();
+        userDetails2.setId(1);
+        userDetails2.setEmail("user");
+        userDetails2.setPassword("user123");
+        userDetails2.setRoles(new ArrayList<>());
+        RoleEntity role = new RoleEntity();
+        role.setCode("ROLE_USER");
+        userDetails2.getRoles().add(role);
 
-        @Bean
-        public UserDetailsService userDetailsService() {
-            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_USER");
-            UserDetails userDetails = new User("user", "user123", Collections.singletonList(authority));
-            return new InMemoryUserDetailsManager(Collections.singletonList(userDetails));
-        }
-
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails2, null);
+        SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
 
@@ -175,7 +171,6 @@ public class ExpenseBOTest {
 
 
     @Test()
-    @WithUserDetails()
     public void whenSearchChartWithNoData_ExpectEmpty() throws ValidationException {
         given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(new ArrayList<>()));
 
