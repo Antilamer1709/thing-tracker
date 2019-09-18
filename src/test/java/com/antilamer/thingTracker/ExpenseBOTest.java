@@ -217,9 +217,13 @@ public class ExpenseBOTest {
 
     @Test()
     public void whenSearchChartWithGroup_ExpectOneElement() throws ValidationException {
+        whenSearchChart_ExpectOneElement(GroupmateType.GROUP);
+    }
+
+    private void whenSearchChart_ExpectOneElement(GroupmateType group) throws ValidationException {
         List<ExpenseEntity> expenseEntities = createGivenExpenseEntities();
         PageImpl<ExpenseEntity> page = new PageImpl<>(expenseEntities);
-        ExpenseSearchDTO searchDTO = processGivenSearchDTO(page, GroupmateType.GROUP);
+        ExpenseSearchDTO searchDTO = processGivenSearchDTO(page, group);
 
         ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
 
@@ -242,13 +246,6 @@ public class ExpenseBOTest {
         UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         given(userRepo.findById(1)).willReturn(Optional.of(loggedUser));
 
-        List<ExpenseEntity> expenseEntities = createGivenExpenseEntities();
-        PageImpl<ExpenseEntity> page = new PageImpl<>(expenseEntities);
-        ExpenseSearchDTO searchDTO = processGivenSearchDTO(page, GroupmateType.USER);
-
-        ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
-
-        assertThat(searchChartDTO.getData().size() == 0, is(false));
-        assertThat(searchChartDTO.getData().get("Food"), is(500));
+        whenSearchChart_ExpectOneElement(GroupmateType.USER);
     }
 }
