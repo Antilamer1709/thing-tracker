@@ -18,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +56,27 @@ public class AuthenticationBOImpl implements AuthenticationBO {
                 return null;
             }
         }
-        return (UserEntity) authentication.getPrincipal();
+        if (authentication.getPrincipal().getClass().equals(UserEntity.class)) {
+            return (UserEntity) authentication.getPrincipal();
+        } else {
+            return createUserEntity((UserDetails) authentication.getPrincipal());
+        }
+    }
+
+    private UserEntity createUserEntity(UserDetails principal) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail(principal.getUsername());
+        userEntity.setPassword(principal.getPassword());
+        userEntity.setRoles(new ArrayList<>());
+
+        for (GrantedAuthority authority : principal.getAuthorities()) {
+            RoleEntity roleEntity = new RoleEntity();
+            roleEntity.setCode(authority.getAuthority());
+            roleEntity.setName(authority.getAuthority());
+            userEntity.getRoles().add(roleEntity);
+        }
+
+        return userEntity;
     }
 
     @Transactional
