@@ -32,6 +32,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,6 +86,7 @@ public class ExpenseBOTest {
     }
 
 
+
     // createExpense
     @Test
     public void whenCreateExpense_Valid() throws ValidationException {
@@ -134,6 +136,7 @@ public class ExpenseBOTest {
     }
 
 
+
     // searchExpenseTypes
     @Test()
     public void whenSearchExpenseTypes_Valid() throws ValidationException {
@@ -171,6 +174,7 @@ public class ExpenseBOTest {
 
         return expenseTypeDictEntity;
     }
+
 
 
     //searchChart
@@ -217,27 +221,32 @@ public class ExpenseBOTest {
 
     @Test()
     public void whenSearchChartWithGroup_ExpectOneElement() throws ValidationException {
-        whenSearchChart_ExpectOneElement(GroupmateType.GROUP);
+        whenSearchChart_ExpectOneElement(GroupmateType.GROUP, new Integer[]{500});
     }
 
-    private void whenSearchChart_ExpectOneElement(GroupmateType group) throws ValidationException {
-        List<ExpenseEntity> expenseEntities = createGivenExpenseEntities();
+    private void whenSearchChart_ExpectOneElement(GroupmateType group, Integer[] prices) throws ValidationException {
+        List<ExpenseEntity> expenseEntities = createGivenOneExpenseEntities(prices);
         PageImpl<ExpenseEntity> page = new PageImpl<>(expenseEntities);
         ExpenseSearchDTO searchDTO = processGivenSearchDTO(page, group);
 
         ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
 
         assertThat(searchChartDTO.getData().size() == 0, is(false));
-        assertThat(searchChartDTO.getData().get("Food"), is(500));
+        Integer priceSum = Arrays.stream(prices).reduce(0, Integer::sum);
+        assertThat(searchChartDTO.getData().get("Food"), is(priceSum));
     }
 
-    private List<ExpenseEntity> createGivenExpenseEntities() {
+    private List<ExpenseEntity> createGivenOneExpenseEntities(Integer[] prices) {
         List<ExpenseEntity> expenseEntities = new ArrayList<>();
-        ExpenseEntity expenseEntity = new ExpenseEntity();
-        expenseEntity.setId(1);
-        expenseEntity.setPrice(500);
-        expenseEntities.add(expenseEntity);
-        expenseEntity.setExpenseTypeDict(createTypeDictEntityList());
+
+        for (int price : prices) {
+            ExpenseEntity expenseEntity = new ExpenseEntity();
+            expenseEntity.setId(1);
+            expenseEntity.setPrice(price);
+            expenseEntities.add(expenseEntity);
+            expenseEntity.setExpenseTypeDict(createTypeDictEntityList());
+        }
+
         return expenseEntities;
     }
 
@@ -246,6 +255,14 @@ public class ExpenseBOTest {
         UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         given(userRepo.findById(1)).willReturn(Optional.of(loggedUser));
 
-        whenSearchChart_ExpectOneElement(GroupmateType.USER);
+        whenSearchChart_ExpectOneElement(GroupmateType.USER, new Integer[]{500});
+    }
+
+    @Test()
+    public void whenSearchChartWithUserAndSeveralExpenses_ExpectOneElement() throws ValidationException {
+        UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        given(userRepo.findById(1)).willReturn(Optional.of(loggedUser));
+
+        whenSearchChart_ExpectOneElement(GroupmateType.USER, new Integer[]{500, 1500, 300});
     }
 }
