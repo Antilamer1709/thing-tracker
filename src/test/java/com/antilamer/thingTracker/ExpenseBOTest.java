@@ -265,4 +265,12 @@ public class ExpenseBOTest {
 
         whenSearchChart_ExpectOneElement(GroupmateType.USER, new Integer[]{500, 1500, 300});
     }
+
+    @Test(expected = ValidationException.class)
+    public void whenSearchChartWithUserFromAnotherGroup_ExpectValidationException() throws ValidationException {
+        UserEntity user = Utils.createDefaultUser(2);
+        given(userRepo.findById(1)).willReturn(Optional.of(user));
+
+        whenSearchChart_ExpectOneElement(GroupmateType.USER, new Integer[]{500, 1500, 300});
+    }
 }

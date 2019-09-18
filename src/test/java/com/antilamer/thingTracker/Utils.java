@@ -9,8 +9,12 @@ import java.util.ArrayList;
 public class Utils {
 
     public static UserEntity createDefaultUser() {
+        return createDefaultUser(1);
+    }
+
+    public static UserEntity createDefaultUser(int userGroupId) {
         UserEntity userDetails = new UserEntity();
-        userDetails.setId(1);
+        userDetails.setId(userGroupId);
         userDetails.setEmail("user");
         userDetails.setFullName("Full metal user");
         userDetails.setPassword("user123");
@@ -22,7 +26,7 @@ public class Utils {
 
         userDetails.setGroups(new ArrayList<>());
         GroupEntity groupEntity = new GroupEntity();
-        groupEntity.setId(1);
+        groupEntity.setId(userGroupId);
         groupEntity.setName("Test users");
         groupEntity.setCreator(userDetails);
 
