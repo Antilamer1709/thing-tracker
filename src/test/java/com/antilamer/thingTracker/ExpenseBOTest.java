@@ -89,7 +89,7 @@ public class ExpenseBOTest {
 
     // createExpense
     @Test
-    public void whenCreateExpense_Valid() throws ValidationException {
+    public void createExpense_Valid() throws ValidationException {
         ExpenseTypeDictEntity type = new ExpenseTypeDictEntity();
         type.setName("Food");
         type.setUsedCount(0);
@@ -106,7 +106,7 @@ public class ExpenseBOTest {
     }
 
     @Test
-    public void whenCreateExpense_ValidWithNoType() throws ValidationException {
+    public void createExpense_ValidWithNoType() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(70000);
         expenseDTO.setTypes(new ArrayList<>());
@@ -119,7 +119,7 @@ public class ExpenseBOTest {
     }
 
     @Test(expected = ValidationException.class)
-    public void whenCreateExpense_InvalidWithNoPrice() throws ValidationException {
+    public void createExpense_InvalidWithNoPrice() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setTypes(new ArrayList<>());
         expenseDTO.getTypes().add("Car");
@@ -128,7 +128,7 @@ public class ExpenseBOTest {
     }
 
     @Test(expected = ValidationException.class)
-    public void whenCreateExpense_InvalidWithNoType() throws ValidationException {
+    public void createExpense_InvalidWithNoType() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(70000);
 
@@ -139,7 +139,7 @@ public class ExpenseBOTest {
 
     // searchExpenseTypes
     @Test()
-    public void whenSearchExpenseTypes_Valid() throws ValidationException {
+    public void searchExpenseTypes_Valid() throws ValidationException {
         List<ExpenseTypeDictEntity> typeDictEntity = createTypeDictEntityList();
         given(expenseTypeDictRepo.findTop5ByNameContainingIgnoreCase("Tes")).willReturn(typeDictEntity);
 
@@ -179,7 +179,7 @@ public class ExpenseBOTest {
 
     //searchChart
     @Test()
-    public void whenSearchChartWithNoData_ExpectEmpty() throws ValidationException {
+    public void searchChartWithNoData_ExpectEmpty() throws ValidationException {
         given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(new ArrayList<>()));
 
         ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(new ExpenseSearchDTO());
@@ -188,7 +188,7 @@ public class ExpenseBOTest {
     }
 
     @Test()
-    public void whenSearchChartWithGroup_ExpectEmpty() throws ValidationException {
+    public void searchChartWithGroup_ExpectEmpty() throws ValidationException {
         ExpenseSearchDTO searchDTO = processGivenSearchDTO(new PageImpl<>(new ArrayList<>()), GroupmateType.GROUP);
 
         ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
@@ -220,7 +220,7 @@ public class ExpenseBOTest {
     }
 
     @Test()
-    public void whenSearchChartWithGroup_ExpectOneElement() throws ValidationException {
+    public void searchChartWithGroup_ExpectOneElement() throws ValidationException {
         whenSearchChart_ExpectOneElement(GroupmateType.GROUP, new Integer[]{500});
     }
 
@@ -251,7 +251,7 @@ public class ExpenseBOTest {
     }
 
     @Test()
-    public void whenSearchChartWithUser_ExpectOneElement() throws ValidationException {
+    public void searchChartWithUser_ExpectOneElement() throws ValidationException {
         UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         given(userRepo.findById(1)).willReturn(Optional.of(loggedUser));
 
@@ -259,7 +259,7 @@ public class ExpenseBOTest {
     }
 
     @Test()
-    public void whenSearchChartWithUserAndSeveralExpenses_ExpectOneElement() throws ValidationException {
+    public void searchChartWithUserAndSeveralSameTypeExpenses_ExpectOneElement() throws ValidationException {
         UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         given(userRepo.findById(1)).willReturn(Optional.of(loggedUser));
 
@@ -267,7 +267,7 @@ public class ExpenseBOTest {
     }
 
     @Test(expected = ValidationException.class)
-    public void whenSearchChartWithUserFromAnotherGroup_ExpectValidationException() throws ValidationException {
+    public void searchChartWithUserFromAnotherGroup_ExpectValidationException() throws ValidationException {
         UserEntity user = Utils.createDefaultUser(2);
         given(userRepo.findById(1)).willReturn(Optional.of(user));
 
