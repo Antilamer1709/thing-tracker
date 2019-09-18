@@ -85,6 +85,7 @@ public class ExpenseBOTest {
     }
 
 
+    // createExpense
     @Test
     public void whenCreateExpense_Valid() throws ValidationException {
         ExpenseTypeDictEntity type = new ExpenseTypeDictEntity();
@@ -101,6 +102,7 @@ public class ExpenseBOTest {
 
         expenseBO.createExpense(expenseDTO);
     }
+
     @Test
     public void whenCreateExpense_ValidWithNoType() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
@@ -113,6 +115,7 @@ public class ExpenseBOTest {
 
         expenseBO.createExpense(expenseDTO);
     }
+
     @Test(expected = ValidationException.class)
     public void whenCreateExpense_InvalidWithNoPrice() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
@@ -121,6 +124,7 @@ public class ExpenseBOTest {
 
         expenseBO.createExpense(expenseDTO);
     }
+
     @Test(expected = ValidationException.class)
     public void whenCreateExpense_InvalidWithNoType() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
@@ -130,6 +134,7 @@ public class ExpenseBOTest {
     }
 
 
+    // searchExpenseTypes
     @Test()
     public void whenSearchExpenseTypes_Valid() throws ValidationException {
         List<ExpenseTypeDictEntity> typeDictEntity = createTypeDictEntityList();
@@ -142,6 +147,7 @@ public class ExpenseBOTest {
                 .orElseThrow(() -> new ValidationException("List does not contain 'Test' element"));
         assertThat(testString, is("Test"));
     }
+
     private List<ExpenseTypeDictEntity> createTypeDictEntityList() {
         List<ExpenseTypeDictEntity> expenseTypeDictEntity = new ArrayList<>();
 
@@ -167,6 +173,7 @@ public class ExpenseBOTest {
     }
 
 
+    //searchChart
     @Test()
     public void whenSearchChartWithNoData_ExpectEmpty() throws ValidationException {
         given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(new ArrayList<>()));
@@ -175,18 +182,25 @@ public class ExpenseBOTest {
 
         assertThat(searchChartDTO.getData().size() == 0, is(true));
     }
+
     @Test()
     public void whenSearchChartWithGroup_ExpectEmpty() throws ValidationException {
-        UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        GroupEntity defaultGroup = loggedUser.getGroups().get(0);
-        ExpenseSearchDTO searchDTO = createSearchChartDTOWithGroup();
-        given(groupRepo.findById(1)).willReturn(Optional.of(defaultGroup));
-        given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(new ArrayList<>()));
+        ExpenseSearchDTO searchDTO = processGivenSearchDTO(new PageImpl<>(new ArrayList<>()));
 
         ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
 
         assertThat(searchChartDTO.getData().size() == 0, is(true));
     }
+
+    private ExpenseSearchDTO processGivenSearchDTO(PageImpl<ExpenseEntity> page) {
+        UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        GroupEntity defaultGroup = loggedUser.getGroups().get(0);
+        ExpenseSearchDTO searchDTO = createSearchChartDTOWithGroup();
+        given(groupRepo.findById(1)).willReturn(Optional.of(defaultGroup));
+        given(expenseRepo.getPagedData(any())).willReturn(page);
+        return searchDTO;
+    }
+
     private ExpenseSearchDTO createSearchChartDTOWithGroup() {
         ExpenseSearchDTO searchDTO = new ExpenseSearchDTO();
         SelectGroupmateDTO groupmateDTO = new SelectGroupmateDTO();
@@ -199,27 +213,26 @@ public class ExpenseBOTest {
 
         return searchDTO;
     }
+
     @Test()
     public void whenSearchChartWithGroup_ExpectOneElement() throws ValidationException {
-        List<ExpenseEntity> expenseEntities = new ArrayList<>();
-        ExpenseEntity expenseEntity = new ExpenseEntity();
-        expenseEntity.setId(1);
-        expenseEntity.setPrice(500);
-        expenseEntities.add(expenseEntity);
-
-        expenseEntity.setExpenseTypeDict(createTypeDictEntityList());
-
+        List<ExpenseEntity> expenseEntities = createGivenExpenseEntities();
         PageImpl<ExpenseEntity> page = new PageImpl<>(expenseEntities);
-
-        UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        GroupEntity defaultGroup = loggedUser.getGroups().get(0);
-        ExpenseSearchDTO searchDTO = createSearchChartDTOWithGroup();
-        given(groupRepo.findById(1)).willReturn(Optional.of(defaultGroup));
-        given(expenseRepo.getPagedData(any())).willReturn(page);
+        ExpenseSearchDTO searchDTO = processGivenSearchDTO(page);
 
         ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
 
         assertThat(searchChartDTO.getData().size() == 0, is(false));
         assertThat(searchChartDTO.getData().get("Food"), is(500));
+    }
+
+    private List<ExpenseEntity> createGivenExpenseEntities() {
+        List<ExpenseEntity> expenseEntities = new ArrayList<>();
+        ExpenseEntity expenseEntity = new ExpenseEntity();
+        expenseEntity.setId(1);
+        expenseEntity.setPrice(500);
+        expenseEntities.add(expenseEntity);
+        expenseEntity.setExpenseTypeDict(createTypeDictEntityList());
+        return expenseEntities;
     }
 }
