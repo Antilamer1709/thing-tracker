@@ -101,7 +101,7 @@ public class ExpenseBOImpl implements ExpenseBO {
     @Override
     @Transactional
     public ExpenseSearchChartDTO searchChart(ExpenseSearchDTO expenseSearchDTO) throws ValidationException {
-        validateSearchDTO(expenseSearchDTO);
+        processSearchChartDTO(expenseSearchDTO);
         ExpenseSearchChartDTO searchChartDTO = new ExpenseSearchChartDTO();
         processUserIds(expenseSearchDTO);
         SearchDTO<ExpenseSearchDTO> searchDTO = new SearchDTO<>(expenseSearchDTO, 0, Integer.MAX_VALUE);
@@ -119,7 +119,7 @@ public class ExpenseBOImpl implements ExpenseBO {
         return searchChartDTO;
     }
 
-    private void validateSearchDTO(ExpenseSearchDTO expenseSearchDTO) {
+    private void processSearchChartDTO(ExpenseSearchDTO expenseSearchDTO) {
         if (expenseSearchDTO.getDateTo() == null) {
             expenseSearchDTO.setDateTo(LocalDateTime.now());
         }
