@@ -6,6 +6,7 @@ import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
 import com.antilamer.thingTracker.dto.SelectGroupmateDTO;
 import com.antilamer.thingTracker.enums.GroupmateType;
 import com.antilamer.thingTracker.exception.ValidationException;
+import com.antilamer.thingTracker.model.ExpenseEntity;
 import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
 import com.antilamer.thingTracker.model.GroupEntity;
 import com.antilamer.thingTracker.model.UserEntity;
@@ -27,6 +28,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {ExpenseBOImpl.class, AuthenticationBOImpl.class})
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ExpenseBOTest {
 
     @Autowired
@@ -143,16 +146,19 @@ public class ExpenseBOTest {
         List<ExpenseTypeDictEntity> expenseTypeDictEntity = new ArrayList<>();
 
         ExpenseTypeDictEntity entity = new ExpenseTypeDictEntity();
+        entity.setId(1);
         entity.setName("Food");
         entity.setUsedCount(100);
         expenseTypeDictEntity.add(entity);
 
         entity = new ExpenseTypeDictEntity();
+        entity.setId(2);
         entity.setName("Test");
         entity.setUsedCount(0);
         expenseTypeDictEntity.add(entity);
 
         entity = new ExpenseTypeDictEntity();
+        entity.setId(3);
         entity.setName("Car");
         entity.setUsedCount(25);
         expenseTypeDictEntity.add(entity);
@@ -192,5 +198,28 @@ public class ExpenseBOTest {
         searchDTO.getSelectGroupmates().add(groupmateDTO);
 
         return searchDTO;
+    }
+    @Test()
+    public void whenSearchChartWithGroup_ExpectOneElement() throws ValidationException {
+        List<ExpenseEntity> expenseEntities = new ArrayList<>();
+        ExpenseEntity expenseEntity = new ExpenseEntity();
+        expenseEntity.setId(1);
+        expenseEntity.setPrice(500);
+        expenseEntities.add(expenseEntity);
+
+        expenseEntity.setExpenseTypeDict(createTypeDictEntityList());
+
+        PageImpl<ExpenseEntity> page = new PageImpl<>(expenseEntities);
+
+        UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        GroupEntity defaultGroup = loggedUser.getGroups().get(0);
+        ExpenseSearchDTO searchDTO = createSearchChartDTOWithGroup();
+        given(groupRepo.findById(1)).willReturn(Optional.of(defaultGroup));
+        given(expenseRepo.getPagedData(any())).willReturn(page);
+
+        ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
+
+        assertThat(searchChartDTO.getData().size() == 0, is(false));
+        assertThat(searchChartDTO.getData().get("Food"), is(500));
     }
 }
