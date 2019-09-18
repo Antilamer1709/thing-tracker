@@ -185,29 +185,30 @@ public class ExpenseBOTest {
 
     @Test()
     public void whenSearchChartWithGroup_ExpectEmpty() throws ValidationException {
-        ExpenseSearchDTO searchDTO = processGivenSearchDTO(new PageImpl<>(new ArrayList<>()));
+        ExpenseSearchDTO searchDTO = processGivenSearchDTO(new PageImpl<>(new ArrayList<>()), GroupmateType.GROUP);
 
         ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
 
         assertThat(searchChartDTO.getData().size() == 0, is(true));
     }
 
-    private ExpenseSearchDTO processGivenSearchDTO(PageImpl<ExpenseEntity> page) {
+    private ExpenseSearchDTO processGivenSearchDTO(PageImpl<ExpenseEntity> page, GroupmateType groupmateType) {
         UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         GroupEntity defaultGroup = loggedUser.getGroups().get(0);
-        ExpenseSearchDTO searchDTO = createSearchChartDTOWithGroup();
+        ExpenseSearchDTO searchDTO = createSearchChartDto(groupmateType);
         given(groupRepo.findById(1)).willReturn(Optional.of(defaultGroup));
         given(expenseRepo.getPagedData(any())).willReturn(page);
         return searchDTO;
     }
 
-    private ExpenseSearchDTO createSearchChartDTOWithGroup() {
+    private ExpenseSearchDTO createSearchChartDto(GroupmateType groupmateType) {
         ExpenseSearchDTO searchDTO = new ExpenseSearchDTO();
         SelectGroupmateDTO groupmateDTO = new SelectGroupmateDTO();
 
         groupmateDTO.setGroupId(1);
-        groupmateDTO.setLabel("Test users");
-        groupmateDTO.setType(GroupmateType.GROUP);
+        groupmateDTO.setUserId(1);
+        groupmateDTO.setLabel(groupmateType.equals(GroupmateType.GROUP) ? "Test users" : "user");
+        groupmateDTO.setType(groupmateType);
         searchDTO.setSelectGroupmates(new ArrayList<>());
         searchDTO.getSelectGroupmates().add(groupmateDTO);
 
@@ -218,7 +219,7 @@ public class ExpenseBOTest {
     public void whenSearchChartWithGroup_ExpectOneElement() throws ValidationException {
         List<ExpenseEntity> expenseEntities = createGivenExpenseEntities();
         PageImpl<ExpenseEntity> page = new PageImpl<>(expenseEntities);
-        ExpenseSearchDTO searchDTO = processGivenSearchDTO(page);
+        ExpenseSearchDTO searchDTO = processGivenSearchDTO(page, GroupmateType.GROUP);
 
         ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
 
@@ -234,5 +235,20 @@ public class ExpenseBOTest {
         expenseEntities.add(expenseEntity);
         expenseEntity.setExpenseTypeDict(createTypeDictEntityList());
         return expenseEntities;
+    }
+
+    @Test()
+    public void whenSearchChartWithUser_ExpectOneElement() throws ValidationException {
+        UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        given(userRepo.findById(1)).willReturn(Optional.of(loggedUser));
+
+        List<ExpenseEntity> expenseEntities = createGivenExpenseEntities();
+        PageImpl<ExpenseEntity> page = new PageImpl<>(expenseEntities);
+        ExpenseSearchDTO searchDTO = processGivenSearchDTO(page, GroupmateType.USER);
+
+        ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
+
+        assertThat(searchChartDTO.getData().size() == 0, is(false));
+        assertThat(searchChartDTO.getData().get("Food"), is(500));
     }
 }
