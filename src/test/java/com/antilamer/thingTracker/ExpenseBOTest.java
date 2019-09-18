@@ -225,7 +225,7 @@ public class ExpenseBOTest {
     }
 
     private void whenSearchChart_ExpectOneElement(GroupmateType group, Integer[] prices) throws ValidationException {
-        List<ExpenseEntity> expenseEntities = createGivenOneExpenseEntities(prices);
+        List<ExpenseEntity> expenseEntities = createGivenExpenseEntities(prices, true);
         PageImpl<ExpenseEntity> page = new PageImpl<>(expenseEntities);
         ExpenseSearchDTO searchDTO = processGivenSearchDTO(page, group);
 
@@ -236,18 +236,24 @@ public class ExpenseBOTest {
         assertThat(searchChartDTO.getData().get("Food"), is(priceSum));
     }
 
-    private List<ExpenseEntity> createGivenOneExpenseEntities(Integer[] prices) {
+    private List<ExpenseEntity> createGivenExpenseEntities(Integer[] prices, boolean allTheSameType) {
         List<ExpenseEntity> expenseEntities = new ArrayList<>();
 
-        for (int price : prices) {
+        for (int i = 0; i < prices.length; i++) {
             ExpenseEntity expenseEntity = new ExpenseEntity();
-            expenseEntity.setId(1);
-            expenseEntity.setPrice(price);
+            expenseEntity.setId(i + 1);
+            expenseEntity.setPrice(prices[i]);
+            expenseEntity.setExpenseTypeDict(allTheSameType ? createTypeDictEntityList() : createDynamicTypeDictEntityList(i));
             expenseEntities.add(expenseEntity);
-            expenseEntity.setExpenseTypeDict(createTypeDictEntityList());
         }
 
         return expenseEntities;
+    }
+
+    private List<ExpenseTypeDictEntity> createDynamicTypeDictEntityList(int index) {
+        List<ExpenseTypeDictEntity> populatedList = createTypeDictEntityList();
+
+        return populatedList.subList(index, index + 1);
     }
 
     @Test()
@@ -271,6 +277,27 @@ public class ExpenseBOTest {
         UserEntity user = Utils.createDefaultUser(2);
         given(userRepo.findById(1)).willReturn(Optional.of(user));
 
-        whenSearchChart_ExpectOneElement(GroupmateType.USER, new Integer[]{500, 1500, 300});
+        whenSearchChart_ExpectOneElement(GroupmateType.USER, new Integer[]{777});
+    }
+
+    @Test()
+    public void searchChartWithUserAndSeveralDifferentTypeExpenses_ExpectSeveralElements() throws ValidationException {
+        UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        given(userRepo.findById(1)).willReturn(Optional.of(loggedUser));
+
+        whenSearchChart_ExpectSeveralElements(GroupmateType.USER, new Integer[]{500, 1500, 300});
+    }
+
+    private void whenSearchChart_ExpectSeveralElements(GroupmateType group, Integer[] prices) throws ValidationException {
+        List<ExpenseEntity> expenseEntities = createGivenExpenseEntities(prices, false);
+        PageImpl<ExpenseEntity> page = new PageImpl<>(expenseEntities);
+        ExpenseSearchDTO searchDTO = processGivenSearchDTO(page, group);
+
+        ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
+
+        assertThat(searchChartDTO.getData().size() == 0, is(false));
+        assertThat(searchChartDTO.getData().get("Food"), is(500));
+        assertThat(searchChartDTO.getData().get("Test"), is(1500));
+        assertThat(searchChartDTO.getData().get("Car"), is(300));
     }
 }
