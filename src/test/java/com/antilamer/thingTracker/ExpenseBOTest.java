@@ -3,9 +3,11 @@ package com.antilamer.thingTracker;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
+import com.antilamer.thingTracker.dto.SelectGroupmateDTO;
+import com.antilamer.thingTracker.enums.GroupmateType;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
-import com.antilamer.thingTracker.model.RoleEntity;
+import com.antilamer.thingTracker.model.GroupEntity;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.*;
 import com.antilamer.thingTracker.security.JwtTokenProvider;
@@ -73,16 +75,9 @@ public class ExpenseBOTest {
 
     @Before
     public void onSetUpTestUser() {
-        UserEntity userDetails2 = new UserEntity();
-        userDetails2.setId(1);
-        userDetails2.setEmail("user");
-        userDetails2.setPassword("user123");
-        userDetails2.setRoles(new ArrayList<>());
-        RoleEntity role = new RoleEntity();
-        role.setCode("ROLE_USER");
-        userDetails2.getRoles().add(role);
+        UserEntity userDetails = Utils.createDefaultUser();
 
-        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails2, null);
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null);
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
@@ -103,7 +98,6 @@ public class ExpenseBOTest {
 
         expenseBO.createExpense(expenseDTO);
     }
-
     @Test
     public void whenCreateExpense_ValidWithNoType() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
@@ -116,7 +110,6 @@ public class ExpenseBOTest {
 
         expenseBO.createExpense(expenseDTO);
     }
-
     @Test(expected = ValidationException.class)
     public void whenCreateExpense_InvalidWithNoPrice() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
@@ -125,7 +118,6 @@ public class ExpenseBOTest {
 
         expenseBO.createExpense(expenseDTO);
     }
-
     @Test(expected = ValidationException.class)
     public void whenCreateExpense_InvalidWithNoType() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
@@ -147,7 +139,6 @@ public class ExpenseBOTest {
                 .orElseThrow(() -> new ValidationException("List does not contain 'Test' element"));
         assertThat(testString, is("Test"));
     }
-
     private List<ExpenseTypeDictEntity> createTypeDictEntityList() {
         List<ExpenseTypeDictEntity> expenseTypeDictEntity = new ArrayList<>();
 
@@ -177,5 +168,29 @@ public class ExpenseBOTest {
         ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(new ExpenseSearchDTO());
 
         assertThat(searchChartDTO.getData().size() == 0, is(true));
+    }
+    @Test()
+    public void whenSearchChartWithGroup_ExpectEmpty() throws ValidationException {
+        UserEntity loggedUser = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        GroupEntity defaultGroup = loggedUser.getGroups().get(0);
+        ExpenseSearchDTO searchDTO = createSearchChartDTOWithGroup();
+        given(groupRepo.findById(1)).willReturn(Optional.of(defaultGroup));
+        given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(new ArrayList<>()));
+
+        ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
+
+        assertThat(searchChartDTO.getData().size() == 0, is(true));
+    }
+    private ExpenseSearchDTO createSearchChartDTOWithGroup() {
+        ExpenseSearchDTO searchDTO = new ExpenseSearchDTO();
+        SelectGroupmateDTO groupmateDTO = new SelectGroupmateDTO();
+
+        groupmateDTO.setGroupId(1);
+        groupmateDTO.setLabel("Test users");
+        groupmateDTO.setType(GroupmateType.GROUP);
+        searchDTO.setSelectGroupmates(new ArrayList<>());
+        searchDTO.getSelectGroupmates().add(groupmateDTO);
+
+        return searchDTO;
     }
 }
