@@ -45,7 +45,7 @@ import static org.mockito.BDDMockito.given;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {ExpenseBOImpl.class, AuthenticationBOImpl.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class ExpenseBOIntegrationTest {
+public class IntegrationExpenseBOTest {
 
     @Autowired
     private ExpenseBO expenseBO;

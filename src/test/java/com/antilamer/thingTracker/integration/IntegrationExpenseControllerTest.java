@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = {ExpenseController.class, ObjectMapper.class, TestConfig.class})
 @EnableWebMvc
 @AutoConfigureMockMvc
-public class ExpenseControllerIntegrationTest {
+public class IntegrationExpenseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
