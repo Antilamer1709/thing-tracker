@@ -24,6 +24,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -42,9 +43,10 @@ public class ExpenseControllerTest {
     private ExpenseBO expenseBO;
 
 
+    // createExpense
     @Test
     @WithMockUser(username = "user1", password = "user1", roles = "USER")
-    public void whenUserSavesValidExpense_thenReturns200() throws Exception {
+    public void userSavesValidExpense_thenReturns200() throws Exception {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(500);
         expenseDTO.setTypes(new ArrayList<>());
@@ -64,6 +66,24 @@ public class ExpenseControllerTest {
 
         assertEquals("Prices are not equals", 500, userCaptor.getValue().getPrice());
         assertEquals("Types are not equals", "Food", userCaptor.getValue().getTypes().get(0));
+    }
+
+
+    // searchExpenseTypes
+    @Test
+    @WithMockUser(username = "user1", password = "user1", roles = "USER")
+    public void userSearchExpenseWithPredicate_thenReturns200() throws Exception {
+        mockMvc.perform(get("/api/expense/types")
+                .with(csrf())
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .param("predicate", "Foo"))
+                .andExpect(status().isOk());
+
+
+        ArgumentCaptor<String> userCaptor = ArgumentCaptor.forClass(String.class);
+        verify(expenseBO, times(1)).searchExpenseTypes(userCaptor.capture());
+
+        assertEquals("Predicates are not equals", "Foo", userCaptor.getValue());
     }
 
 }
