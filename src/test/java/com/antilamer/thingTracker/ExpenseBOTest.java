@@ -226,14 +226,18 @@ public class ExpenseBOTest {
 
     private void whenSearchChart_ExpectOneElement(GroupmateType group, Integer[] prices) throws ValidationException {
         List<ExpenseEntity> expenseEntities = createGivenExpenseEntities(prices, true);
-        PageImpl<ExpenseEntity> page = new PageImpl<>(expenseEntities);
-        ExpenseSearchDTO searchDTO = processGivenSearchDTO(page, group);
-
-        ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
+        ExpenseSearchChartDTO searchChartDTO = processSearchChart(group, expenseEntities);
 
         assertThat(searchChartDTO.getData().size() == 0, is(false));
         Integer priceSum = Arrays.stream(prices).reduce(0, Integer::sum);
         assertThat(searchChartDTO.getData().get("Food"), is(priceSum));
+    }
+
+    private ExpenseSearchChartDTO processSearchChart(GroupmateType group, List<ExpenseEntity> expenseEntities) throws ValidationException {
+        PageImpl<ExpenseEntity> page = new PageImpl<>(expenseEntities);
+        ExpenseSearchDTO searchDTO = processGivenSearchDTO(page, group);
+
+        return expenseBO.searchChart(searchDTO);
     }
 
     private List<ExpenseEntity> createGivenExpenseEntities(Integer[] prices, boolean allTheSameType) {
@@ -290,14 +294,11 @@ public class ExpenseBOTest {
 
     private void whenSearchChart_ExpectSeveralElements(GroupmateType group, Integer[] prices) throws ValidationException {
         List<ExpenseEntity> expenseEntities = createGivenExpenseEntities(prices, false);
-        PageImpl<ExpenseEntity> page = new PageImpl<>(expenseEntities);
-        ExpenseSearchDTO searchDTO = processGivenSearchDTO(page, group);
-
-        ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(searchDTO);
+        ExpenseSearchChartDTO searchChartDTO = processSearchChart(group, expenseEntities);
 
         assertThat(searchChartDTO.getData().size() == 0, is(false));
-        assertThat(searchChartDTO.getData().get("Food"), is(500));
-        assertThat(searchChartDTO.getData().get("Test"), is(1500));
-        assertThat(searchChartDTO.getData().get("Car"), is(300));
+        assertThat(searchChartDTO.getData().get("Food"), is(prices[0]));
+        assertThat(searchChartDTO.getData().get("Test"), is(prices[1]));
+        assertThat(searchChartDTO.getData().get("Car"), is(prices[2]));
     }
 }
