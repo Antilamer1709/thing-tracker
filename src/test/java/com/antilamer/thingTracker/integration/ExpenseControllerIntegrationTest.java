@@ -1,12 +1,12 @@
-package com.antilamer.thingTracker;
+package com.antilamer.thingTracker.integration;
 
+import com.antilamer.thingTracker.config.TestConfig;
 import com.antilamer.thingTracker.controller.ExpenseController;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
 import com.antilamer.thingTracker.service.ExpenseBO;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -34,10 +34,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ExpenseController.class, ObjectMapper.class, Config.class})
+@SpringBootTest(classes = {ExpenseController.class, ObjectMapper.class, TestConfig.class})
 @EnableWebMvc
 @AutoConfigureMockMvc
-public class ExpenseControllerTest {
+public class ExpenseControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;

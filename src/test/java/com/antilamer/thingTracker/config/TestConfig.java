@@ -1,4 +1,4 @@
-package com.antilamer.thingTracker;
+package com.antilamer.thingTracker.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -8,5 +8,5 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-public class Config {
+public class TestConfig {
 }

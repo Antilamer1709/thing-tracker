@@ -1,5 +1,6 @@
-package com.antilamer.thingTracker;
+package com.antilamer.thingTracker.integration;
 
+import com.antilamer.thingTracker.Utils;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
@@ -44,7 +45,7 @@ import static org.mockito.BDDMockito.given;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {ExpenseBOImpl.class, AuthenticationBOImpl.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class ExpenseBOTest {
+public class ExpenseBOIntegrationTest {
 
     @Autowired
     private ExpenseBO expenseBO;
