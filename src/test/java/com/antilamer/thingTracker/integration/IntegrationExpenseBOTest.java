@@ -13,7 +13,6 @@ import com.antilamer.thingTracker.model.GroupEntity;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.*;
 import com.antilamer.thingTracker.security.JwtTokenProvider;
-import com.antilamer.thingTracker.service.AuthenticationBO;
 import com.antilamer.thingTracker.service.AuthenticationBOImpl;
 import com.antilamer.thingTracker.service.ExpenseBO;
 import com.antilamer.thingTracker.service.ExpenseBOImpl;
@@ -49,9 +48,6 @@ public class IntegrationExpenseBOTest {
 
     @Autowired
     private ExpenseBO expenseBO;
-
-    @Autowired
-    private AuthenticationBO authenticationBO;
 
     @MockBean
     private ExpenseRepo expenseRepo;
