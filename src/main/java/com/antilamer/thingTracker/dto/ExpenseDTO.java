@@ -2,6 +2,7 @@ package com.antilamer.thingTracker.dto;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,5 +17,10 @@ public class ExpenseDTO {
     private UserDTO creator;
 
     private List<String> types;
+
+
+    public ExpenseDTO() {
+        types = new ArrayList<>();
+    }
 
 }

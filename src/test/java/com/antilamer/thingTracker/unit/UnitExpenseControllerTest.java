@@ -1,25 +1,21 @@
-package com.antilamer.thingTracker.integration;
+package com.antilamer.thingTracker.unit;
 
-import com.antilamer.thingTracker.config.TestConfig;
 import com.antilamer.thingTracker.controller.ExpenseController;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
 import com.antilamer.thingTracker.service.ExpenseBO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static com.antilamer.thingTracker.Utils.doTestPost;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,29 +26,28 @@ import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ExpenseController.class, ObjectMapper.class, TestConfig.class})
-@EnableWebMvc
-@AutoConfigureMockMvc
-public class ExpenseControllerIntegrationTest {
+@RunWith(MockitoJUnitRunner.class)
+public class UnitExpenseControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
-    @MockBean
+    @Mock
     private ExpenseBO expenseBO;
+
+    @Before
+    public void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(new ExpenseController(expenseBO)).build();
+    }
 
 
     // createExpense
     @Test
-    @WithMockUser(username = "user1", password = "user1", roles = "USER")
     public void userSavesValidExpense_thenReturns200() throws Exception {
         ExpenseDTO expenseDTO = new ExpenseDTO();
-        expenseDTO.setPrice(500);
-        expenseDTO.getTypes().add("Food");
+        expenseDTO.setPrice(1000);
+        expenseDTO.getTypes().add("Cars");
 
 
         doTestPost(mockMvc, objectMapper, "/api/expense", expenseDTO);
@@ -60,31 +55,29 @@ public class ExpenseControllerIntegrationTest {
         ArgumentCaptor<ExpenseDTO> userCaptor = ArgumentCaptor.forClass(ExpenseDTO.class);
         verify(expenseBO, times(1)).createExpense(userCaptor.capture());
 
-        assertEquals("Prices are not equals", 500, userCaptor.getValue().getPrice());
-        assertEquals("Types are not equals", "Food", userCaptor.getValue().getTypes().get(0));
+        assertEquals("Prices are not equals", 1000, userCaptor.getValue().getPrice());
+        assertEquals("Types are not equals", "Cars", userCaptor.getValue().getTypes().get(0));
     }
 
 
     // searchExpenseTypes
     @Test
-    @WithMockUser(username = "user1", password = "user1", roles = "USER")
     public void userSearchExpenseWithPredicate_thenReturns200() throws Exception {
         mockMvc.perform(get("/api/expense/types")
                 .with(csrf())
                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                .param("predicate", "Foo"))
+                .param("predicate", "Alc"))
                 .andExpect(status().isOk());
 
         ArgumentCaptor<String> userCaptor = ArgumentCaptor.forClass(String.class);
         verify(expenseBO, times(1)).searchExpenseTypes(userCaptor.capture());
 
-        assertEquals("Predicates are not equals", "Foo", userCaptor.getValue());
+        assertEquals("Predicates are not equals", "Alc", userCaptor.getValue());
     }
 
 
     // searchChart
     @Test
-    @WithMockUser(username = "user1", password = "user1", roles = "USER")
     public void userSearchChartEmpty_thenReturns200() throws Exception {
         ExpenseSearchChartDTO resultDTO = new ExpenseSearchChartDTO();
         given(expenseBO.searchChart(any())).willReturn(resultDTO);

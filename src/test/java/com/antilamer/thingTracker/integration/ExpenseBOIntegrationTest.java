@@ -87,7 +87,6 @@ public class ExpenseBOIntegrationTest {
     }
 
 
-
     // createExpense
     @Test
     public void createExpense_Valid() throws ValidationException {
@@ -97,7 +96,6 @@ public class ExpenseBOIntegrationTest {
 
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(500);
-        expenseDTO.setTypes(new ArrayList<>());
         expenseDTO.getTypes().add(type.getName());
 
         given(expenseTypeDictRepo.findByNameIgnoreCase("Food")).willReturn(Optional.of(type));
@@ -110,7 +108,6 @@ public class ExpenseBOIntegrationTest {
     public void createExpense_ValidWithNoType() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(70000);
-        expenseDTO.setTypes(new ArrayList<>());
         expenseDTO.getTypes().add("Car");
 
         given(expenseTypeDictRepo.findByNameIgnoreCase(any())).willReturn(Optional.empty());
@@ -122,7 +119,6 @@ public class ExpenseBOIntegrationTest {
     @Test(expected = ValidationException.class)
     public void createExpense_InvalidWithNoPrice() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
-        expenseDTO.setTypes(new ArrayList<>());
         expenseDTO.getTypes().add("Car");
 
         expenseBO.createExpense(expenseDTO);
@@ -135,7 +131,6 @@ public class ExpenseBOIntegrationTest {
 
         expenseBO.createExpense(expenseDTO);
     }
-
 
 
     // searchExpenseTypes
@@ -175,7 +170,6 @@ public class ExpenseBOIntegrationTest {
 
         return expenseTypeDictEntity;
     }
-
 
 
     //searchChart
