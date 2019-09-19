@@ -85,15 +85,21 @@ public class ExpenseControllerIntegrationTest {
     // searchChart
     @Test
     @WithMockUser(username = "user1", password = "user1", roles = "USER")
-    public void userSearchChartEmpty_thenReturns200() throws Exception {
-        ExpenseSearchChartDTO resultDTO = new ExpenseSearchChartDTO();
-        given(expenseBO.searchChart(any())).willReturn(resultDTO);
+    public void userSearchChartPopulated_thenReturns200() throws Exception {
+        ExpenseSearchChartDTO mockResultDTO = new ExpenseSearchChartDTO();
+        mockResultDTO.getData().put("Food", 5000);
+        mockResultDTO.getData().put("Car", 15000);
+
+        given(expenseBO.searchChart(any())).willReturn(mockResultDTO);
         ExpenseSearchDTO expenseSearchDTO = new ExpenseSearchDTO();
 
         MvcResult mvcResult = doTestPost(mockMvc, objectMapper, "/api/expense/search/chart", expenseSearchDTO);
 
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
-        assertThat(objectMapper.writeValueAsString(resultDTO)).isEqualToIgnoringWhitespace(actualResponseBody);
+        assertThat(objectMapper.writeValueAsString(mockResultDTO)).isEqualToIgnoringWhitespace(actualResponseBody);
+
+        ExpenseSearchChartDTO actualResponseDTO = objectMapper.readValue(actualResponseBody, ExpenseSearchChartDTO.class);
+        assertThat(actualResponseDTO).isEqualTo(mockResultDTO);
 
         ArgumentCaptor<ExpenseSearchDTO> userCaptor = ArgumentCaptor.forClass(ExpenseSearchDTO.class);
         verify(expenseBO, times(1)).searchChart(userCaptor.capture());
