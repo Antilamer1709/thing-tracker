@@ -8,6 +8,7 @@ import com.antilamer.thingTracker.service.ExpenseBO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ public class ExpenseController {
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping(value = "")
     @ResponseStatus(value = HttpStatus.OK)
+    @Async("threadPoolTaskExecutor")
     public void createExpense(@RequestBody ExpenseDTO expenseDTO) throws ValidationException {
         log.debug("*** createExpense() expenseDTO: " + expenseDTO);
         expenseBO.createExpense(expenseDTO);
