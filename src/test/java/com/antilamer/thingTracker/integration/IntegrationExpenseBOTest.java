@@ -20,15 +20,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -42,26 +44,30 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {ExpenseBOImpl.class, AuthenticationBOImpl.class})
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DataJpaTest
+@Import(value = {ExpenseBOImpl.class, AuthenticationBOImpl.class})
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class IntegrationExpenseBOTest {
+
+    @Autowired
+    private TestEntityManager entityManager;
 
     @Autowired
     private ExpenseBO expenseBO;
 
-    @MockBean
+    @Autowired
     private ExpenseRepo expenseRepo;
 
-    @MockBean
+    @Autowired
     private ExpenseTypeDictRepo expenseTypeDictRepo;
 
-    @MockBean
+    @Autowired
     private UserRepo userRepo;
 
-    @MockBean
+    @Autowired
     private GroupRepo groupRepo;
 
-    @MockBean
+    @Autowired
     private RoleRepo roleRepo;
 
     @MockBean
@@ -73,12 +79,13 @@ public class IntegrationExpenseBOTest {
     @MockBean
     private JwtTokenProvider tokenProvider;
 
+    private UserEntity loggedUser;
 
     @Before
     public void onSetUpTestUser() {
-        UserEntity userDetails = Utils.createDefaultUser();
+        loggedUser = Utils.createDefaultUser();
 
-        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null);
+        Authentication auth = new UsernamePasswordAuthenticationToken(loggedUser, null);
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
@@ -94,9 +101,6 @@ public class IntegrationExpenseBOTest {
         expenseDTO.setPrice(500);
         expenseDTO.getTypes().add(type.getName());
 
-        given(expenseTypeDictRepo.findByNameIgnoreCase("Food")).willReturn(Optional.of(type));
-        given(expenseTypeDictRepo.save(type)).willReturn(type);
-
         expenseBO.createExpense(expenseDTO);
     }
 
@@ -106,16 +110,13 @@ public class IntegrationExpenseBOTest {
         expenseDTO.setPrice(70000);
         expenseDTO.getTypes().add("Car");
 
-        given(expenseTypeDictRepo.findByNameIgnoreCase(any())).willReturn(Optional.empty());
-        given(expenseTypeDictRepo.save(any())).willAnswer(i -> i.getArguments()[0]);
-
         expenseBO.createExpense(expenseDTO);
     }
 
     @Test(expected = ValidationException.class)
     public void createExpense_InvalidWithNoPrice() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
-        expenseDTO.getTypes().add("Car");
+        expenseDTO.getTypes().add("Cow");
 
         expenseBO.createExpense(expenseDTO);
     }
@@ -123,7 +124,7 @@ public class IntegrationExpenseBOTest {
     @Test(expected = ValidationException.class)
     public void createExpense_InvalidWithNoType() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
-        expenseDTO.setPrice(70000);
+        expenseDTO.setPrice(650);
 
         expenseBO.createExpense(expenseDTO);
     }
@@ -132,47 +133,47 @@ public class IntegrationExpenseBOTest {
     // searchExpenseTypes
     @Test()
     public void searchExpenseTypes_Valid() throws ValidationException {
-        List<ExpenseTypeDictEntity> typeDictEntity = createTypeDictEntityList();
-        given(expenseTypeDictRepo.findTop5ByNameContainingIgnoreCase("Tes")).willReturn(typeDictEntity);
+        createTypeDictEntityList();
 
         List<String> expenseTypes = expenseBO.searchExpenseTypes("Tes");
 
-        assertThat(expenseTypes.size(), is(3));
+        assertThat(expenseTypes.size(), is(1));
         String testString = expenseTypes.stream().filter(x -> x.equals("Test")).findFirst()
                 .orElseThrow(() -> new ValidationException("List does not contain 'Test' element"));
         assertThat(testString, is("Test"));
     }
 
     private List<ExpenseTypeDictEntity> createTypeDictEntityList() {
-        List<ExpenseTypeDictEntity> expenseTypeDictEntity = new ArrayList<>();
+        List<ExpenseTypeDictEntity> expenseTypeList = new ArrayList<>();
 
         ExpenseTypeDictEntity entity = new ExpenseTypeDictEntity();
         entity.setId(1);
         entity.setName("Food");
         entity.setUsedCount(100);
-        expenseTypeDictEntity.add(entity);
+        entity.setUser(loggedUser);
+        expenseTypeList.add(entity);
 
         entity = new ExpenseTypeDictEntity();
         entity.setId(2);
         entity.setName("Test");
         entity.setUsedCount(0);
-        expenseTypeDictEntity.add(entity);
+        entity.setUser(loggedUser);
+        expenseTypeList.add(entity);
 
         entity = new ExpenseTypeDictEntity();
         entity.setId(3);
         entity.setName("Car");
         entity.setUsedCount(25);
-        expenseTypeDictEntity.add(entity);
+        entity.setUser(loggedUser);
+        expenseTypeList.add(entity);
 
-        return expenseTypeDictEntity;
+        return expenseTypeDictRepo.saveAll(expenseTypeList);
     }
 
 
     //searchChart
     @Test()
     public void searchChartWithNoData_ExpectEmpty() throws ValidationException {
-        given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(new ArrayList<>()));
-
         ExpenseSearchChartDTO searchChartDTO = expenseBO.searchChart(new ExpenseSearchDTO());
 
         assertThat(searchChartDTO.getData().size() == 0, is(true));
