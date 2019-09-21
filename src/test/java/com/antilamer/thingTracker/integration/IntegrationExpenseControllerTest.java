@@ -1,7 +1,6 @@
 package com.antilamer.thingTracker.integration;
 
 import com.antilamer.thingTracker.Utils;
-import com.antilamer.thingTracker.config.TestConfig;
 import com.antilamer.thingTracker.controller.ExpenseController;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
@@ -44,16 +43,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@Import(value = {ExpenseController.class, ObjectMapper.class, TestConfig.class, ExpenseBOImpl.class, AuthenticationBOImpl.class})
+@Import(value = {ExpenseController.class, ObjectMapper.class, ExpenseBOImpl.class, AuthenticationBOImpl.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class IntegrationExpenseControllerTest {
 
     private MockMvc mockMvc;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
     @Autowired
-    private TestEntityManager entityManager;
+    private ObjectMapper objectMapper;
 
     @Autowired
     private ExpenseBO expenseBO;
