@@ -48,8 +48,8 @@ export class AuthenticationService extends CommonService {
     return this.loggedUser.roles.includes(role.toString());
   }
 
-  public getHostName(): Observable<HostDTO> {
-    return this.http.get<HostDTO>('/api/authentication/hostName');
+  public getHostInfo(): Observable<HostDTO> {
+    return this.http.get<HostDTO>('/api/authentication/hostInfo');
   }
 
   public getAppVersion(): Observable<any> {

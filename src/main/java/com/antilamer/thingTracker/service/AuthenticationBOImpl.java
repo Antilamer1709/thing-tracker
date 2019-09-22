@@ -1,9 +1,12 @@
 package com.antilamer.thingTracker.service;
 
+import com.antilamer.thingTracker.config.AppProperties;
+import com.antilamer.thingTracker.dto.HostDTO;
 import com.antilamer.thingTracker.dto.JwtAuthenticationResponseDTO;
 import com.antilamer.thingTracker.dto.RegistrationDTO;
 import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.enums.UserRole;
+import com.antilamer.thingTracker.exception.ApplicationException;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.RoleEntity;
@@ -26,8 +29,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -43,6 +48,8 @@ public class AuthenticationBOImpl implements AuthenticationBO {
     private final AuthenticationManager authenticationManager;
 
     private final JwtTokenProvider tokenProvider;
+
+    private final AppProperties appProperties;
 
 
     public UserEntity getLoggedUser() {
@@ -171,5 +178,33 @@ public class AuthenticationBOImpl implements AuthenticationBO {
             }
         }
         return resultStringBuilder.toString();
+    }
+
+    @Override
+    public HostDTO getHostInfo() throws ApplicationException {
+        HostDTO hostDTO;
+
+        try {
+            InetAddress ip = InetAddress.getLocalHost();
+            hostDTO = new HostDTO(ip);
+            log.debug("*** Your current IP address : " + ip);
+            log.debug("*** Your current Hostname : " + ip.getHostName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            hostDTO = new HostDTO();
+        }
+
+        return processOAuthRedirectUri(hostDTO);
+    }
+
+    private HostDTO processOAuthRedirectUri(HostDTO hostDTO) throws ApplicationException {
+        List<String> authorizedRedirectUris = appProperties.getOauth2().getAuthorizedRedirectUris();
+        String redirectUri = authorizedRedirectUris
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new ApplicationException("There no redirectUris in application properties have been set!"));
+        hostDTO.setRedirectOAuthRUri(redirectUri);
+
+        return hostDTO;
     }
 }

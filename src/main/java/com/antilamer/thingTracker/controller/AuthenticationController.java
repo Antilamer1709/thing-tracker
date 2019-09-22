@@ -4,15 +4,13 @@ import com.antilamer.thingTracker.dto.HostDTO;
 import com.antilamer.thingTracker.dto.JwtAuthenticationResponseDTO;
 import com.antilamer.thingTracker.dto.RegistrationDTO;
 import com.antilamer.thingTracker.dto.UserDTO;
+import com.antilamer.thingTracker.exception.ApplicationException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.AuthenticationBO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.InetAddress;
 
 @Slf4j
 @RestController
@@ -42,26 +40,15 @@ public class AuthenticationController {
         return authenticationBO.login(userDTO);
     }
 
-    @GetMapping(value = "/hostName")
-    public HostDTO getHostName() {
-        log.debug("*** getHostName()");
-        HostDTO hostDTO;
-
-        try {
-            InetAddress ip = InetAddress.getLocalHost();
-            hostDTO = new HostDTO(ip);
-            log.debug("*** Your current IP address : " + ip);
-            log.debug("*** Your current Hostname : " + ip.getHostName());
-        } catch (Exception e) {
-            e.printStackTrace();
-            hostDTO = new HostDTO();
-        }
-
-        return hostDTO;
+    @GetMapping(value = "/hostInfo")
+    public HostDTO getHostInfo() throws ApplicationException {
+        log.debug("*** getHostInfo()");
+        return authenticationBO.getHostInfo();
     }
 
     @GetMapping(value = "/version")
-    public String versionInformation() {
+    public String getGitProperties() {
+        log.debug("*** getGitProperties()");
         return authenticationBO.getGitProperties();
     }
 

@@ -121,8 +121,8 @@
     </a>
 
     <div class="layout-version">
-      <div *ngIf="host">
-        {{' Host name: ' + host.hostName}}
+      <div *ngIf="appService.host">
+        {{' Host name: ' + appService.host.hostName}}
       </div>
       <div *ngIf="version && !version.error">
         <div>

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthenticationService} from "../../authentication/authentication.service";
-import {HostDTO, MessageDTO, ResponseToMessageDTO} from "../../../generated/dto";
-import {AuthRepository} from "../../authentication/repository/auth.repository";
-import {MessageService} from "primeng/api";
-import {MainMenuService} from "./main-menu.service";
-import {Router} from "@angular/router";
-import {UserService} from "../main/user/user.service";
+import {AuthenticationService} from '../../authentication/authentication.service';
+import {HostDTO, MessageDTO, ResponseToMessageDTO} from '../../../generated/dto';
+import {AuthRepository} from '../../authentication/repository/auth.repository';
+import {MessageService} from 'primeng/api';
+import {MainMenuService} from './main-menu.service';
+import {Router} from '@angular/router';
+import {UserService} from '../main/user/user.service';
+import {AppService} from '../../app.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -18,8 +19,6 @@ export class MainMenuComponent implements OnInit {
 
   public activeMenuId: string;
 
-  public host: HostDTO;
-
   public version: any;
 
   public messages: MessageDTO[];
@@ -29,6 +28,7 @@ export class MainMenuComponent implements OnInit {
   userMessagesStyle: HTMLElement;
 
   constructor(public authenticationService: AuthenticationService,
+              public appService: AppService,
               private router: Router,
               private service: MainMenuService,
               private userService: UserService,
@@ -39,7 +39,6 @@ export class MainMenuComponent implements OnInit {
     this.initSyles();
     this.initUserMessages();
     this.initializeWebSocketConnection();
-    this.initHostName();
     this.getVersion();
   }
 
@@ -55,7 +54,7 @@ export class MainMenuComponent implements OnInit {
         if (res && res.id) {
           this.service.getUserMessages().subscribe(messages => {
               this.messages = messages;
-          })
+          });
         }
 
     });
@@ -73,14 +72,14 @@ export class MainMenuComponent implements OnInit {
   }
 
   private openGlobalSocket(): void {
-    this.stompClient.subscribe("/topic/user-messages", (message) => {
+    this.stompClient.subscribe('/topic/user-messages', (message) => {
       this.handleResult(message);
     });
   }
 
   private handleResult(message): void {
     if (message.body) {
-      let messageResult: MessageDTO = JSON.parse(message.body);
+      const messageResult: MessageDTO = JSON.parse(message.body);
       console.log(messageResult);
       this.messages.push(messageResult);
       this.messageService.add({severity: 'info', summary: 'Info', detail: 'New message received!'});
@@ -91,7 +90,7 @@ export class MainMenuComponent implements OnInit {
     this.authenticationService.getLoggedUser().subscribe(
       res => {
         if (res && res.id) {
-          this.stompClient.subscribe("/topic/" + res.id, (message) => {
+          this.stompClient.subscribe('/topic/' + res.id, (message) => {
             this.handleResult(message);
           });
         }
@@ -119,13 +118,6 @@ export class MainMenuComponent implements OnInit {
   public logout(): void {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
-  }
-
-  private initHostName(): void {
-    this.authenticationService.getHostName().subscribe(res => {
-      console.log('HostName: ' + res.hostName);
-      this.host = res;
-    });
   }
 
   private getVersion(): void {

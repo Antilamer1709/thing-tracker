@@ -1,6 +1,7 @@
 package com.antilamer.thingTracker.unit;
 
 import com.antilamer.thingTracker.Utils;
+import com.antilamer.thingTracker.config.AppProperties;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
@@ -68,10 +69,14 @@ public class UnitExpenseBOTest {
     @Mock
     private JwtTokenProvider tokenProvider;
 
+    @Mock
+    private AppProperties appProperties;
+
 
     @Before
     public void onSetUpTestUser() {
-        AuthenticationBO authenticationBO = new AuthenticationBOImpl(userRepo, roleRepo, passwordEncoder, authenticationManager, tokenProvider);
+        AuthenticationBO authenticationBO = new AuthenticationBOImpl(userRepo, roleRepo, passwordEncoder,
+                authenticationManager, tokenProvider, appProperties);
         expenseBO = new ExpenseBOImpl(expenseRepo, expenseTypeDictRepo, userRepo, groupRepo, authenticationBO);
 
         UserEntity userDetails = Utils.createDefaultUser();

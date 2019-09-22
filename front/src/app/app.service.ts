@@ -1,11 +1,14 @@
 import {Injectable} from '@angular/core';
+import {HostDTO} from "../generated/dto";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
 
-  blockedUI: boolean = false;
+  public blockedUI: boolean = false;
+
+  public host: HostDTO;
 
   constructor() {
   }

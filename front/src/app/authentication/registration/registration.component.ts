@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {RegistrationService} from "./registration.service";
-import {MessageService} from "primeng/components/common/messageservice";
-import {Router} from "@angular/router";
-import {FormGroup} from "@angular/forms";
-import {RegistrationDTO, UserDTO} from "../../../generated/dto";
-import {AppService} from "../../app.service";
-import {LoginService} from "../login/login.service";
-import {AuthenticationService} from "../authentication.service";
-import {environment} from "../../../environments/environment";
+import {RegistrationService} from './registration.service';
+import {MessageService} from 'primeng/components/common/messageservice';
+import {Router} from '@angular/router';
+import {FormGroup} from '@angular/forms';
+import {RegistrationDTO, UserDTO} from '../../../generated/dto';
+import {AppService} from '../../app.service';
+import {LoginService} from '../login/login.service';
+import {AuthenticationService} from '../authentication.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-registration',
@@ -17,8 +17,6 @@ import {environment} from "../../../environments/environment";
 export class RegistrationComponent implements OnInit {
 
   public apiUrl: string = environment.apiUrl;
-
-  public frontUrl: string = environment.frontUrl;
 
   public registration: RegistrationDTO;
 
@@ -40,17 +38,17 @@ export class RegistrationComponent implements OnInit {
       this.appService.blockedUI = true;
       this.service.register(this.registration).subscribe(
         () => {
-          this.messageService.add({severity:'success', summary:'Registration', detail:'Registration has been successfully completed!'});
+          this.messageService.add({severity: 'success', summary: 'Registration', detail: 'Registration has been successfully completed!'});
           this.login();
         }
       );
     } else {
-      this.messageService.add({severity:'error', summary:'Error', detail:'Please, fill all fields in correct way!'});
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Please, fill all fields in correct way!'});
     }
   }
 
   public login(): void {
-    let user: UserDTO = new UserDTO();
+    const user: UserDTO = new UserDTO();
     user.email = this.registration.email;
     user.password = this.registration.password;
 
@@ -60,7 +58,7 @@ export class RegistrationComponent implements OnInit {
         this.authenticationService.initLoggedUser();
         this.appService.blockedUI = false;
 
-        this.messageService.add({severity:'info', summary:'Hello', detail:'You are logged in!'});
+        this.messageService.add({severity: 'info', summary: 'Hello', detail: 'You are logged in!'});
         this.router.navigate(['/']);
       }
     );

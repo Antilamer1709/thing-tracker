@@ -9,6 +9,9 @@ public class HostDTO {
 
     private String hostName;
 
+    private String redirectOAuthRUri;
+
+
     public HostDTO() {
         hostName = "Unknown";
     }

@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {FormGroup} from "@angular/forms";
-import {LoginService} from "./login.service";
-import {MessageService} from "primeng/components/common/messageservice";
-import {AuthenticationService} from "../authentication.service";
-import {JwtAuthenticationResponseDTO, UserDTO} from "../../../generated/dto";
-import {AppService} from "../../app.service";
-import {AuthRepository} from "../repository/auth.repository";
-import {environment} from "../../../environments/environment";
+import {ActivatedRoute, Router} from '@angular/router';
+import {FormGroup} from '@angular/forms';
+import {LoginService} from './login.service';
+import {MessageService} from 'primeng/components/common/messageservice';
+import {AuthenticationService} from '../authentication.service';
+import {JwtAuthenticationResponseDTO, UserDTO} from '../../../generated/dto';
+import {AppService} from '../../app.service';
+import {AuthRepository} from '../repository/auth.repository';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -18,14 +18,13 @@ export class LoginComponent implements OnInit {
 
   public user: UserDTO;
   public apiUrl: string = environment.apiUrl;
-  public frontUrl: string = environment.frontUrl;
   private returnUrl: string;
   private token: string;
 
-  constructor(private messageService: MessageService,
+  constructor(public appService: AppService,
+              private messageService: MessageService,
               private authenticationService: AuthenticationService,
               private service: LoginService,
-              private appService: AppService,
               private router: Router,
               private authRepo: AuthRepository,
               private route: ActivatedRoute) {
@@ -51,12 +50,12 @@ export class LoginComponent implements OnInit {
         }
       );
     } else {
-      this.messageService.add({severity:'error', summary:'Error', detail:'Please, fill all fields in correct way!'});
+      this.messageService.add({severity: 'error', summary: 'Error', detail: 'Please, fill all fields in correct way!'});
     }
   }
 
   private successNavigate(): void {
-    this.messageService.add({severity:'success', summary:'Hello', detail:'You are logged in!'});
+    this.messageService.add({severity: 'success', summary: 'Hello', detail: 'You are logged in!'});
     this.router.navigate([this.returnUrl]);
   }
 
@@ -66,10 +65,10 @@ export class LoginComponent implements OnInit {
 
   private checkOauth2(): void {
     if (this.token) {
-      let token: JwtAuthenticationResponseDTO = new JwtAuthenticationResponseDTO();
+      const token: JwtAuthenticationResponseDTO = new JwtAuthenticationResponseDTO();
       token.accessToken = this.token;
       token.tokenType = 'Bearer';
-      this.authRepo.auth("facebook", token);
+      this.authRepo.auth('facebook', token);
       this.successNavigate();
       this.authenticationService.initLoggedUser();
     }
