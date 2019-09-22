@@ -20,11 +20,11 @@ export class RegistrationComponent implements OnInit {
 
   public registration: RegistrationDTO;
 
-  constructor(private service: RegistrationService,
+  constructor(public appService: AppService,
+              private service: RegistrationService,
               private loginService: LoginService,
               private authenticationService: AuthenticationService,
               private router: Router,
-              private appService: AppService,
               private messageService: MessageService) {
   }
 
