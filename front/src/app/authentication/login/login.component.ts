@@ -32,8 +32,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.user = new UserDTO();
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    this.token = this.route.snapshot.queryParams['token'];
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+    this.token = this.route.snapshot.queryParams.token;
     this.checkOauth2();
   }
 
