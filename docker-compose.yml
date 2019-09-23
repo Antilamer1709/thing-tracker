@@ -4,6 +4,8 @@ services:
     image: antilamer/thing-tracker:proxy
     environment:
     - SPRING_DATASOURCE_URL=jdbc:postgresql://13.53.83.131:5432/thing_tracker
+    volumes:
+    - /opt/logs/thing-tracker:/opt/logs/thing-tracker
     deploy:
       replicas: 1
 #      max-replicas-per-node: 1
