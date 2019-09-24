@@ -1,6 +1,6 @@
-package com.antilamer.thingTracker.ui;
+package com.antilamer.thingTracker.ui.expense;
 
-import org.junit.Assert;
+import com.antilamer.thingTracker.ui.UITestConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -17,23 +17,21 @@ import static java.lang.Thread.sleep;
                 UITestConfiguration.class
         },
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class UIAuthTest {
+public class UIExpenseTest {
 
     @Value("${app.front.url}")
     private String frontUrl;
 
-    @Autowired(required = true)
-    RemoteWebDriver driver;
+    @Autowired()
+    private RemoteWebDriver driver;
 
     @Test
-    public void login() throws InterruptedException {
-        driver.navigate().to(frontUrl + "/login");
+    public void createExpense() throws InterruptedException {
+        driver.navigate().to(frontUrl + "/main/add-expense");
 
-        driver.findElementById("email").sendKeys("user1");
-        driver.findElementById("password").sendKeys("user1");
-        driver.findElementsByTagName("button").get(0).click();
-        sleep(2500);
-
-        Assert.assertTrue(driver.getCurrentUrl().endsWith("/main/dashboard"));
+        driver.findElementsByTagName("input").get(0).sendKeys("Food");
+        driver.findElementsByTagName("input").get(1).sendKeys("350");
+        driver.findElementById("submit").click();
+        sleep(1500);
     }
 }
