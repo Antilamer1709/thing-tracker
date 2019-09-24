@@ -117,6 +117,14 @@
 			<artifactId>flyway-core</artifactId>
 			<version>5.2.4</version>
 		</dependency>
+
+		<!-- SELENIUM -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>3.141.59</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
