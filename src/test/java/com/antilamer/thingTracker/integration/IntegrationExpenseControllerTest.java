@@ -26,7 +26,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -109,7 +108,6 @@ public class IntegrationExpenseControllerTest {
 
     // searchExpenseTypes
     @Test
-    @WithMockUser(username = "user1", password = "user1", roles = "USER")
     public void userSearchExpenseWithPredicate_thenReturns200() throws Exception {
         mockMvc.perform(get("/api/expense/types")
                 .with(csrf())
@@ -121,7 +119,6 @@ public class IntegrationExpenseControllerTest {
 
     // searchChart
     @Test
-    @WithMockUser(username = "user1", password = "user1", roles = "USER")
     public void userSearchChartPopulated_thenReturns200() throws Exception {
         ExpenseSearchChartDTO expectedResult = new ExpenseSearchChartDTO();
         ExpenseSearchDTO expenseSearchDTO = new ExpenseSearchDTO();

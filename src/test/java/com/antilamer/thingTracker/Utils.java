@@ -25,7 +25,7 @@ public class Utils {
     public static UserEntity createDefaultUser(int userGroupId) {
         UserEntity userDetails = new UserEntity();
         userDetails.setId(userGroupId);
-        userDetails.setEmail("user");
+        userDetails.setEmail("integrationTestUser1");
         userDetails.setFullName("Full metal user");
         userDetails.setPassword("user123");
 
