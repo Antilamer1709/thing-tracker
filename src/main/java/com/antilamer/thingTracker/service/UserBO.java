@@ -10,7 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -45,6 +49,47 @@ public class UserBO {
         return userRepo.findTop5ByFullNameOrUsername(PageRequest.of(0,5), predicate).stream()
                 .map(UserDTO::new)
                 .collect(Collectors.toList());
+    }
+
+
+    private void chceckForDuplicates(List<UserDTO> users) {
+        long distinctCount = users.stream().filter(distinctByFullName()).count();
+
+        if (distinctCount < users.size()) {
+            throw new RuntimeException();
+        }
+    }
+
+    private Predicate<UserDTO> distinctByFullName() {
+        Set<UniqueUser> seen = new HashSet<>();
+        return x -> seen.add(new UniqueUser(x));
+    }
+
+
+
+    private class UniqueUser {
+
+        private String fullName;
+        private String email;
+
+        UniqueUser(UserDTO userDTO) {
+            this.fullName = userDTO.getFullName();
+            this.email = userDTO.getEmail();
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            UniqueUser that = (UniqueUser) o;
+            return Objects.equals(fullName, that.fullName) &&
+                    Objects.equals(email, that.email);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(fullName, email);
+        }
     }
 
 }
