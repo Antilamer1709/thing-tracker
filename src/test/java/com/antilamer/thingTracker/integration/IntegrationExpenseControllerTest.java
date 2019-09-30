@@ -120,7 +120,9 @@ public class IntegrationExpenseControllerTest {
     // searchChart
     @Test
     public void userSearchChartPopulated_thenReturns200() throws Exception {
+        userSavesValidExpense_thenReturns200();
         ExpenseSearchChartDTO expectedResult = new ExpenseSearchChartDTO();
+        expectedResult.getData().put("Food", 500);
         ExpenseSearchDTO expenseSearchDTO = new ExpenseSearchDTO();
 
         MvcResult mvcResult = doTestPost(mockMvc, objectMapper, "/api/expense/search/chart", expenseSearchDTO);
