@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   web:
-    image: antilamer/thing-tracker:proxy
+    image: antilamer/thing-tracker:proxy2
     environment:
     - SPRING_DATASOURCE_URL=jdbc:postgresql://13.53.83.131:5432/thing_tracker
     volumes:

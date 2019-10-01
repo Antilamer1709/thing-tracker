@@ -65,6 +65,13 @@ export class AddExpenseComponent implements OnInit {
     this.expense.types.push(value);
   }
 
+  public onUnselect(value: string): void {
+    const index = this.expense.types.indexOf(value, 0);
+    if (index > -1) {
+      this.expense.types.splice(index, 1);
+    }
+  }
+
   public saveExpense(form: FormGroup): void {
     if (form.valid) {
       this.appService.blockedUI = true;
