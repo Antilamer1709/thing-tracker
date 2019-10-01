@@ -30,18 +30,22 @@ export class ExpenseTypeComponent extends CommonComponent {
   }
 
   public expenseTypesOnBlur(event: FocusEvent): void {
+    console.log('expenseTypesOnBlur');
     this.addAutocompleteValue(event);
   }
 
   private addAutocompleteValue(event): void {
+    console.log('addAutocompleteValue');
     let tokenInput = event.srcElement as any;
-    if (tokenInput.value && tokenInput.value.length > 0) {
+    const value = tokenInput.value;
+    if (value && value.length) {
       this.selectedExpenseTypes.push(tokenInput.value);
       tokenInput.value = "";
     }
   }
 
   public expenseTypesOnSelect(value: string): void {
+    console.log('expenseTypesOnSelect');
     const hasDuplicate: boolean = this.selectedExpenseTypes.indexOf(value) != -1;
     this.selectedExpenseTypes.pop();
     if (hasDuplicate) {
