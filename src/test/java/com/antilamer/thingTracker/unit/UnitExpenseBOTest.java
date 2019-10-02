@@ -4,6 +4,7 @@ import com.antilamer.thingTracker.Utils;
 import com.antilamer.thingTracker.config.AppProperties;
 import com.antilamer.thingTracker.dto.*;
 import com.antilamer.thingTracker.enums.GroupmateType;
+import com.antilamer.thingTracker.enums.UserRole;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.ExpenseEntity;
@@ -300,8 +301,9 @@ public class UnitExpenseBOTest {
     @Test
     public void searchProfileExpenses_WithNoData_ExpectEmpty() throws ValidationException, UnauthorizedException {
         given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(new ArrayList<>()));
+        given(userRepo.findById(any())).willReturn(Optional.of(Utils.createDefaultUser()));
 
-        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO());
+        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO(1));
 
         assertThat(result.getData().size() == 0, is(true));
     }
@@ -310,8 +312,9 @@ public class UnitExpenseBOTest {
     public void searchProfileExpenses_Populated_ExpectOneElement() throws ValidationException, UnauthorizedException {
         List<ExpenseEntity> expenseEntities = createGivenExpenseEntities(new Integer[]{280}, true);
         given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(expenseEntities));
+        given(userRepo.findById(1)).willReturn(Optional.of(Utils.createDefaultUser()));
 
-        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO());
+        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO(1));
 
         assertThat(result.getData().size() == 1, is(true));
         assertThat(result.getData().get(0).getPrice(), is(280));
@@ -322,8 +325,9 @@ public class UnitExpenseBOTest {
     public void searchProfileExpenses_Populated_ExpectTwoElements() throws ValidationException, UnauthorizedException {
         List<ExpenseEntity> expenseEntities = createGivenExpenseEntities(new Integer[]{600, 800}, false);
         given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(expenseEntities));
+        given(userRepo.findById(1)).willReturn(Optional.of(Utils.createDefaultUser()));
 
-        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO());
+        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO(1));
 
         assertThat(result.getData().size() == 2, is(true));
         assertThat(result.getData().get(0).getPrice(), is(600));
@@ -332,8 +336,35 @@ public class UnitExpenseBOTest {
         assertThat(result.getData().get(1).getTypes().get(0), is("Test"));
     }
 
-    private SearchDTO<ExpenseSearchDTO> createSearchProfileDTO() {
+    private SearchDTO<ExpenseSearchDTO> createSearchProfileDTO(Integer userId) {
         ExpenseSearchDTO filter = new ExpenseSearchDTO();
+        filter.getSelectGroupmateIds().add(userId);
         return new SearchDTO<>(filter, 0, 10);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void searchProfileExpenses_NoUser_ExpectValidationException() throws ValidationException, UnauthorizedException {
+        given(userRepo.findById(any())).willReturn(Optional.empty());
+
+        expenseBO.searchProfileExpenses(createSearchProfileDTO(1));
+    }
+
+    @Test
+    public void searchProfileExpenses_WithAdmin_ExpectTwoElements() throws ValidationException, UnauthorizedException {
+        UserEntity userAdmin = Utils.createDefaultUser(1, UserRole.USER, UserRole.ADMIN);
+        Authentication auth = new UsernamePasswordAuthenticationToken(userAdmin, null);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        List<ExpenseEntity> expenseEntities = createGivenExpenseEntities(new Integer[]{999, 777}, true);
+        given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(expenseEntities));
+        given(userRepo.findById(2)).willReturn(Optional.of(Utils.createDefaultUser(2, UserRole.USER)));
+
+        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO(2));
+
+        assertThat(result.getData().size() == 2, is(true));
+        assertThat(result.getData().get(0).getPrice(), is(999));
+        assertThat(result.getData().get(0).getTypes().get(0), is("Food"));
+        assertThat(result.getData().get(1).getPrice(), is(777));
+        assertThat(result.getData().get(1).getTypes().get(0), is("Food"));
     }
 }

@@ -1,9 +1,9 @@
 package com.antilamer.thingTracker;
 
+import com.antilamer.thingTracker.enums.UserRole;
 import com.antilamer.thingTracker.model.GroupEntity;
 import com.antilamer.thingTracker.model.RoleEntity;
 import com.antilamer.thingTracker.model.UserEntity;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,6 +23,10 @@ public class Utils {
     }
 
     public static UserEntity createDefaultUser(int userGroupId) {
+        return createDefaultUser(userGroupId, UserRole.USER);
+    }
+
+    public static UserEntity createDefaultUser(int userGroupId, UserRole... roles) {
         UserEntity userDetails = new UserEntity();
         userDetails.setId(userGroupId);
         userDetails.setEmail("integrationTestUser1");
@@ -30,9 +34,11 @@ public class Utils {
         userDetails.setPassword("user123");
 
         userDetails.setRoles(new ArrayList<>());
-        RoleEntity role = new RoleEntity();
-        role.setCode("ROLE_USER");
-        userDetails.getRoles().add(role);
+        for (UserRole role: roles) {
+            RoleEntity roleEntity = new RoleEntity();
+            roleEntity.setCode(role.getValue());
+            userDetails.getRoles().add(roleEntity);
+        }
 
         userDetails.setGroups(new ArrayList<>());
         GroupEntity groupEntity = new GroupEntity();

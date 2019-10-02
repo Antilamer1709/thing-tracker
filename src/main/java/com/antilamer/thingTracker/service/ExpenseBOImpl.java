@@ -191,7 +191,7 @@ public class ExpenseBOImpl implements ExpenseBO {
     private void validateProfileExpenseSearchDTO(ExpenseSearchDTO expenseSearchDTO) throws UnauthorizedException, ValidationException {
         for (Integer groupmateUserId : expenseSearchDTO.getSelectGroupmateIds()) {
             UserEntity userEntity = userRepo.findById(groupmateUserId).orElseThrow(() ->
-                    new ValidationException("There no such group with id: " + groupmateUserId));
+                    new ValidationException("There no such user with id: " + groupmateUserId));
             UserEntity loggedUser = authenticationBO.getLoggedUser();
 
             // requested user is belong to the same group as logged user
