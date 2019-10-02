@@ -5,6 +5,8 @@ import com.antilamer.thingTracker.controller.ExpenseController;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
+import com.antilamer.thingTracker.dto.SearchDTO;
+import com.antilamer.thingTracker.dto.response.ResponseDTO;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.*;
 import com.antilamer.thingTracker.security.JwtTokenProvider;
@@ -31,6 +33,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.List;
 
 import static com.antilamer.thingTracker.Utils.doTestPost;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -131,6 +135,24 @@ public class IntegrationExpenseControllerTest {
 
         ExpenseSearchChartDTO actualResponseDTO = objectMapper.readValue(actualResponseBody, ExpenseSearchChartDTO.class);
         assertThat(actualResponseDTO).isEqualTo(expectedResult);
+    }
+
+
+    // searchProfileExpenses
+    @Test
+    public void userSearchProfileExpensesPopulated_thenReturns200() throws Exception {
+        userSavesValidExpense_thenReturns200();
+
+        ExpenseSearchDTO expenseSearchDTO = new ExpenseSearchDTO();
+        expenseSearchDTO.getSelectGroupmateIds().add(1);
+        SearchDTO<ExpenseSearchDTO> searchDTO = new SearchDTO<>(expenseSearchDTO, 0, 10);
+
+        MvcResult mvcResult = doTestPost(mockMvc, objectMapper, "/api/expense/search/profile", searchDTO);
+
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+
+        ResponseDTO<List<ExpenseDTO>> responseDTO = objectMapper.readValue(actualResponseBody, ResponseDTO.class);
+        assertThat(responseDTO.getData().size()).isEqualTo(1);
     }
 
 }
