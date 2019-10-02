@@ -2,11 +2,9 @@ package com.antilamer.thingTracker.unit;
 
 import com.antilamer.thingTracker.Utils;
 import com.antilamer.thingTracker.config.AppProperties;
-import com.antilamer.thingTracker.dto.ExpenseDTO;
-import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
-import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
-import com.antilamer.thingTracker.dto.SelectGroupmateDTO;
+import com.antilamer.thingTracker.dto.*;
 import com.antilamer.thingTracker.enums.GroupmateType;
+import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.ExpenseEntity;
 import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
@@ -18,6 +16,7 @@ import com.antilamer.thingTracker.service.AuthenticationBO;
 import com.antilamer.thingTracker.service.AuthenticationBOImpl;
 import com.antilamer.thingTracker.service.ExpenseBO;
 import com.antilamer.thingTracker.service.ExpenseBOImpl;
+import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -294,5 +293,47 @@ public class UnitExpenseBOTest {
         assertThat(searchChartDTO.getData().get("Food"), is(prices[0]));
         assertThat(searchChartDTO.getData().get("Test"), is(prices[1]));
         assertThat(searchChartDTO.getData().get("Car"), is(prices[2]));
+    }
+
+
+    // searchProfileExpenses
+    @Test
+    public void searchProfileExpenses_WithNoData_ExpectEmpty() throws ValidationException, UnauthorizedException {
+        given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(new ArrayList<>()));
+
+        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO());
+
+        assertThat(result.getData().size() == 0, is(true));
+    }
+
+    @Test
+    public void searchProfileExpenses_Populated_ExpectOneElement() throws ValidationException, UnauthorizedException {
+        List<ExpenseEntity> expenseEntities = createGivenExpenseEntities(new Integer[]{280}, true);
+        given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(expenseEntities));
+
+        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO());
+
+        assertThat(result.getData().size() == 1, is(true));
+        assertThat(result.getData().get(0).getPrice(), is(280));
+        assertThat(result.getData().get(0).getTypes().get(0), is("Food"));
+    }
+
+    @Test
+    public void searchProfileExpenses_Populated_ExpectTwoElements() throws ValidationException, UnauthorizedException {
+        List<ExpenseEntity> expenseEntities = createGivenExpenseEntities(new Integer[]{600, 800}, false);
+        given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(expenseEntities));
+
+        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO());
+
+        assertThat(result.getData().size() == 2, is(true));
+        assertThat(result.getData().get(0).getPrice(), is(600));
+        assertThat(result.getData().get(0).getTypes().get(0), is("Food"));
+        assertThat(result.getData().get(1).getPrice(), is(800));
+        assertThat(result.getData().get(1).getTypes().get(0), is("Test"));
+    }
+
+    private SearchDTO<ExpenseSearchDTO> createSearchProfileDTO() {
+        ExpenseSearchDTO filter = new ExpenseSearchDTO();
+        return new SearchDTO<>(filter, 0, 10);
     }
 }

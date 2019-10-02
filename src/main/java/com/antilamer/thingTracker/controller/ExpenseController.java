@@ -3,6 +3,9 @@ package com.antilamer.thingTracker.controller;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
+import com.antilamer.thingTracker.dto.SearchDTO;
+import com.antilamer.thingTracker.dto.response.ResponseDTO;
+import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.ExpenseBO;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +49,13 @@ public class ExpenseController {
     public ExpenseSearchChartDTO searchChart(@RequestBody ExpenseSearchDTO expenseSearchDTO) throws ValidationException {
         log.debug("*** searchChart() expenseSearchDTO: " + expenseSearchDTO);
         return expenseBO.searchChart(expenseSearchDTO);
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @PostMapping(value = "/search/profile")
+    public ResponseDTO<List<ExpenseDTO>> searchProfile(@RequestBody SearchDTO<ExpenseSearchDTO> searchDTO) throws ValidationException, UnauthorizedException {
+        log.debug("*** searchProfile() searchDTO: " + searchDTO);
+        return expenseBO.searchProfileExpenses(searchDTO);
     }
 
 }

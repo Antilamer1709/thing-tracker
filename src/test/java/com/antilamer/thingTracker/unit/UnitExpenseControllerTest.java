@@ -4,7 +4,11 @@ import com.antilamer.thingTracker.controller.ExpenseController;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
+import com.antilamer.thingTracker.dto.SearchDTO;
+import com.antilamer.thingTracker.dto.response.ResponseDTO;
+import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.ExpenseBO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +20,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.antilamer.thingTracker.Utils.doTestPost;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -85,11 +93,32 @@ public class UnitExpenseControllerTest {
 
         MvcResult mvcResult = doTestPost(mockMvc, objectMapper, "/api/expense/search/chart", expenseSearchDTO);
 
-        String actualResponseBody = mvcResult.getResponse().getContentAsString();
-        assertThat(objectMapper.writeValueAsString(resultDTO)).isEqualToIgnoringWhitespace(actualResponseBody);
+        thenValidateSearchExpense(mvcResult, objectMapper.writeValueAsString(resultDTO));
 
         ArgumentCaptor<ExpenseSearchDTO> userCaptor = ArgumentCaptor.forClass(ExpenseSearchDTO.class);
         verify(expenseBO, times(1)).searchChart(userCaptor.capture());
+    }
+
+
+    // searchProfileExpenses
+    @Test
+    public void searchProfileExpensesEmpty_thenReturns200() throws Exception {
+        List<ExpenseDTO> expectedData = new ArrayList<>();
+        ResponseDTO<List<ExpenseDTO>> expectedResult = new ResponseDTO<>(expectedData, 0L, 0);
+        given(expenseBO.searchProfileExpenses(any())).willReturn(expectedResult);
+        SearchDTO<ExpenseSearchDTO> searchDTO = new SearchDTO<>(new ExpenseSearchDTO(), 0, 10);
+
+        MvcResult mvcResult = doTestPost(mockMvc, objectMapper, "/api/expense/search/profile", searchDTO);
+
+        thenValidateSearchExpense(mvcResult, objectMapper.writeValueAsString(expectedResult));
+
+        ArgumentCaptor<SearchDTO<ExpenseSearchDTO>> userCaptor = ArgumentCaptor.forClass(SearchDTO.class);
+        verify(expenseBO, times(1)).searchProfileExpenses(userCaptor.capture());
+    }
+
+    private void thenValidateSearchExpense(MvcResult mvcResult, String s) throws UnsupportedEncodingException, ValidationException {
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        assertThat(s).isEqualToIgnoringWhitespace(actualResponseBody);
     }
 
 }

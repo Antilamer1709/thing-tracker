@@ -4,11 +4,11 @@
 
   <p-tabView>
     <p-tabPanel header="Info" leftIcon="pi pi-user">
-      <app-profile-info></app-profile-info>
+      <app-profile-info *ngIf="user" [user]="user"></app-profile-info>
     </p-tabPanel>
 
     <p-tabPanel header="Expenses" leftIcon="pi pi-list">
-      Expenses
+      <app-profile-expenses *ngIf="user" [user]="user"></app-profile-expenses>
     </p-tabPanel>
   </p-tabView>
 

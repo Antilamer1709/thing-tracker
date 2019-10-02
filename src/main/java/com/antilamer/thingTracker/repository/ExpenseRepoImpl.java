@@ -10,8 +10,10 @@ public class ExpenseRepoImpl extends AbstractCustomRepoImpl<ExpenseEntity, Expen
     @Override
     protected void initSearchWhereParameters(ExpenseSearchDTO filter, Map<String, Object> params) {
         if (filter != null) {
-            params.put("dateFrom", filter.getDateFrom());
-            params.put("dateTo", filter.getDateTo());
+            if (filter.getDateFrom() != null && filter.getDateTo() != null) {
+                params.put("dateFrom", filter.getDateFrom());
+                params.put("dateTo", filter.getDateTo());
+            }
 
             if (filter.getSelectGroupmateIds() != null)
                 params.put("selectGroupmateIds", filter.getSelectGroupmateIds());
@@ -26,7 +28,8 @@ public class ExpenseRepoImpl extends AbstractCustomRepoImpl<ExpenseEntity, Expen
     protected String getSearchWhereStatement(ExpenseSearchDTO filter) {
         StringBuilder whereStatementBuilder = new StringBuilder();
 
-        whereStatementBuilder.append(" AND  U.date BETWEEN :dateFrom AND :dateTo ");
+        if (filter.getDateFrom() != null && filter.getDateTo() != null)
+            whereStatementBuilder.append(" AND  U.date BETWEEN :dateFrom AND :dateTo ");
 
         if (filter.getSelectGroupmateIds() != null)
             whereStatementBuilder.append(" AND  user.id in :selectGroupmateIds ");

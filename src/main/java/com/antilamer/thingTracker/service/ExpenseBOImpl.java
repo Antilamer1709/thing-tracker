@@ -1,7 +1,9 @@
 package com.antilamer.thingTracker.service;
 
 import com.antilamer.thingTracker.dto.*;
+import com.antilamer.thingTracker.dto.response.ResponseDTO;
 import com.antilamer.thingTracker.enums.GroupmateType;
+import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.ExpenseEntity;
 import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
@@ -12,6 +14,7 @@ import com.antilamer.thingTracker.repository.GroupRepo;
 import com.antilamer.thingTracker.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -169,5 +172,42 @@ public class ExpenseBOImpl implements ExpenseBO {
         return groupRepo.findById(group.getGroupId())
                 .orElseThrow(() -> new ValidationException("There no such group with id: " + group.getGroupId()))
                 .getUsers().stream().map(UserEntity::getId).collect(Collectors.toList());
+    }
+
+
+    @Override
+    @Transactional
+    public ResponseDTO<List<ExpenseDTO>> searchProfileExpenses(SearchDTO<ExpenseSearchDTO> searchDTO) throws UnauthorizedException, ValidationException {
+        validateProfileExpenseSearchDTO(searchDTO.getFilter());
+
+        val pagedExpenses = expenseRepo.getPagedData(searchDTO);
+        return new ResponseDTO<>(
+                pagedExpenses.getContent().stream().map(ExpenseDTO::new).collect(Collectors.toList()),
+                pagedExpenses.getTotalElements(),
+                pagedExpenses.getTotalPages()
+        );
+    }
+
+    private void validateProfileExpenseSearchDTO(ExpenseSearchDTO expenseSearchDTO) throws UnauthorizedException, ValidationException {
+        for (Integer groupmateUserId : expenseSearchDTO.getSelectGroupmateIds()) {
+            UserEntity userEntity = userRepo.findById(groupmateUserId).orElseThrow(() ->
+                    new ValidationException("There no such group with id: " + groupmateUserId));
+            UserEntity loggedUser = authenticationBO.getLoggedUser();
+
+            // requested user is belong to the same group as logged user
+            boolean belongsToSameGroup =
+                    loggedUser.getGroups()
+                            .stream()
+                            .noneMatch(loggedUserGroup ->
+                                    userEntity.getGroups()
+                                            .stream()
+                                            .noneMatch(requestUserGroup ->
+                                                    requestUserGroup.getId().equals(loggedUserGroup.getId())));
+
+            // Admin has access to all users
+            if (!belongsToSameGroup) {
+                authenticationBO.checkAdminAccess(loggedUser);
+            }
+        }
     }
 }
