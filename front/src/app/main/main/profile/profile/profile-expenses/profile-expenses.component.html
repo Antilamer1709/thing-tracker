@@ -6,8 +6,9 @@
     <tr>
       <th style="width: 5%">ID</th>
       <th style="width: 15%">Price</th>
-      <th style="width: 30%">Types</th>
+      <th style="width: 20%">Types</th>
       <th>Comment</th>
+      <th style="width: 55px"></th>
     </tr>
   </ng-template>
 
@@ -30,7 +31,14 @@
         {{rowData.comment}}
       </td>
 
+      <td>
+        <button pButton (click)="showDeleteRow(rowData)" type="button" icon="pi pi-trash"></button>
+      </td>
+
     </tr>
   </ng-template>
 
 </p-table>
+
+
+<p-confirmDialog icon="pi pi-exclamation-triangle"></p-confirmDialog>

@@ -367,4 +367,15 @@ public class UnitExpenseBOTest {
         assertThat(result.getData().get(1).getPrice(), is(777));
         assertThat(result.getData().get(1).getTypes().get(0), is("Food"));
     }
+
+
+    // deleteExpense
+    @Test
+    public void deleteExpense_Valid() throws ValidationException, UnauthorizedException {
+        ExpenseEntity expenseEntity = new ExpenseEntity();
+        expenseEntity.setUser(Utils.createDefaultUser());
+        given(expenseRepo.findById(1)).willReturn(Optional.of(expenseEntity));
+
+        expenseBO.deleteExpense(1);
+    }
 }

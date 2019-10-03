@@ -7,6 +7,7 @@ import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
 import com.antilamer.thingTracker.dto.SearchDTO;
 import com.antilamer.thingTracker.dto.response.ResponseDTO;
+import com.antilamer.thingTracker.model.ExpenseEntity;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.*;
 import com.antilamer.thingTracker.security.JwtTokenProvider;
@@ -34,11 +35,13 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.antilamer.thingTracker.Utils.doTestPost;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -153,6 +156,23 @@ public class IntegrationExpenseControllerTest {
 
         ResponseDTO<List<ExpenseDTO>> responseDTO = objectMapper.readValue(actualResponseBody, ResponseDTO.class);
         assertThat(responseDTO.getData().size()).isEqualTo(1);
+    }
+
+
+
+    // deleteExpense
+    @Test
+    public void userDeleteExpense_thenReturns200() throws Exception {
+        ExpenseEntity expenseEntity = new ExpenseEntity();
+        expenseEntity.setPrice(99);
+        expenseEntity.setDate(LocalDateTime.now());
+        expenseEntity.setUser(Utils.createDefaultUser());
+        expenseEntity = expenseRepo.save(expenseEntity);
+
+        mockMvc.perform(delete("/api/expense/" + expenseEntity.getId())
+                .with(csrf())
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
     }
 
 }

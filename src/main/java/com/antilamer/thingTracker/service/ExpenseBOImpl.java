@@ -210,4 +210,16 @@ public class ExpenseBOImpl implements ExpenseBO {
             }
         }
     }
+
+
+    @Override
+    @Transactional
+    public void deleteExpense(Integer id) throws ValidationException, UnauthorizedException {
+        ExpenseEntity expenseEntity = expenseRepo.findById(id)
+                .orElseThrow(() -> new ValidationException("There no such expense with id: " + id));
+        authenticationBO.checkUserAccess(expenseEntity.getUser());
+
+        expenseRepo.delete(expenseEntity);
+    }
+
 }

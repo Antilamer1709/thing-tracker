@@ -17,6 +17,10 @@ export class ExpensesService extends CommonService {
     return this.http.post<void>('/api/expense', expenseDTO);
   }
 
+  public deleteExpense(id: number): Observable<void> {
+    return this.http.delete<void>('/api/expense/' + id);
+  }
+
   public searchExpenseTypes(predicate: string): Observable<string[]> {
     return this.http.get<string[]>('/api/expense/types', {
       params: {

@@ -37,6 +37,13 @@ public class ExpenseController {
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @DeleteMapping(value = "{id}")
+    public void deleteExpense(@PathVariable Integer id) throws UnauthorizedException, ValidationException {
+        log.debug("*** deleteExpense() id: " + id);
+        expenseBO.deleteExpense(id);
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @GetMapping(value = "/types")
     public List<String> searchExpenseTypes(@RequestParam String predicate) {
         log.debug("*** searchExpenseTypes() predicate: " + predicate);

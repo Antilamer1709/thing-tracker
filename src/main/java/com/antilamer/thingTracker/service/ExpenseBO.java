@@ -19,4 +19,6 @@ public interface ExpenseBO {
     ExpenseSearchChartDTO searchChart(ExpenseSearchDTO expenseSearchDTO) throws ValidationException;
 
     ResponseDTO<List<ExpenseDTO>> searchProfileExpenses(SearchDTO<ExpenseSearchDTO> searchDTO) throws ValidationException, UnauthorizedException;
+
+    void deleteExpense(Integer id) throws ValidationException, UnauthorizedException;
 }

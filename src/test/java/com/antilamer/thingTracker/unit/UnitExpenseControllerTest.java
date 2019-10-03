@@ -6,9 +6,7 @@ import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
 import com.antilamer.thingTracker.dto.SearchDTO;
 import com.antilamer.thingTracker.dto.response.ResponseDTO;
-import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.service.ExpenseBO;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +17,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.UnsupportedEncodingException;
@@ -32,6 +31,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -116,9 +116,22 @@ public class UnitExpenseControllerTest {
         verify(expenseBO, times(1)).searchProfileExpenses(userCaptor.capture());
     }
 
-    private void thenValidateSearchExpense(MvcResult mvcResult, String s) throws UnsupportedEncodingException, ValidationException {
+    private void thenValidateSearchExpense(MvcResult mvcResult, String s) throws UnsupportedEncodingException {
         String actualResponseBody = mvcResult.getResponse().getContentAsString();
         assertThat(s).isEqualToIgnoringWhitespace(actualResponseBody);
+    }
+
+
+    // deleteExpense
+    @Test
+    public void userDeletesValidExpense_thenReturns200() throws Exception {
+        mockMvc.perform(delete("/api/expense/1")
+                .with(csrf())
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+
+        ArgumentCaptor<Integer> userCaptor = ArgumentCaptor.forClass(Integer.class);
+        verify(expenseBO, times(1)).deleteExpense(userCaptor.capture());
     }
 
 }
