@@ -6,6 +6,7 @@ import {ConfirmationService, LazyLoadEvent} from "primeng/api";
 import {ExpensesService} from "../../../expenses/expenses.service";
 import {AuthenticationService} from "../../../../../authentication/authentication.service";
 import {Roles} from "../../../../../common/enums/RoleEnum";
+import {CommonComponent} from "../../../../../common/common-component";
 
 @Component({
   selector: 'app-profile-expenses',
@@ -13,7 +14,7 @@ import {Roles} from "../../../../../common/enums/RoleEnum";
   styleUrls: ['./profile-expenses.component.scss'],
   providers: [ConfirmationService]
 })
-export class ProfileExpensesComponent implements OnInit {
+export class ProfileExpensesComponent extends CommonComponent implements OnInit {
 
 
   @Input() public user: UserDTO;
@@ -30,17 +31,17 @@ export class ProfileExpensesComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private expensesService: ExpensesService,
               private service: ProfileService) {
+    super();
   }
 
   ngOnInit() {
     this.initShowDeleteButton();
-    this.initSearchDTO();
+    this.createSearchDTO();
   }
 
   public loadExpensesLazy(event: LazyLoadEvent) {
     this.loading = true;
-    this.searchDTO.rows = event.rows;
-    this.searchDTO.first = event.first;
+    this.initSearchDTO(this.searchDTO, event);
 
     this.service.searchProfileExpenses(this.searchDTO).subscribe(
       (res) => {
@@ -61,7 +62,7 @@ export class ProfileExpensesComponent implements OnInit {
     });
   }
 
-  private initSearchDTO(): void {
+  private createSearchDTO(): void {
     this.searchDTO = new SearchDTO<ExpenseSearchDTO>();
     this.searchDTO.filter = new ExpenseSearchDTO();
     this.searchDTO.filter.selectGroupmateIds = [];

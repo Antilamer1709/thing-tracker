@@ -1,3 +1,6 @@
+import {LazyLoadEvent} from "primeng/api";
+import {SearchDTO} from "../../generated/dto";
+
 export class CommonComponent {
 
   public europeLocale = {
@@ -13,5 +16,15 @@ export class CommonComponent {
   };
 
   constructor() {}
+
+
+  public initSearchDTO(searchDTO: SearchDTO, event: LazyLoadEvent): void {
+    searchDTO.rows = event.rows;
+    searchDTO.first = event.first;
+    if (event.sortField) {
+      searchDTO.sortField = event.sortField;
+      searchDTO.sortOrder = event.sortOrder;
+    }
+  }
 
 }
