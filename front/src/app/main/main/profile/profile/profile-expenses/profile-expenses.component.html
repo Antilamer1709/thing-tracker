@@ -1,60 +1,105 @@
-<p-table [value]="result?.data" [lazy]="true" (onLazyLoad)="loadExpensesLazy($event)" [paginator]="true"
-         [rows]="10" [rowsPerPageOptions]="[10,30,50,100,{showAll: 'All'}]"
-         [totalRecords]="result?.totalElements" [loading]="loading">
+<form novalidate #form="ngForm" (keydown.enter)="searchProfileExpenses(form)" (ngSubmit)="searchProfileExpenses(form)">
 
-  <ng-template pTemplate="header">
-    <tr>
+  <p-table [value]="result?.data" [lazy]="true" (onLazyLoad)="loadExpensesLazy($event)" [paginator]="true"
+           [rows]="10" [rowsPerPageOptions]="[10,30,50,100,{showAll: 'All'}]"
+           [totalRecords]="result?.totalElements" [loading]="loading">
 
-      <th style="width: 5%" [pSortableColumn]="'id'">
-        ID
-        <p-sortIcon [field]="'id'"></p-sortIcon>
-      </th>
+    <ng-template pTemplate="header">
 
-      <th style="width: 15%" [pSortableColumn]="'price'">
-        Price
-        <p-sortIcon [field]="'price'"></p-sortIcon>
-      </th>
+      <!--HEADERS-->
+      <tr>
 
-      <th style="width: 20%">
-        Types
-      </th>
+        <th style="width: 100px" [pSortableColumn]="'id'">
+          ID
+          <p-sortIcon [field]="'id'"></p-sortIcon>
+        </th>
 
-      <th [pSortableColumn]="'comment'">
-        Comment
-        <p-sortIcon [field]="'comment'"></p-sortIcon>
-      </th>
+        <th style="width: 15%" [pSortableColumn]="'price'">
+          Price
+          <p-sortIcon [field]="'price'"></p-sortIcon>
+        </th>
 
-      <th style="width: 55px" *ngIf="showDeleteButton"></th>
-    </tr>
-  </ng-template>
+        <th>
+          Types
+        </th>
 
-  <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
-    <tr>
+        <th [pSortableColumn]="'comment'">
+          Comment
+          <p-sortIcon [field]="'comment'"></p-sortIcon>
+        </th>
 
-      <td>
-        {{rowData.id}}
-      </td>
+        <th style="width: 55px" *ngIf="showDeleteButton"></th>
+      </tr>
 
-      <td>
-        {{rowData.price}}
-      </td>
+      <!--FILTERS-->
+      <tr>
 
-      <td>
-        {{rowData.types}}
-      </td>
+        <th>
+          <p-spinner [(ngModel)]="searchDTO.filter.id" title="ID of searched expenses"
+                     id="headerId" name="headerId" type="number">
+          </p-spinner>
+        </th>
 
-      <td>
-        {{rowData.comment}}
-      </td>
+        <th>
+          <p-spinner [(ngModel)]="searchDTO.filter.price" title="Price of searched expenses"
+                     id="headerPrice" name="headerPrice" type="number">
+          </p-spinner>
+        </th>
 
-      <td *ngIf="showDeleteButton">
-        <button pButton (click)="showDeleteRow(rowData)" type="button" icon="pi pi-trash"></button>
-      </td>
+        <th>
+          <p-autoComplete
+            [(ngModel)]="searchDTO.filter.expenseTypes"
+            [suggestions]="expenseTypes"
+            (completeMethod)="searchExpenseTypes($event)"
+            (onSelect)="expenseTypesOnSelect($event); searchProfileExpenses(form)"
+            (onKeyUp)="expenseTypesOnKeyUp($event); searchProfileExpenses(form)"
+            (onBlur)="expenseTypesOnBlur($event); searchProfileExpenses(form)"
+            (onUnselect)="onUnselect($event); searchProfileExpenses(form)"
+            [multiple]="true"
+            name="types"
+            id="types">
+          </p-autoComplete>
+        </th>
 
-    </tr>
-  </ng-template>
+        <th>
+          <input [(ngModel)]="searchDTO.filter.comment" title="Comment of searched expenses"
+                 id="headerComment" name="headerComment"
+                 type="text" size="255" pInputText>
+        </th>
 
-</p-table>
+      </tr>
+
+    </ng-template>
+
+    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+      <tr>
+
+        <td>
+          {{rowData.id}}
+        </td>
+
+        <td>
+          {{rowData.price}}
+        </td>
+
+        <td>
+          {{rowData.types}}
+        </td>
+
+        <td>
+          {{rowData.comment}}
+        </td>
+
+        <td *ngIf="showDeleteButton">
+          <button pButton (click)="showDeleteRow(rowData)" type="button" icon="pi pi-trash"></button>
+        </td>
+
+      </tr>
+    </ng-template>
+
+  </p-table>
+
+</form>
 
 
 <p-confirmDialog icon="pi pi-exclamation-triangle"></p-confirmDialog>

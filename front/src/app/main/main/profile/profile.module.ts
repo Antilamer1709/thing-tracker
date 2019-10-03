@@ -1,7 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile/profile.component';
-import {ButtonModule, ConfirmDialogModule, InputTextModule, TabViewModule} from "primeng/primeng";
+import {
+  AutoCompleteModule,
+  ButtonModule,
+  ConfirmDialogModule,
+  InputTextModule,
+  SpinnerModule,
+  TabViewModule
+} from "primeng/primeng";
 import { ProfileInfoComponent } from './profile/profile-info/profile-info.component';
 import {CommonSharedModule} from "../../../common/common-shared.module";
 import {FormsModule} from "@angular/forms";
@@ -18,7 +25,9 @@ import {TableModule} from "primeng/table";
     CommonSharedModule,
     TableModule,
     ConfirmDialogModule,
-    ButtonModule
+    ButtonModule,
+    AutoCompleteModule,
+    SpinnerModule
   ]
 })
 export class ProfileModule { }

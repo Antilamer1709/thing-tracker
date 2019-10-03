@@ -6,7 +6,8 @@ import {ConfirmationService, LazyLoadEvent} from "primeng/api";
 import {ExpensesService} from "../../../expenses/expenses.service";
 import {AuthenticationService} from "../../../../../authentication/authentication.service";
 import {Roles} from "../../../../../common/enums/RoleEnum";
-import {CommonComponent} from "../../../../../common/common-component";
+import {ExpenseTypeComponent} from "../../../../../common/expense-type.component";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-profile-expenses',
@@ -14,7 +15,7 @@ import {CommonComponent} from "../../../../../common/common-component";
   styleUrls: ['./profile-expenses.component.scss'],
   providers: [ConfirmationService]
 })
-export class ProfileExpensesComponent extends CommonComponent implements OnInit {
+export class ProfileExpensesComponent extends ExpenseTypeComponent implements OnInit {
 
 
   @Input() public user: UserDTO;
@@ -30,8 +31,9 @@ export class ProfileExpensesComponent extends CommonComponent implements OnInit 
               private appService: AppService,
               private authenticationService: AuthenticationService,
               private expensesService: ExpensesService,
-              private service: ProfileService) {
-    super();
+              private profileService: ProfileService,
+              protected service: ExpensesService) {
+    super(service);
   }
 
   ngOnInit() {
@@ -43,7 +45,7 @@ export class ProfileExpensesComponent extends CommonComponent implements OnInit 
     this.loading = true;
     this.initSearchDTO(this.searchDTO, event);
 
-    this.service.searchProfileExpenses(this.searchDTO).subscribe(
+    this.profileService.searchProfileExpenses(this.searchDTO).subscribe(
       (res) => {
         console.log(res);
         this.result = res;
@@ -89,6 +91,10 @@ export class ProfileExpensesComponent extends CommonComponent implements OnInit 
         this.showDeleteButton = true;
       }
     });
+  }
+
+  public searchProfileExpenses(form: NgForm): void {
+    this.loadExpensesLazy(null);
   }
 
 }

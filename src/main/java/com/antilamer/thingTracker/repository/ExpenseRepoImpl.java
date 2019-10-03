@@ -21,6 +21,15 @@ public class ExpenseRepoImpl extends AbstractCustomRepoImpl<ExpenseEntity, Expen
             if (filter.getExpenseTypes() != null && filter.getExpenseTypes().size() > 0)
                 params.put("expenseTypes", filter.getExpenseTypes());
 
+            if (filter.getId() != null)
+                params.put("id", filter.getId());
+
+            if (filter.getPrice() != null)
+                params.put("price", filter.getPrice());
+
+            if (filter.getComment() != null && filter.getComment().length() > 0)
+                params.put("comment", filter.getComment());
+
         }
     }
 
@@ -36,6 +45,15 @@ public class ExpenseRepoImpl extends AbstractCustomRepoImpl<ExpenseEntity, Expen
 
         if (filter.getExpenseTypes() != null && filter.getExpenseTypes().size() > 0)
             whereStatementBuilder.append(" AND  expenseTypeDict.name in :expenseTypes ");
+
+        if (filter.getId() != null)
+            whereStatementBuilder.append(" AND  U.id = :id ");
+
+        if (filter.getPrice() != null)
+            whereStatementBuilder.append(" AND  U.price = :price ");
+
+        if (filter.getComment() != null && filter.getComment().length() > 0)
+            whereStatementBuilder.append(" AND LOWER(LTRIM(U.comment)) LIKE LOWER(CONCAT(:comment, '%')) ");
 
         return whereStatementBuilder.toString();
     }

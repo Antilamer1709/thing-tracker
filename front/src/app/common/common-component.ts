@@ -18,12 +18,14 @@ export class CommonComponent {
   constructor() {}
 
 
-  public initSearchDTO(searchDTO: SearchDTO, event: LazyLoadEvent): void {
-    searchDTO.rows = event.rows;
-    searchDTO.first = event.first;
-    if (event.sortField) {
-      searchDTO.sortField = event.sortField;
-      searchDTO.sortOrder = event.sortOrder;
+  public initSearchDTO(searchDTO: SearchDTO<any>, event: LazyLoadEvent): void {
+    if (event) {
+      searchDTO.rows = event.rows;
+      searchDTO.first = event.first;
+      if (event.sortField) {
+        searchDTO.sortField = event.sortField;
+        searchDTO.sortOrder = event.sortOrder;
+      }
     }
   }
 

@@ -209,47 +209,47 @@
 			</plugin>
 
 			<!--Build war-->
-			<plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-				<version>${frontend-maven-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>install node and npm</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-						<configuration>
-							<nodeVersion>${node.version}</nodeVersion>
-							<npmVersion>${npm.version}</npmVersion>
-						</configuration>
-					</execution>
-					<execution>
-						<id>npm install</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>run build</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>run build:prod</arguments>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<workingDirectory>front</workingDirectory>
-				</configuration>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>com.github.eirslett</groupId>-->
+				<!--<artifactId>frontend-maven-plugin</artifactId>-->
+				<!--<version>${frontend-maven-plugin.version}</version>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<id>install node and npm</id>-->
+						<!--<phase>validate</phase>-->
+						<!--<goals>-->
+							<!--<goal>install-node-and-npm</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<nodeVersion>${node.version}</nodeVersion>-->
+							<!--<npmVersion>${npm.version}</npmVersion>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+					<!--<execution>-->
+						<!--<id>npm install</id>-->
+						<!--<phase>validate</phase>-->
+						<!--<goals>-->
+							<!--<goal>npm</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<arguments>install</arguments>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+					<!--<execution>-->
+						<!--<id>run build</id>-->
+						<!--<phase>validate</phase>-->
+						<!--<goals>-->
+							<!--<goal>npm</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<arguments>run build:prod</arguments>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+				<!--</executions>-->
+				<!--<configuration>-->
+					<!--<workingDirectory>front</workingDirectory>-->
+				<!--</configuration>-->
+			<!--</plugin>-->
 		</plugins>
 	</build>
 

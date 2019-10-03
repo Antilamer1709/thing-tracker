@@ -10,15 +10,21 @@ import java.util.Set;
 @Data
 public class ExpenseSearchDTO {
 
-    LocalDateTime dateFrom;
+    private Integer id;
 
-    LocalDateTime dateTo;
+    private Integer price;
 
-    List<SelectGroupmateDTO> selectGroupmates;
+    private String comment;
 
-    Set<Integer> selectGroupmateIds;
+    private LocalDateTime dateFrom;
 
-    List<String> expenseTypes;
+    private LocalDateTime dateTo;
+
+    private List<SelectGroupmateDTO> selectGroupmates;
+
+    private Set<Integer> selectGroupmateIds;
+
+    private List<String> expenseTypes;
 
     public ExpenseSearchDTO() {
         this.selectGroupmateIds = new HashSet<>();
