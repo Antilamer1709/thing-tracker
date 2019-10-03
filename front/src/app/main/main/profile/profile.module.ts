@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile/profile.component';
 import {
   AutoCompleteModule,
-  ButtonModule,
+  ButtonModule, CalendarModule,
   ConfirmDialogModule,
   InputTextModule,
   SpinnerModule,
@@ -27,7 +27,8 @@ import {TableModule} from "primeng/table";
     ConfirmDialogModule,
     ButtonModule,
     AutoCompleteModule,
-    SpinnerModule
+    SpinnerModule,
+    CalendarModule
   ]
 })
 export class ProfileModule { }

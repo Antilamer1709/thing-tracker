@@ -172,3 +172,10 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
 .ui-table .ui-table-wrapper table {
   word-wrap: break-word;
 }
+
+.ui-table-caption {
+  background-color: inherit !important;
+  padding: 0 !important;
+  border: 1px solid #dadada !important;
+  border-bottom: none !important;
+}
