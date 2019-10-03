@@ -4,6 +4,8 @@ import {ProfileService} from "../../profile.service";
 import {ExpenseDTO, ExpenseSearchDTO, ResponseDTO, SearchDTO, UserDTO} from "../../../../../../generated/dto";
 import {ConfirmationService, LazyLoadEvent} from "primeng/api";
 import {ExpensesService} from "../../../expenses/expenses.service";
+import {AuthenticationService} from "../../../../../authentication/authentication.service";
+import {Roles} from "../../../../../common/enums/RoleEnum";
 
 @Component({
   selector: 'app-profile-expenses',
@@ -21,13 +23,17 @@ export class ProfileExpensesComponent implements OnInit {
   public loading: boolean = false;
   public result: ResponseDTO<ExpenseDTO[]>;
 
+  public showDeleteButton: boolean = false;
+
   constructor(private confirmationService: ConfirmationService,
               private appService: AppService,
+              private authenticationService: AuthenticationService,
               private expensesService: ExpensesService,
               private service: ProfileService) {
   }
 
   ngOnInit() {
+    this.initShowDeleteButton();
     this.initSearchDTO();
   }
 
@@ -72,6 +78,16 @@ export class ProfileExpensesComponent implements OnInit {
         this.appService.blockedUI = false;
       }
     );
+  }
+
+  public initShowDeleteButton(): void {
+    this.authenticationService.getLoggedUser().subscribe(loggedUser => {
+      if (loggedUser.id === this.user.id) {
+        this.showDeleteButton = true;
+      } else if (this.authenticationService.hasRole(Roles.ADMIN)) {
+        this.showDeleteButton = true;
+      }
+    });
   }
 
 }
