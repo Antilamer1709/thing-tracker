@@ -1,7 +1,7 @@
 <form novalidate #form="ngForm" (keydown.enter)="searchProfileExpenses(form)" (ngSubmit)="searchProfileExpenses(form)">
 
   <p-table [value]="result?.data" [lazy]="true" (onLazyLoad)="loadExpensesLazy($event)" [paginator]="true"
-           [rows]="10" [rowsPerPageOptions]="[10,30,50,100,{showAll: 'All'}]"
+           [rows]="10" [rowsPerPageOptions]="[10,30,50,100,{showAll: 'All'}]" [responsive]="scrWithLess560"
            [totalRecords]="result?.totalElements" [loading]="loading">
 
     <ng-template pTemplate="caption">
@@ -10,7 +10,7 @@
         <div class="ui-g ui-fluid">
           <div class="ui-g-12">
 
-            <div class="ui-g-12 ui-lg-2 margin-top-10 font-size-16px" style="float: left">
+            <div class="ui-g-12 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10 font-size-16px" style="float: left">
               <span class="ui-float-label">
                 <p-calendar
                   [(ngModel)]="searchDTO.filter.dateFrom"
@@ -30,7 +30,7 @@
               </span>
             </div>
 
-            <div class="ui-g-12 ui-lg-2 margin-top-10 font-size-16px" style="float: left">
+            <div class="ui-g-12 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10 font-size-16px" style="float: left">
               <span class="ui-float-label">
                 <p-calendar
                   [(ngModel)]="searchDTO.filter.dateTo"
@@ -50,11 +50,11 @@
               </span>
             </div>
 
-            <div class="ui-xl-1 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10" style="float: right">
+            <div class="ui-xl-1 ui-lg-3 ui-md-3 ui-sm-6 margin-top-10" style="float: right">
               <button pButton label="Clear" icon="fa fa-search" type="submit"></button>
             </div>
 
-            <div class="ui-xl-1 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10" style="float: right">
+            <div class="ui-xl-1 ui-lg-3 ui-md-3 ui-sm-6 margin-top-10" style="float: right">
               <button pButton label="Search" icon="fa fa-search" type="submit"></button>
             </div>
 

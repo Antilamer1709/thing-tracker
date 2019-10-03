@@ -1,7 +1,12 @@
 import {LazyLoadEvent} from "primeng/api";
 import {SearchDTO} from "../../generated/dto";
+import {HostListener} from "@angular/core";
 
 export class CommonComponent {
+
+  public scrHeight: any;
+  public scrWidth: any;
+  public scrWithLess560: boolean = false;
 
   public europeLocale = {
     firstDayOfWeek: 0,
@@ -27,6 +32,14 @@ export class CommonComponent {
         searchDTO.sortOrder = event.sortOrder;
       }
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  getScreenSize(event?) {
+    this.scrHeight = window.innerHeight;
+    this.scrWidth = window.innerWidth;
+    this.scrWithLess560 = this.scrWidth < 560;
+    console.log(this.scrHeight, this.scrWidth);
   }
 
 }
