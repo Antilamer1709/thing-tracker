@@ -303,7 +303,7 @@ public class UnitExpenseBOTest {
         given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(new ArrayList<>()));
         given(userRepo.findById(any())).willReturn(Optional.of(Utils.createDefaultUser()));
 
-        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO(1));
+        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO(null));
 
         assertThat(result.getData().size() == 0, is(true));
     }
@@ -314,7 +314,7 @@ public class UnitExpenseBOTest {
         given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(expenseEntities));
         given(userRepo.findById(1)).willReturn(Optional.of(Utils.createDefaultUser()));
 
-        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO(1));
+        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO(null));
 
         assertThat(result.getData().size() == 1, is(true));
         assertThat(result.getData().get(0).getPrice(), is(280));
@@ -327,7 +327,7 @@ public class UnitExpenseBOTest {
         given(expenseRepo.getPagedData(any())).willReturn(new PageImpl<>(expenseEntities));
         given(userRepo.findById(1)).willReturn(Optional.of(Utils.createDefaultUser()));
 
-        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO(1));
+        val result = expenseBO.searchProfileExpenses(createSearchProfileDTO(null));
 
         assertThat(result.getData().size() == 2, is(true));
         assertThat(result.getData().get(0).getPrice(), is(600));
@@ -338,7 +338,9 @@ public class UnitExpenseBOTest {
 
     private SearchDTO<ExpenseSearchDTO> createSearchProfileDTO(Integer userId) {
         ExpenseSearchDTO filter = new ExpenseSearchDTO();
-        filter.getSelectGroupmateIds().add(userId);
+        if (userId != null) {
+            filter.getSelectGroupmateIds().add(userId);
+        }
         return new SearchDTO<>(filter, 0, 10);
     }
 
@@ -346,7 +348,7 @@ public class UnitExpenseBOTest {
     public void searchProfileExpenses_NoUser_ExpectValidationException() throws ValidationException, UnauthorizedException {
         given(userRepo.findById(any())).willReturn(Optional.empty());
 
-        expenseBO.searchProfileExpenses(createSearchProfileDTO(1));
+        expenseBO.searchProfileExpenses(createSearchProfileDTO(null));
     }
 
     @Test

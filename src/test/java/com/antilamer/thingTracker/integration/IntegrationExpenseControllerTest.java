@@ -147,7 +147,6 @@ public class IntegrationExpenseControllerTest {
         userSavesValidExpense_thenReturns200();
 
         ExpenseSearchDTO expenseSearchDTO = new ExpenseSearchDTO();
-        expenseSearchDTO.getSelectGroupmateIds().add(1);
         SearchDTO<ExpenseSearchDTO> searchDTO = new SearchDTO<>(expenseSearchDTO, 0, 10);
 
         MvcResult mvcResult = doTestPost(mockMvc, objectMapper, "/api/expense/search/profile", searchDTO);

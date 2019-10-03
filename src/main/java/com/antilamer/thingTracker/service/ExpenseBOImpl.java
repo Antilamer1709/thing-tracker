@@ -178,6 +178,7 @@ public class ExpenseBOImpl implements ExpenseBO {
     @Override
     @Transactional
     public ResponseDTO<List<ExpenseDTO>> searchProfileExpenses(SearchDTO<ExpenseSearchDTO> searchDTO) throws UnauthorizedException, ValidationException {
+        processProfileExpensesUserIds(searchDTO.getFilter());
         validateProfileExpenseSearchDTO(searchDTO.getFilter());
 
         val pagedExpenses = expenseRepo.getPagedData(searchDTO);
@@ -186,6 +187,12 @@ public class ExpenseBOImpl implements ExpenseBO {
                 pagedExpenses.getTotalElements(),
                 pagedExpenses.getTotalPages()
         );
+    }
+
+    private void processProfileExpensesUserIds(ExpenseSearchDTO filter) {
+        if (filter.getSelectGroupmateIds().size() == 0) {
+            filter.getSelectGroupmateIds().add(authenticationBO.getLoggedUser().getId());
+        }
     }
 
     private void validateProfileExpenseSearchDTO(ExpenseSearchDTO expenseSearchDTO) throws UnauthorizedException, ValidationException {

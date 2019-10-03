@@ -42,7 +42,9 @@ export class ProfileExpensesComponent extends ExpenseTypeComponent implements On
   }
 
   public loadExpensesLazy(event: LazyLoadEvent) {
-    this.loading = true;
+    Promise.resolve().then(() => {
+      this.loading = true;
+    });
     this.initSearchDTO(this.searchDTO, event);
 
     this.profileService.searchProfileExpenses(this.searchDTO).subscribe(
@@ -67,9 +69,6 @@ export class ProfileExpensesComponent extends ExpenseTypeComponent implements On
   private createSearchDTO(): void {
     this.searchDTO = new SearchDTO<ExpenseSearchDTO>();
     this.searchDTO.filter = new ExpenseSearchDTO();
-    this.searchDTO.filter.selectGroupmateIds = [];
-
-    this.searchDTO.filter.selectGroupmateIds.push(this.user.id);
   }
 
   private onDeleteRow(row: ExpenseDTO): void {
