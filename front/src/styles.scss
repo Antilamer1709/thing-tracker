@@ -166,3 +166,9 @@ input, input:active, input:focus, input:focus-within, input:hover, input:visited
   padding: 20px 0 0 20px;
   font-size: 12px;
 }
+
+
+// Table
+.ui-table .ui-table-wrapper table {
+  word-wrap: break-word;
+}

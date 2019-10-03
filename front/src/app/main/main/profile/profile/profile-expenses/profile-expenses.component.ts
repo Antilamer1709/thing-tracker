@@ -32,7 +32,6 @@ export class ProfileExpensesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initColumns();
     this.initSearchDTO();
   }
 
@@ -57,16 +56,6 @@ export class ProfileExpensesComponent implements OnInit {
         this.loading = false;
       }
     );
-  }
-
-
-  private initColumns(): void {
-    this.cols = [
-      { field: 'id', header: 'ID' },
-      { field: 'price', header: 'Price' },
-      { field: 'types', header: 'Types' },
-      { field: 'comment', header: 'Comment' }
-    ];
   }
 
 }
