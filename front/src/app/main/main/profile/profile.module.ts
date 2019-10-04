@@ -29,6 +29,7 @@ import {TableModule} from "primeng/table";
     AutoCompleteModule,
     SpinnerModule,
     CalendarModule
-  ]
+  ],
+  exports: [ProfileExpensesComponent]
 })
 export class ProfileModule { }

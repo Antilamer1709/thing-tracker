@@ -12,9 +12,11 @@ import {
 import {FormsModule} from "@angular/forms";
 import { ExpensesChartComponent } from './expenses-chart/expenses-chart.component';
 import {CommonSharedModule} from "../../../common/common-shared.module";
+import { MyExpensesComponent } from './my-expenses/my-expenses.component';
+import {ProfileModule} from "../profile/profile.module";
 
 @NgModule({
-  declarations: [AddExpenseComponent, ExpensesChartComponent],
+  declarations: [AddExpenseComponent, ExpensesChartComponent, MyExpensesComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -25,7 +27,8 @@ import {CommonSharedModule} from "../../../common/common-shared.module";
     CalendarModule,
     ChartModule,
     CommonSharedModule,
-    MultiSelectModule
+    MultiSelectModule,
+    ProfileModule
   ]
 })
 export class ExpensesModule { }
