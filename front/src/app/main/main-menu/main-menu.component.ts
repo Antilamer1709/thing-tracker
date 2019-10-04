@@ -1,19 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from '../../authentication/authentication.service';
-import {HostDTO, MessageDTO, ResponseToMessageDTO} from '../../../generated/dto';
+import {MessageDTO, ResponseToMessageDTO} from '../../../generated/dto';
 import {AuthRepository} from '../../authentication/repository/auth.repository';
 import {MessageService} from 'primeng/api';
 import {MainMenuService} from './main-menu.service';
 import {Router} from '@angular/router';
 import {UserService} from '../main/user/user.service';
 import {AppService} from '../../app.service';
+import {CommonComponent} from "../../common/common-component";
 
 @Component({
   selector: 'app-main-menu',
   templateUrl: './main-menu.component.html',
   styleUrls: ['./main-menu.component.scss']
 })
-export class MainMenuComponent implements OnInit {
+export class MainMenuComponent extends CommonComponent implements OnInit {
 
   public menuActive: boolean;
 
@@ -33,7 +34,9 @@ export class MainMenuComponent implements OnInit {
               private service: MainMenuService,
               private userService: UserService,
               private authRepo: AuthRepository,
-              private messageService: MessageService) { }
+              private messageService: MessageService) {
+    super();
+  }
 
   ngOnInit() {
     this.initSyles();
@@ -43,6 +46,10 @@ export class MainMenuComponent implements OnInit {
   }
 
   private initSyles() {
+    if (window.innerWidth >= 1025) {
+      this.menuActive = true;
+    }
+
     this.userMessagesStyle = document.createElement('style');
     this.userMessagesStyle.innerHTML = '.user-messages-container {  max-height: ' + window.innerHeight + 'px; }';
     document.body.appendChild(this.userMessagesStyle);
@@ -126,6 +133,12 @@ export class MainMenuComponent implements OnInit {
         this.version = res;
       }
     );
+  }
+
+  public onClickMenuItem(): void {
+    if (this.scrWidth < 1025) {
+      this.menuActive = false;
+    }
   }
 
 }

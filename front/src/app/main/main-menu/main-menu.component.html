@@ -55,7 +55,7 @@
   <div class="layout-menu">
 
     <a id="home_menu" [routerLink]="['/dashboard']" #home_menu_title
-       (click)="menuActive = false"
+       (click)="onClickMenuItem()"
        [class.active-menuitem]="home_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
@@ -66,7 +66,7 @@
     </a>
 
     <a id="add_expense_menu" [routerLink]="['add-expense']" #expense_menu_title
-       (click)="menuActive = false"
+       (click)="onClickMenuItem()"
        [class.active-menuitem]="expense_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
@@ -77,7 +77,7 @@
     </a>
 
     <a id="my_expenses_menu" [routerLink]="['manage-expense']" #my_expenses_menu_title
-       (click)="menuActive = false"
+       (click)="onClickMenuItem()"
        [class.active-menuitem]="my_expenses_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
@@ -88,7 +88,7 @@
     </a>
 
     <a id="profile_menu" [routerLink]="['profile']" #profile_menu_title
-       (click)="menuActive = false"
+       (click)="onClickMenuItem()"
        [class.active-menuitem]="profile_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
@@ -99,7 +99,7 @@
     </a>
 
     <a id="my_groups_menu" [routerLink]="['my-groups']" #my_groups_menu_title
-       (click)="menuActive = false"
+       (click)="onClickMenuItem()"
        [class.active-menuitem]="my_groups_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
@@ -110,7 +110,7 @@
     </a>
 
     <a id="about_menu" [routerLink]="['/login']" #about_menu_title
-       (click)="menuActive = false"
+       (click)="onClickMenuItem()"
        [class.active-menuitem]="about_menu_title.id == activeMenuId">
         <span>
           <div class="menuIconContainer">
@@ -151,6 +151,6 @@
 <div class="layout-mask" *ngIf="menuActive">
 </div>
 
-<div id="layout-content">
+<div id="layout-content" [ngClass]="{'active': menuActive}">
   <router-outlet></router-outlet>
 </div>

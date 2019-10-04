@@ -34,15 +34,15 @@ body {
 }
 
 #layout-topbar .menu-button {
-  display: none;
-  color: #4a4f52;
-  font-size: 24px;
+  display: inline-block;
+  color: #4C4C4C;
+  font-size: 26px;
   position: absolute;
   left: 0;
   top: 0;
-  width: 60px;
-  height: 60px;
-  line-height: 58px;
+  width: 70px;
+  height: 70px;
+  line-height: 65px;
   text-align: center;
   transition: background-color .2s;
 }
@@ -58,7 +58,7 @@ body {
 }
 
 #layout-topbar .logo {
-  margin-left: 45px;
+  margin-left: 65px;
   /*margin-top: 15px;*/
   display: inline-block;
 }
@@ -255,6 +255,16 @@ body {
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.3);
 }
 
+#layout-sidebar {
+  left: -300px;
+  transition: left .2s;
+}
+
+#layout-sidebar.active {
+  left: 0;
+}
+
+
 #layout-sidebar .layout-menu > a {
   width: 100%;
   height: 50px;
@@ -430,9 +440,13 @@ body {
 }
 
 #layout-content {
-  margin-left: 300px;
   padding-top: 70px;
   background-color: #ffffff;
+  transition: left .2s;
+}
+
+#layout-content.active {
+  margin-left: 300px;
 }
 
 .layout-mask {
@@ -681,7 +695,7 @@ body {
   color: #F3F6F9 !important;
 }
 
-@media screen and (max-width: 64em) {
+@media screen and (max-width: 1024px) {
 
   .appName {
     bottom: 10px;
