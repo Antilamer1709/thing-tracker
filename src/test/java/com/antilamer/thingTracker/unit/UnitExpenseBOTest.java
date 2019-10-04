@@ -30,6 +30,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -104,12 +105,25 @@ public class UnitExpenseBOTest {
     }
 
     @Test
-    public void createExpense_ValidWithNoType() throws ValidationException {
+    public void createExpense_ValidWithNewType() throws ValidationException {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(70000);
         expenseDTO.getTypes().add("Car");
 
         given(expenseTypeDictRepo.findByNameIgnoreCase(any())).willReturn(Optional.empty());
+        given(expenseTypeDictRepo.save(any())).willAnswer(i -> i.getArguments()[0]);
+
+        expenseBO.createExpense(expenseDTO);
+    }
+
+    @Test
+    public void createExpense_ValidWithNewTypeAndPastDate() throws ValidationException {
+        ExpenseDTO expenseDTO = new ExpenseDTO();
+        expenseDTO.setPrice(5500);
+        expenseDTO.setDate(LocalDateTime.of(2019, 1, 1, 0, 0));
+        expenseDTO.getTypes().add("Computer");
+
+        given(expenseTypeDictRepo.findByNameIgnoreCase("Computer")).willReturn(Optional.empty());
         given(expenseTypeDictRepo.save(any())).willAnswer(i -> i.getArguments()[0]);
 
         expenseBO.createExpense(expenseDTO);

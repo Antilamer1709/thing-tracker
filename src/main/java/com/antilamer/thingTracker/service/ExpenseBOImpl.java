@@ -62,7 +62,10 @@ public class ExpenseBOImpl implements ExpenseBO {
         expenseEntity.setUser(userEntity);
         expenseEntity.setPrice(expenseDTO.getPrice());
         expenseEntity.setComment(expenseDTO.getComment());
-        expenseEntity.setDate(LocalDateTime.now());
+        if (expenseDTO.getDate() != null)
+            expenseEntity.setDate(expenseDTO.getDate());
+        else
+            expenseEntity.setDate(LocalDateTime.now());
         initExpenseTypes(expenseEntity, expenseDTO.getTypes());
     }
 

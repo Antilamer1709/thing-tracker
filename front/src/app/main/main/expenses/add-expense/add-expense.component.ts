@@ -4,20 +4,23 @@ import {FormGroup} from "@angular/forms";
 import {ExpenseDTO} from "../../../../../generated/dto";
 import {MessageService} from "primeng/api";
 import {AppService} from "../../../../app.service";
+import {CommonComponent} from "../../../../common/common-component";
 
 @Component({
   selector: 'app-add-expense',
   templateUrl: './add-expense.component.html',
   styleUrls: ['./add-expense.component.scss']
 })
-export class AddExpenseComponent implements OnInit {
+export class AddExpenseComponent extends CommonComponent implements OnInit {
 
   public expense: ExpenseDTO;
   public expenseTypes: string[];
 
   constructor(private messageService: MessageService,
               private appService: AppService,
-              private service: ExpensesService) { }
+              private service: ExpensesService) {
+    super();
+  }
 
   ngOnInit() {
     this.createNewExpense();

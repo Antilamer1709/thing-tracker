@@ -36,6 +36,25 @@
           </span>
         </div>
 
+        <div class="ui-g-12 ui-lg-8 margin-top-10 font-size-16px">
+          <span class="ui-float-label">
+            <p-calendar
+              [(ngModel)]="expense.date"
+              [locale]="europeLocale"
+              dateFormat="dd.mm.yy"
+              [monthNavigator]="true"
+              [yearNavigator]="true"
+              [showIcon]="true"
+              [touchUI]="true"
+              yearRange="2019:2030"
+              title="If you want to add expense for a specific date"
+              id="date"
+              name="date">
+            </p-calendar>
+            <label for="date">Date (optional)</label>
+          </span>
+        </div>
+
         <div class="ui-xl-1 ui-lg-2 ui-md-3 ui-sm-6">
           <button pButton label="Save" icon="fa fa-paper-plane" type="submit" id="submit"></button>
         </div>

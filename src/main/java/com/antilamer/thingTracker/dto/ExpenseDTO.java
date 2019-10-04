@@ -4,6 +4,7 @@ import com.antilamer.thingTracker.model.ExpenseEntity;
 import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +17,8 @@ public class ExpenseDTO {
     private Integer price;
 
     private String comment;
+
+    private LocalDateTime date;
 
     private UserDTO creator;
 
