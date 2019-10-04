@@ -8,6 +8,9 @@ export const ExpensesRoutes: Route[] = [
     path: 'add-expense', component: AddExpenseComponent, canActivate: [GuardService]
   },
   {
-    path: 'manage-expense', component: ManageExpenseComponent, canActivate: [GuardService]
+    path: 'chart', component: ManageExpenseComponent, canActivate: [GuardService]
+  },
+  {
+    path: 'my-expenses', component: ManageExpenseComponent, canActivate: [GuardService]
   }
 ];

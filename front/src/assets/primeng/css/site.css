@@ -347,7 +347,7 @@ body {
 }
 
 #layout-sidebar .layout-menu > div {
-  padding: 20px 15px;
+  padding: 5px 15px;
   overflow: hidden;
   background-color: #ffffff;
 }
@@ -382,9 +382,9 @@ body {
 }
 
 #layout-sidebar .layout-menu > div a {
-  width: 50%;
+  width: 100%;
   float: left;
-  padding: 6px;
+  padding: 16px;
   box-sizing: border-box;
   cursor: pointer;
   border-radius: 4px;

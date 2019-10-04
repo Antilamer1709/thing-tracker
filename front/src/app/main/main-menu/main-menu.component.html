@@ -76,16 +76,20 @@
         </span>
     </a>
 
-    <a id="my_expenses_menu" [routerLink]="['manage-expense']" #my_expenses_menu_title
-       (click)="onClickMenuItem()"
-       [class.active-menuitem]="my_expenses_menu_title.id == activeMenuId">
-        <span>
-          <div class="menuIconContainer">
+    <a id="my_expenses_menu"
+       #my_expenses_menu_title [class.active-menuitem]="my_expenses_menu_title.id == activeMenuId"
+       (click)="activeMenuId = (activeMenuId === my_expenses_menu_title.id ? null : my_expenses_menu_title.id)">
+      <span>
+        <div class="menuIconContainer">
             <i class="pi pi-list menuIcon"></i>
           </div>
-          Manage Expenses
-        </span>
+        View Expenses
+      </span>
     </a>
+    <div [ngClass]="{submenushow: (my_expenses_menu_title.id == activeMenuId), 'submenuhide': (my_expenses_menu_title.id != activeMenuId)}">
+      <a [routerLink]="['chart']" (click)="onClickMenuItem()">&#9679; Chart</a>
+      <a [routerLink]="['my-expenses']" (click)="onClickMenuItem()">&#9679; My Expenses</a>
+    </div>
 
     <a id="profile_menu" [routerLink]="['profile']" #profile_menu_title
        (click)="onClickMenuItem()"
