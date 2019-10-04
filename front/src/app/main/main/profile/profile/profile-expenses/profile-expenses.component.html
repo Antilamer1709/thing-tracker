@@ -2,8 +2,9 @@
 
   <p-table [value]="result?.data" [lazy]="true" (onLazyLoad)="loadExpensesLazy($event)" [paginator]="true"
            [rows]="10" [rowsPerPageOptions]="[10,30,50,100,{showAll: 'All'}]" [responsive]="scrWithLess560"
-           [totalRecords]="result?.totalElements" [loading]="loading"
-           [resizableColumns]="true">
+           [totalRecords]="result?.totalElements" [loading]="loading" dataKey="id"
+           [resizableColumns]="true" [reorderableColumns]="true"
+           stateStorage="local" stateKey="userExpensesTable">
 
     <ng-template pTemplate="caption">
       <div style="text-align: right">
@@ -70,26 +71,26 @@
       <!--HEADERS-->
       <tr>
 
-        <th pResizableColumn style="width: 100px" [pSortableColumn]="'id'">
+        <th style="width: 100px" [pSortableColumn]="'id'" pResizableColumn pReorderableColumn>
           ID
           <p-sortIcon [field]="'id'"></p-sortIcon>
         </th>
 
-        <th pResizableColumn style="width: 15%" [pSortableColumn]="'price'">
+        <th style="width: 15%" [pSortableColumn]="'price'" pResizableColumn pReorderableColumn>
           Price
           <p-sortIcon [field]="'price'"></p-sortIcon>
         </th>
 
-        <th pResizableColumn>
+        <th pResizableColumn pReorderableColumn>
           Types
         </th>
 
-        <th pResizableColumn [pSortableColumn]="'comment'">
+        <th [pSortableColumn]="'comment'" pResizableColumn pReorderableColumn>
           Comment
           <p-sortIcon [field]="'comment'"></p-sortIcon>
         </th>
 
-        <th pResizableColumn [pSortableColumn]="'date'">
+        <th [pSortableColumn]="'date'" pResizableColumn pReorderableColumn>
           Date
           <p-sortIcon [field]="'date'"></p-sortIcon>
         </th>
