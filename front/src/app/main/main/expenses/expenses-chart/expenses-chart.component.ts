@@ -4,14 +4,13 @@ import {MessageService} from "primeng/api";
 import {AppService} from "../../../../app.service";
 import {ExpensesService} from "../expenses.service";
 import {ExpenseSearchChartDTO, ExpenseSearchDTO, SelectGroupmateDTO} from "../../../../../generated/dto";
-import {CommonComponent} from "../../../../common/common-component";
 import {GroupService} from "../../group/group.service";
 import {ExpenseTypeComponent} from "../../../../common/expense-type.component";
 
 @Component({
   selector: 'app-manage-expense',
-  templateUrl: './manage-expense.component.html',
-  styleUrls: ['./manage-expense.component.scss'],
+  templateUrl: './expenses-chart.component.html',
+  styleUrls: ['./expenses-chart.component.scss'],
   styles: [`
         :host ::ng-deep .ui-multiselected-item-token,
         :host ::ng-deep .ui-multiselected-empty-token {
@@ -27,7 +26,7 @@ import {ExpenseTypeComponent} from "../../../../common/expense-type.component";
         }
     `]
 })
-export class ManageExpenseComponent extends ExpenseTypeComponent implements OnInit {
+export class ExpensesChartComponent extends ExpenseTypeComponent implements OnInit {
 
   public expenseSearchDTO: ExpenseSearchDTO;
   public groupmatesOptions: SelectGroupmateDTO[];

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManageExpenseComponent } from './manage-expense.component';
+import { ExpensesChartComponent } from './expenses-chart.component';
 import {RouterTestingModule} from "@angular/router/testing";
 import {CommonSharedModule} from "../../../../common/common-shared.module";
 import {FormsModule} from "@angular/forms";
@@ -8,9 +8,9 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MessageService} from "primeng/api";
 import {AutoCompleteModule, CalendarModule, ChartModule, MultiSelectModule} from "primeng/primeng";
 
-describe('ManageExpenseComponent', () => {
-  let component: ManageExpenseComponent;
-  let fixture: ComponentFixture<ManageExpenseComponent>;
+describe('ExpensesChartComponent', () => {
+  let component: ExpensesChartComponent;
+  let fixture: ComponentFixture<ExpensesChartComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,7 +25,7 @@ describe('ManageExpenseComponent', () => {
 
         HttpClientTestingModule
       ],
-      declarations: [ManageExpenseComponent],
+      declarations: [ExpensesChartComponent],
       providers: [
         MessageService,
       ]
@@ -34,7 +34,7 @@ describe('ManageExpenseComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ManageExpenseComponent);
+    fixture = TestBed.createComponent(ExpensesChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

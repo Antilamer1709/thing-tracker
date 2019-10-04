@@ -10,11 +10,11 @@ import {
   SpinnerModule
 } from "primeng/primeng";
 import {FormsModule} from "@angular/forms";
-import { ManageExpenseComponent } from './manage-expense/manage-expense.component';
+import { ExpensesChartComponent } from './expenses-chart/expenses-chart.component';
 import {CommonSharedModule} from "../../../common/common-shared.module";
 
 @NgModule({
-  declarations: [AddExpenseComponent, ManageExpenseComponent],
+  declarations: [AddExpenseComponent, ExpensesChartComponent],
   imports: [
     CommonModule,
     FormsModule,
