@@ -34,6 +34,7 @@ public class ExpenseDTO {
         this.id = expenseEntity.getId();
         this.price = expenseEntity.getPrice();
         this.comment = expenseEntity.getComment();
+        this.date = expenseEntity.getDate();
         this.types = expenseEntity.getExpenseTypeDict().stream().map(ExpenseTypeDictEntity::getName).collect(Collectors.toList());
     }
 

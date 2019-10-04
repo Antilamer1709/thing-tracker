@@ -88,7 +88,12 @@
           <p-sortIcon [field]="'comment'"></p-sortIcon>
         </th>
 
-        <th style="width: 55px" *ngIf="showDeleteButton"></th>
+        <th [pSortableColumn]="'date'">
+          Date
+          <p-sortIcon [field]="'date'"></p-sortIcon>
+        </th>
+
+        <th style="width: 58px" *ngIf="showDeleteButton"></th>
       </tr>
 
       <!--FILTERS-->
@@ -148,6 +153,10 @@
 
         <td>
           {{rowData.comment}}
+        </td>
+
+        <td>
+          {{rowData.date | date: 'dd.MM.yyyy HH:mm'}}
         </td>
 
         <td *ngIf="showDeleteButton">
