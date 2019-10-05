@@ -16,6 +16,51 @@
 
               <div class="ui-g-12 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10 font-size-16px" style="float: left">
                 <span class="ui-float-label">
+                  <p-spinner [(ngModel)]="searchDTO.filter.id" title="ID of searched expenses"
+                             id="headerIdHeader" name="headerIdHeader" type="number">
+                  </p-spinner>
+                  <label for="headerIdHeader">ID</label>
+                </span>
+              </div>
+
+              <div class="ui-g-12 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10 font-size-16px" style="float: left">
+                <span class="ui-float-label">
+                  <p-spinner [(ngModel)]="searchDTO.filter.price" title="Price of searched expenses"
+                             id="headerPriceHeader" name="headerPriceHeader" type="number">
+                  </p-spinner>
+                  <label for="headerPriceHeader">Price</label>
+                </span>
+              </div>
+
+              <div class="ui-g-12 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10 font-size-16px" style="float: left">
+                <span class="ui-float-label">
+                  <p-autoComplete
+                    [(ngModel)]="searchDTO.filter.expenseTypes"
+                    [suggestions]="expenseTypes"
+                    (completeMethod)="searchExpenseTypes($event)"
+                    (onSelect)="expenseTypesOnSelect($event); searchProfileExpenses(form)"
+                    (onKeyUp)="expenseTypesOnKeyUp($event); searchProfileExpenses(form)"
+                    (onBlur)="expenseTypesOnBlur($event); searchProfileExpenses(form)"
+                    (onUnselect)="onUnselect($event); searchProfileExpenses(form)"
+                    [multiple]="true"
+                    name="typesHeader"
+                    id="typesHeader">
+                  </p-autoComplete>
+                  <label for="typesHeader">Types</label>
+                </span>
+              </div>
+
+              <div class="ui-g-12 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10 font-size-16px" style="float: left">
+                <span class="ui-float-label">
+                  <input [(ngModel)]="searchDTO.filter.comment" title="Comment of searched expenses"
+                         id="headerCommentHeader" name="headerCommentHeader"
+                         type="text" size="255" pInputText>
+                  <label for="headerCommentHeader">Comment</label>
+                </span>
+              </div>
+
+              <div class="ui-g-12 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10 font-size-16px" style="float: left">
+                <span class="ui-float-label">
                   <p-calendar
                     [(ngModel)]="searchDTO.filter.dateFrom"
                     [locale]="europeLocale"
@@ -26,10 +71,10 @@
                     [touchUI]="true"
                     yearRange="2019:2030"
                     title="Leave it empty if you want show all results"
-                    id="dateFrom"
-                    name="dateFrom">
+                    id="dateFromHeader"
+                    name="dateFromHeader">
                   </p-calendar>
-                  <label for="dateFrom">Date From</label>
+                  <label for="dateFromHeader">Date From</label>
                 </span>
               </div>
 
@@ -46,10 +91,10 @@
                     [required]="true"
                     yearRange="2019:2030"
                     title="Today is default"
-                    id="dateTo"
-                    name="dateTo">
+                    id="dateToHeader"
+                    name="dateToHeader">
                   </p-calendar>
-                  <label for="dateTo">Date To</label>
+                  <label for="dateToHeader">Date To</label>
                 </span>
               </div>
 
@@ -102,7 +147,7 @@
       </tr>
 
       <!--FILTERS-->
-      <tr>
+      <tr *ngIf="scrWidth >= smallScreenSize">
 
         <th>
           <p-spinner [(ngModel)]="searchDTO.filter.id" title="ID of searched expenses"
@@ -138,47 +183,43 @@
         </th>
 
         <th>
-          <div *ngIf="scrWidth >= smallScreenSize">
+          <div class="margin-top-10 font-size-16px" style="float: left; width: 50%">
+            <span class="ui-float-label" style="margin-right: 5px">
+              <p-calendar
+                [(ngModel)]="searchDTO.filter.dateFrom"
+                [locale]="europeLocale"
+                dateFormat="dd.mm.yy"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                [showIcon]="true"
+                [touchUI]="true"
+                yearRange="2019:2030"
+                title="Leave it empty if you want show all results"
+                id="dateFromFilter"
+                name="dateFromFilter">
+              </p-calendar>
+              <label for="dateFromFilter">Date From</label>
+            </span>
+          </div>
 
-            <div class="margin-top-10 font-size-16px" style="float: left; width: 50%">
-              <span class="ui-float-label" style="margin-right: 5px">
-                <p-calendar
-                  [(ngModel)]="searchDTO.filter.dateFrom"
-                  [locale]="europeLocale"
-                  dateFormat="dd.mm.yy"
-                  [monthNavigator]="true"
-                  [yearNavigator]="true"
-                  [showIcon]="true"
-                  [touchUI]="true"
-                  yearRange="2019:2030"
-                  title="Leave it empty if you want show all results"
-                  id="dateFromFilter"
-                  name="dateFromFilter">
-                </p-calendar>
-                <label for="dateFromFilter">Date From</label>
-              </span>
-            </div>
-
-            <div class="margin-top-10 font-size-16px" style="float: left; width: 50%">
-                <span class="ui-float-label" style="margin-left: 5px">
-                  <p-calendar
-                    [(ngModel)]="searchDTO.filter.dateTo"
-                    [locale]="europeLocale"
-                    dateFormat="dd.mm.yy"
-                    [monthNavigator]="true"
-                    [yearNavigator]="true"
-                    [showIcon]="true"
-                    [touchUI]="true"
-                    [required]="true"
-                    yearRange="2019:2030"
-                    title="Today is default"
-                    id="dateToFilter"
-                    name="dateToFilter">
-                  </p-calendar>
-                  <label for="dateToFilter">Date To</label>
-                </span>
-            </div>
-
+          <div class="margin-top-10 font-size-16px" style="float: left; width: 50%">
+            <span class="ui-float-label" style="margin-left: 5px">
+              <p-calendar
+                [(ngModel)]="searchDTO.filter.dateTo"
+                [locale]="europeLocale"
+                dateFormat="dd.mm.yy"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                [showIcon]="true"
+                [touchUI]="true"
+                [required]="true"
+                yearRange="2019:2030"
+                title="Today is default"
+                id="dateToFilter"
+                name="dateToFilter">
+              </p-calendar>
+              <label for="dateToFilter">Date To</label>
+            </span>
           </div>
         </th>
 
