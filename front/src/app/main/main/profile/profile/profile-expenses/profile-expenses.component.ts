@@ -1,13 +1,13 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {AppService} from "../../../../../app.service";
-import {ProfileService} from "../../profile.service";
-import {ExpenseDTO, ExpenseSearchDTO, ResponseDTO, SearchDTO, UserDTO} from "../../../../../../generated/dto";
-import {ConfirmationService, LazyLoadEvent} from "primeng/api";
-import {ExpensesService} from "../../../expenses/expenses.service";
-import {AuthenticationService} from "../../../../../authentication/authentication.service";
-import {Roles} from "../../../../../common/enums/RoleEnum";
-import {ExpenseTypeComponent} from "../../../../../common/expense-type.component";
-import {NgForm} from "@angular/forms";
+import {AppService} from '../../../../../app.service';
+import {ProfileService} from '../../profile.service';
+import {ExpenseDTO, ExpenseSearchDTO, ResponseDTO, SearchDTO, UserDTO} from '../../../../../../generated/dto';
+import {ConfirmationService, LazyLoadEvent} from 'primeng/api';
+import {ExpensesService} from '../../../expenses/expenses.service';
+import {AuthenticationService} from '../../../../../authentication/authentication.service';
+import {Roles} from '../../../../../common/enums/RoleEnum';
+import {ExpenseTypeComponent} from '../../../../../common/expense-type.component';
+import {NgForm} from '@angular/forms';
 
 @Component({
   selector: 'app-profile-expenses',
@@ -22,10 +22,11 @@ export class ProfileExpensesComponent extends ExpenseTypeComponent implements On
   public searchDTO: SearchDTO<ExpenseSearchDTO>;
 
   public cols: any[];
-  public loading: boolean = false;
+  public loading = false;
   public result: ResponseDTO<ExpenseDTO[]>;
 
-  public showDeleteButton: boolean = false;
+  public showDeleteButton = false;
+  public smallScreenSize = 1250;
 
   constructor(private confirmationService: ConfirmationService,
               private appService: AppService,

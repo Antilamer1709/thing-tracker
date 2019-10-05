@@ -12,44 +12,47 @@
         <div class="ui-g ui-fluid">
           <div class="ui-g-12">
 
-            <div class="ui-g-12 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10 font-size-16px" style="float: left">
-              <span class="ui-float-label">
-                <p-calendar
-                  [(ngModel)]="searchDTO.filter.dateFrom"
-                  [locale]="europeLocale"
-                  dateFormat="dd.mm.yy"
-                  [monthNavigator]="true"
-                  [yearNavigator]="true"
-                  [showIcon]="true"
-                  [touchUI]="true"
-                  yearRange="2019:2030"
-                  title="Leave it empty if you want show all results"
-                  id="dateFrom"
-                  name="dateFrom">
+            <div *ngIf="scrWidth < smallScreenSize">
 
-                </p-calendar>
-                <label for="dateFrom">Date From</label>
-              </span>
-            </div>
+              <div class="ui-g-12 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10 font-size-16px" style="float: left">
+                <span class="ui-float-label">
+                  <p-calendar
+                    [(ngModel)]="searchDTO.filter.dateFrom"
+                    [locale]="europeLocale"
+                    dateFormat="dd.mm.yy"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    [showIcon]="true"
+                    [touchUI]="true"
+                    yearRange="2019:2030"
+                    title="Leave it empty if you want show all results"
+                    id="dateFrom"
+                    name="dateFrom">
+                  </p-calendar>
+                  <label for="dateFrom">Date From</label>
+                </span>
+              </div>
 
-            <div class="ui-g-12 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10 font-size-16px" style="float: left">
-              <span class="ui-float-label">
-                <p-calendar
-                  [(ngModel)]="searchDTO.filter.dateTo"
-                  [locale]="europeLocale"
-                  dateFormat="dd.mm.yy"
-                  [monthNavigator]="true"
-                  [yearNavigator]="true"
-                  [showIcon]="true"
-                  [touchUI]="true"
-                  [required]="true"
-                  yearRange="2019:2030"
-                  title="Today is default"
-                  id="dateTo"
-                  name="dateTo">
-                </p-calendar>
-                <label for="dateTo">Date To</label>
-              </span>
+              <div class="ui-g-12 ui-lg-2 ui-md-3 ui-sm-6 margin-top-10 font-size-16px" style="float: left">
+                <span class="ui-float-label">
+                  <p-calendar
+                    [(ngModel)]="searchDTO.filter.dateTo"
+                    [locale]="europeLocale"
+                    dateFormat="dd.mm.yy"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    [showIcon]="true"
+                    [touchUI]="true"
+                    [required]="true"
+                    yearRange="2019:2030"
+                    title="Today is default"
+                    id="dateTo"
+                    name="dateTo">
+                  </p-calendar>
+                  <label for="dateTo">Date To</label>
+                </span>
+              </div>
+
             </div>
 
             <div class="ui-xl-1 ui-lg-3 ui-md-3 ui-sm-6 margin-top-10" style="float: right">
@@ -132,6 +135,51 @@
           <input [(ngModel)]="searchDTO.filter.comment" title="Comment of searched expenses"
                  id="headerComment" name="headerComment"
                  type="text" size="255" pInputText>
+        </th>
+
+        <th>
+          <div *ngIf="scrWidth > smallScreenSize">
+
+            <div class="margin-top-10 font-size-16px" style="float: left; width: 50%">
+              <span class="ui-float-label" style="margin-right: 5px">
+                <p-calendar
+                  [(ngModel)]="searchDTO.filter.dateFrom"
+                  [locale]="europeLocale"
+                  dateFormat="dd.mm.yy"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  [showIcon]="true"
+                  [touchUI]="true"
+                  yearRange="2019:2030"
+                  title="Leave it empty if you want show all results"
+                  id="dateFromFilter"
+                  name="dateFromFilter">
+                </p-calendar>
+                <label for="dateFromFilter">Date From</label>
+              </span>
+            </div>
+
+            <div class="margin-top-10 font-size-16px" style="float: left; width: 50%">
+                <span class="ui-float-label" style="margin-left: 5px">
+                  <p-calendar
+                    [(ngModel)]="searchDTO.filter.dateTo"
+                    [locale]="europeLocale"
+                    dateFormat="dd.mm.yy"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    [showIcon]="true"
+                    [touchUI]="true"
+                    [required]="true"
+                    yearRange="2019:2030"
+                    title="Today is default"
+                    id="dateToFilter"
+                    name="dateToFilter">
+                  </p-calendar>
+                  <label for="dateToFilter">Date To</label>
+                </span>
+            </div>
+
+          </div>
         </th>
 
       </tr>

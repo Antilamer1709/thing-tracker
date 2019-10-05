@@ -1,26 +1,29 @@
-import {LazyLoadEvent} from "primeng/api";
-import {SearchDTO} from "../../generated/dto";
-import {HostListener} from "@angular/core";
+import {LazyLoadEvent} from 'primeng/api';
+import {SearchDTO} from '../../generated/dto';
+import {HostListener} from '@angular/core';
 
 export class CommonComponent {
 
   public scrHeight: any;
   public scrWidth: any;
-  public scrWithLess560: boolean = false;
+  public scrWithLess560 = false;
 
   public europeLocale = {
     firstDayOfWeek: 0,
-    dayNames: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    dayNamesShort: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    dayNamesMin: ["Mo","Tu","We","Th","Fr","Sa", "Su"],
-    monthNames: [ "January","February","March","April","May","June","July","August","September","October","November","December" ],
-    monthNamesShort: [ "Jan", "Feb", "Mar", "Apr", "May", "Jun","Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ],
+    dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    dayNamesMin: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+    monthNames: [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+      'November', 'December' ],
+    monthNamesShort: [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ],
     today: 'Today',
     clear: 'Clear',
-    dateFormat: "dd.mm.yy"
+    dateFormat: 'dd.mm.yy'
   };
 
-  constructor() {}
+  constructor() {
+    this.getScreenSize();
+  }
 
 
   public initSearchDTO(searchDTO: SearchDTO<any>, event: LazyLoadEvent): void {
