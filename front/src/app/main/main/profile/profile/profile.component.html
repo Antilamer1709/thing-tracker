@@ -3,13 +3,19 @@
 <div class="content-section implementation ui-fluid">
 
   <p-tabView>
+
     <p-tabPanel header="Info" leftIcon="pi pi-user">
-      <app-profile-info *ngIf="user" [user]="user"></app-profile-info>
+      <ng-template pTemplate="content">
+        <app-profile-info *ngIf="user" [user]="user"></app-profile-info>
+      </ng-template>
     </p-tabPanel>
 
     <p-tabPanel header="Expenses" leftIcon="pi pi-list">
-      <app-profile-expenses *ngIf="user" [user]="user"></app-profile-expenses>
+      <ng-template pTemplate="content">
+        <app-profile-expenses *ngIf="user" [user]="user"></app-profile-expenses>
+      </ng-template>
     </p-tabPanel>
+
   </p-tabView>
 
 </div>
