@@ -26,7 +26,7 @@ export class ProfileExpensesComponent extends ExpenseTypeComponent implements On
   public result: ResponseDTO<ExpenseDTO[]>;
 
   public showDeleteButton = false;
-  public smallScreenSize = 1250;
+  public smallScreenSize = 1450;
 
   constructor(private confirmationService: ConfirmationService,
               private appService: AppService,
