@@ -1,7 +1,6 @@
 package com.antilamer.thingTracker.unit;
 
 import com.antilamer.thingTracker.Utils;
-import com.antilamer.thingTracker.config.AppProperties;
 import com.antilamer.thingTracker.dto.*;
 import com.antilamer.thingTracker.enums.GroupmateType;
 import com.antilamer.thingTracker.enums.UserRole;
@@ -11,10 +10,11 @@ import com.antilamer.thingTracker.model.ExpenseEntity;
 import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
 import com.antilamer.thingTracker.model.GroupEntity;
 import com.antilamer.thingTracker.model.UserEntity;
-import com.antilamer.thingTracker.repository.*;
-import com.antilamer.thingTracker.security.JwtTokenProvider;
-import com.antilamer.thingTracker.service.AuthenticationBOImpl;
-import com.antilamer.thingTracker.service.ExpenseBO;
+import com.antilamer.thingTracker.repository.ExpenseRepo;
+import com.antilamer.thingTracker.repository.ExpenseTypeDictRepo;
+import com.antilamer.thingTracker.repository.GroupRepo;
+import com.antilamer.thingTracker.repository.UserRepo;
+import com.antilamer.thingTracker.service.AuthenticationBO;
 import com.antilamer.thingTracker.service.ExpenseBOImpl;
 import lombok.val;
 import org.junit.Before;
@@ -24,11 +24,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -44,10 +42,11 @@ import static org.mockito.BDDMockito.given;
 @RunWith(MockitoJUnitRunner.class)
 public class UnitExpenseBOTest {
 
-    private ExpenseBO expenseBO;
-
     @InjectMocks
-    private AuthenticationBOImpl authenticationBO;
+    private ExpenseBOImpl expenseBO;
+
+    @Mock
+    private AuthenticationBO authenticationBO;
 
     @Mock
     private ExpenseRepo expenseRepo;
@@ -61,15 +60,12 @@ public class UnitExpenseBOTest {
     @Mock
     private GroupRepo groupRepo;
 
+    private static final UserEntity loggedUser = Utils.createDefaultUser();
+
 
     @Before
-    public void onSetUpTestUser() {
-        expenseBO = new ExpenseBOImpl(expenseRepo, expenseTypeDictRepo, userRepo, groupRepo, authenticationBO);
-
-        UserEntity userDetails = Utils.createDefaultUser();
-
-        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, null);
-        SecurityContextHolder.getContext().setAuthentication(auth);
+    public void onSetUpGivenUser() {
+        given(authenticationBO.getLoggedUser()).willReturn(loggedUser);
     }
 
 
