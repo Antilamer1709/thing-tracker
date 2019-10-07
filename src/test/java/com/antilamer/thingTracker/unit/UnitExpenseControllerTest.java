@@ -12,12 +12,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.UnsupportedEncodingException;
@@ -44,9 +44,12 @@ public class UnitExpenseControllerTest {
     @Mock
     private ExpenseBO expenseBO;
 
+    @InjectMocks
+    private ExpenseController expenseController;
+
     @Before
     public void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(new ExpenseController(expenseBO)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(expenseController).build();
     }
 
 
