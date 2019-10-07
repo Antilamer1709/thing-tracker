@@ -13,7 +13,6 @@ import com.antilamer.thingTracker.model.GroupEntity;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.repository.*;
 import com.antilamer.thingTracker.security.JwtTokenProvider;
-import com.antilamer.thingTracker.service.AuthenticationBO;
 import com.antilamer.thingTracker.service.AuthenticationBOImpl;
 import com.antilamer.thingTracker.service.ExpenseBO;
 import com.antilamer.thingTracker.service.ExpenseBOImpl;
@@ -21,6 +20,7 @@ import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.PageImpl;
@@ -45,6 +45,9 @@ import static org.mockito.BDDMockito.given;
 public class UnitExpenseBOTest {
 
     private ExpenseBO expenseBO;
+
+    @InjectMocks
+    private AuthenticationBOImpl authenticationBO;
 
     @Mock
     private ExpenseRepo expenseRepo;
@@ -76,8 +79,6 @@ public class UnitExpenseBOTest {
 
     @Before
     public void onSetUpTestUser() {
-        AuthenticationBO authenticationBO = new AuthenticationBOImpl(userRepo, roleRepo, passwordEncoder,
-                authenticationManager, tokenProvider, appProperties);
         expenseBO = new ExpenseBOImpl(expenseRepo, expenseTypeDictRepo, userRepo, groupRepo, authenticationBO);
 
         UserEntity userDetails = Utils.createDefaultUser();
