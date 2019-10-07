@@ -61,21 +61,6 @@ public class UnitExpenseBOTest {
     @Mock
     private GroupRepo groupRepo;
 
-    @Mock
-    private RoleRepo roleRepo;
-
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
-    @Mock
-    private AuthenticationManager authenticationManager;
-
-    @Mock
-    private JwtTokenProvider tokenProvider;
-
-    @Mock
-    private AppProperties appProperties;
-
 
     @Before
     public void onSetUpTestUser() {
