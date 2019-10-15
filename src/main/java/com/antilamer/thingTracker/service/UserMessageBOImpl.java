@@ -7,6 +7,7 @@ import com.antilamer.thingTracker.model.UserInviteEntity;
 import com.antilamer.thingTracker.repository.UserInviteRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class UserMessageBOImpl implements UserMessageBO {
     private final UserInviteRepo userInviteRepo;
     private final AuthenticationBO authenticationBO;
     private final GroupBO groupBO;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
 
     @Override
@@ -39,5 +41,28 @@ public class UserMessageBOImpl implements UserMessageBO {
             groupBO.acceptInvite(inviteEntity);
         }
         userInviteRepo.delete(inviteEntity);
+        notifyInviteCreator(responseDTO.getResponse(), inviteEntity);
+    }
+
+    private void notifyInviteCreator(Boolean accepted, UserInviteEntity inviteEntity) {
+        simpMessagingTemplate.convertAndSend("/topic/" +
+                inviteEntity.getInviter().getId(), createInviteCreatorMessage(accepted, inviteEntity));
+    }
+
+    private MessageDTO createInviteCreatorMessage(Boolean accepted, UserInviteEntity inviteEntity) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(inviteEntity.getTarget().getFullName());
+        stringBuilder.append("(");
+        stringBuilder.append(inviteEntity.getTarget().getUsername());
+        stringBuilder.append(")");
+        stringBuilder.append(" has ");
+        if (!accepted) {
+            stringBuilder.append(" not ");
+        }
+        stringBuilder.append(" accepted your invitation to join group ");
+        stringBuilder.append(inviteEntity.getGroup().getName());
+        stringBuilder.append("!");
+
+        return new MessageDTO(inviteEntity, stringBuilder.toString());
     }
 }
