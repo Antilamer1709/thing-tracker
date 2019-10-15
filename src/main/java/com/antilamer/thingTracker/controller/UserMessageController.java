@@ -2,6 +2,7 @@ package com.antilamer.thingTracker.controller;
 
 import com.antilamer.thingTracker.dto.MessageDTO;
 import com.antilamer.thingTracker.dto.ResponseToMessageDTO;
+import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.service.UserMessageBO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class UserMessageController {
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping(value = "/respond")
     @ResponseStatus(value = HttpStatus.OK)
-    public void respondToMessage(@RequestBody @Valid ResponseToMessageDTO responseDTO) {
+    public void respondToMessage(@RequestBody @Valid ResponseToMessageDTO responseDTO) throws UnauthorizedException {
         log.debug("*** respondToMessage() responseDTO: " + responseDTO);
         userMessageBO.respondToMessage(responseDTO);
     }
