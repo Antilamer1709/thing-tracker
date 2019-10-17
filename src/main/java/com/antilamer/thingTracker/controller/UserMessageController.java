@@ -30,12 +30,4 @@ public class UserMessageController {
         return userMessageBO.getUserMessages();
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
-    @PostMapping(value = "/respond")
-    @ResponseStatus(value = HttpStatus.OK)
-    public void respondToMessage(@RequestBody @Valid ResponseToMessageDTO responseDTO) throws UnauthorizedException {
-        log.debug("*** respondToMessage() responseDTO: " + responseDTO);
-        userMessageBO.respondToMessage(responseDTO);
-    }
-
 }

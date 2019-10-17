@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from '../../authentication/authentication.service';
 import {MessageDTO, ResponseToMessageDTO} from '../../../generated/dto';
+import {MessageAction} from '../../../generated/dto'
 import {AuthRepository} from '../../authentication/repository/auth.repository';
 import {MessageService} from 'primeng/api';
 import {MainMenuService} from './main-menu.service';
@@ -24,6 +25,8 @@ export class MainMenuComponent extends CommonComponent implements OnInit {
 
   public messages: MessageDTO[];
 
+  public groupInvites: MessageDTO[];
+
   private stompClient: any;
 
   userMessagesStyle: HTMLElement;
@@ -41,6 +44,7 @@ export class MainMenuComponent extends CommonComponent implements OnInit {
   ngOnInit() {
     this.initSyles();
     this.initUserMessages();
+    this.initGroupInvites();
     this.initializeWebSocketConnection();
     this.getVersion();
   }
@@ -61,6 +65,18 @@ export class MainMenuComponent extends CommonComponent implements OnInit {
         if (res && res.id) {
           this.service.getUserMessages().subscribe(messages => {
               this.messages = messages;
+          });
+        }
+
+    });
+  }
+
+  private initGroupInvites(): void {
+    this.authenticationService.getLoggedUser().subscribe(res => {
+
+        if (res && res.id) {
+          this.service.getGroupInvites().subscribe(res => {
+              this.groupInvites = res;
           });
         }
 
@@ -88,8 +104,13 @@ export class MainMenuComponent extends CommonComponent implements OnInit {
     if (message.body) {
       const messageResult: MessageDTO = JSON.parse(message.body);
       console.log(messageResult);
-      this.messages.push(messageResult);
-      this.messageService.add({severity: 'info', summary: 'Info', detail: 'New message received!'});
+      if (messageResult.actions && messageResult.actions.some(x => x === MessageAction.READ)) {
+        this.messages.push(messageResult);
+        this.messageService.add({severity: 'info', summary: 'Info', detail: 'New message received!'});
+      } else {
+        this.groupInvites.push(messageResult);
+        this.messageService.add({severity: 'info', summary: 'Info', detail: 'New invite received!'});
+      }
     }
   }
 
@@ -105,14 +126,14 @@ export class MainMenuComponent extends CommonComponent implements OnInit {
     );
   }
 
-  public respondToMessage(messageDTO: MessageDTO, response: boolean): void {
+  public respondToInvite(messageDTO: MessageDTO, response: boolean): void {
     messageDTO.loading = true;
 
     const responseDTO: ResponseToMessageDTO = new ResponseToMessageDTO();
     responseDTO.response = response;
     responseDTO.messageId = messageDTO.id;
 
-    this.userService.respondToMessage(responseDTO).subscribe(() => {
+    this.userService.respondToInvite(responseDTO).subscribe(() => {
       this.initUserMessages();
     });
   }

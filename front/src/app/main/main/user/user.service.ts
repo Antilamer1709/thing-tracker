@@ -18,8 +18,8 @@ export class UserService {
     });
   }
 
-  public respondToMessage(response: ResponseToMessageDTO): Observable<void> {
-    return this.http.post<void>('/api/message/respond', response);
+  public respondToInvite(response: ResponseToMessageDTO): Observable<void> {
+    return this.http.post<void>('/api/group/invite/response', response);
   }
 
 }

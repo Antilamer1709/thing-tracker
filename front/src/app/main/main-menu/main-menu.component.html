@@ -35,8 +35,8 @@
           <p-card header="{{row.sender}}" [style]="{width: '360px'}" styleClass="ui-card-shadow">
             <div>{{row.message}}</div>
             <p-footer>
-              <button [disabled]="row.loading" (click)="respondToMessage(row, true)" pButton icon="pi pi-check" label="Accept" title="Accept"></button>
-              <button [disabled]="row.loading" (click)="respondToMessage(row, false)" pButton icon="pi pi-times" label="Reject" title="Reject"></button>
+              <button [disabled]="row.loading" (click)="respondToInvite(row, true)" pButton icon="pi pi-check" label="Accept" title="Accept"></button>
+              <button [disabled]="row.loading" (click)="respondToInvite(row, false)" pButton icon="pi pi-times" label="Reject" title="Reject"></button>
               <p-progressBar *ngIf="row.loading" mode="indeterminate" [style]="{'height': '6px', 'margin': '6px 0'}"></p-progressBar>
             </p-footer>
           </p-card>
@@ -44,6 +44,32 @@
         </div>
       </div>
       <div *ngIf="!(messages?.length > 0)" class="flex-container-center" style="height: 360px; width: 360px">
+        <div style="white-space: nowrap">Nothing new</div>
+      </div>
+    </p-overlayPanel>
+
+    <li *ngIf="authenticationService.loggedUser != null" style="cursor: pointer" (click)="groupInvitesPanel.toggle($event)">
+      <a>
+        <span class="pi pi-users messageIcon messageOffset"></span>
+        <span class="messageOffset">{{groupInvites?.length != 0 ? groupInvites?.length : null}}</span>
+      </a>
+    </li>
+    <p-overlayPanel #groupInvitesPanel>
+      <div *ngIf="groupInvites?.length > 0" class="user-messages-container break-word">
+        <div *ngFor="let row of groupInvites">
+
+          <p-card header="{{row.sender}}" [style]="{width: '360px'}" styleClass="ui-card-shadow">
+            <div>{{row.message}}</div>
+            <p-footer>
+              <button [disabled]="row.loading" (click)="respondToInvite(row, true)" pButton icon="pi pi-check" label="Accept" title="Accept"></button>
+              <button [disabled]="row.loading" (click)="respondToInvite(row, false)" pButton icon="pi pi-times" label="Reject" title="Reject"></button>
+              <p-progressBar *ngIf="row.loading" mode="indeterminate" [style]="{'height': '6px', 'margin': '6px 0'}"></p-progressBar>
+            </p-footer>
+          </p-card>
+
+        </div>
+      </div>
+      <div *ngIf="!(groupInvites?.length > 0)" class="flex-container-center" style="height: 360px; width: 360px">
         <div style="white-space: nowrap">Nothing new</div>
       </div>
     </p-overlayPanel>
@@ -109,7 +135,7 @@
           <div class="menuIconContainer">
             <i class="pi pi-users menuIcon"></i>
           </div>
-          My Groups
+          Groups
         </span>
     </a>
 

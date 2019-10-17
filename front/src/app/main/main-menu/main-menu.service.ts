@@ -28,4 +28,9 @@ export class MainMenuService {
   public getUserMessages(): Observable<MessageDTO[]> {
     return this.http.get<MessageDTO[]>('/api/message');
   }
+
+  public getGroupInvites(): Observable<MessageDTO[]> {
+    return this.http.get<MessageDTO[]>('/api/group/invites');
+  }
+
 }

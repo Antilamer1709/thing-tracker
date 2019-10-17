@@ -161,7 +161,7 @@
 					<outputFile>front/src/generated/dto.ts</outputFile>
 					<outputFileType>implementationFile</outputFileType>
 					<outputKind>module</outputKind>
-					<mapEnum>asNumberBasedEnum</mapEnum>
+					<mapEnum>asEnum</mapEnum>
 				</configuration>
 			</plugin>
 

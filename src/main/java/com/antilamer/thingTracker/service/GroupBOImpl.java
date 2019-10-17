@@ -1,9 +1,7 @@
 package com.antilamer.thingTracker.service;
 
-import com.antilamer.thingTracker.dto.GroupDTO;
-import com.antilamer.thingTracker.dto.MessageDTO;
-import com.antilamer.thingTracker.dto.SelectGroupmateDTO;
-import com.antilamer.thingTracker.dto.UserDTO;
+import com.antilamer.thingTracker.dto.*;
+import com.antilamer.thingTracker.enums.MessageAction;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.model.GroupEntity;
@@ -14,13 +12,11 @@ import com.antilamer.thingTracker.repository.UserInviteRepo;
 import com.antilamer.thingTracker.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -32,7 +28,7 @@ public class GroupBOImpl implements GroupBO {
     private final UserRepo userRepo;
     private final UserInviteRepo userInviteRepo;
     private final AuthenticationBO authenticationBO;
-    private final SimpMessagingTemplate simpMessagingTemplate;
+    private final UserMessageBO userMessageBO;
 
 
     @Override
@@ -118,18 +114,10 @@ public class GroupBOImpl implements GroupBO {
                     inviteEntity.setTarget(userEntity);
                     inviteEntity.setGroup(groupEntity);
                     invites.add(userInviteRepo.save(inviteEntity));
+                    userMessageBO.notifyUser(userEntity, createInviteGroupMessage(inviteEntity));
                 }
             }
         }
-
-        notifyUsers(invites);
-    }
-
-    private void notifyUsers(List<UserInviteEntity> invites) {
-        invites.forEach(invite -> {
-            simpMessagingTemplate.convertAndSend("/topic/" +
-                    invite.getTarget().getId(), createInviteGroupMessage(invite));
-        });
     }
 
     private MessageDTO createInviteGroupMessage(UserInviteEntity invite) {
@@ -137,17 +125,52 @@ public class GroupBOImpl implements GroupBO {
         String username = authenticationBO.getLoggedUser().getFullName() + "(" + authenticationBO.getLoggedUser().getUsername() + ")";
         messageDTO.setMessage(username + " invited you to join group!");
         messageDTO.setId(invite.getId());
+        messageDTO.setActions(new ArrayList<>(Arrays.asList(MessageAction.ACCEPT, MessageAction.REJECT)));
         return messageDTO;
     }
 
     @Override
     @Transactional
-    public void acceptInvite(UserInviteEntity inviteEntity) {
+    public void respondToInvite(ResponseToMessageDTO responseDTO) throws UnauthorizedException {
+        UserInviteEntity inviteEntity = userInviteRepo.findById(responseDTO.getMessageId())
+                .orElseThrow(() -> new javax.validation.ValidationException("There no such message with id " + responseDTO.getMessageId()));
+        authenticationBO.checkUserAccess(inviteEntity.getTarget());
+        if (responseDTO.getResponse()) {
+            acceptInvite(inviteEntity);
+        }
+        userInviteRepo.delete(inviteEntity);
+        val messageDTO = createInviteCreatorMessage(responseDTO.getResponse(), inviteEntity);
+        userMessageBO.addUserMessage(inviteEntity.getInviter(), messageDTO, MessageAction.READ);
+    }
+
+    private void acceptInvite(UserInviteEntity inviteEntity) {
         GroupEntity groupEntity = inviteEntity.getGroup();
         if (!groupEntity.getUsers().contains(inviteEntity.getTarget())) {
             groupEntity.getUsers().add(inviteEntity.getTarget());
         }
         groupRepo.save(groupEntity);
+    }
+
+    private MessageDTO createInviteCreatorMessage(Boolean accepted, UserInviteEntity inviteEntity) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(inviteEntity.getTarget().getFullName());
+        stringBuilder.append("(");
+        stringBuilder.append(inviteEntity.getTarget().getUsername());
+        stringBuilder.append(")");
+        stringBuilder.append(" has ");
+        if (!accepted) {
+            stringBuilder.append(" not ");
+        }
+        stringBuilder.append(" accepted your invitation to join group ");
+        stringBuilder.append(inviteEntity.getGroup().getName());
+        stringBuilder.append("!");
+
+        MessageDTO messageDTO = new MessageDTO();
+        messageDTO.setMessage(stringBuilder.toString());
+
+        messageDTO.setActions(Collections.singletonList(MessageAction.READ));
+
+        return messageDTO;
     }
 
     @Override
@@ -189,6 +212,12 @@ public class GroupBOImpl implements GroupBO {
             }
         }
 
+    }
+
+    @Override
+    public List<MessageDTO> getGroupInvites() {
+        UserEntity loggedUser = authenticationBO.getLoggedUser();
+        return userInviteRepo.findAllByTarget(loggedUser).stream().map(MessageDTO::new).collect(Collectors.toList());
     }
 
 }

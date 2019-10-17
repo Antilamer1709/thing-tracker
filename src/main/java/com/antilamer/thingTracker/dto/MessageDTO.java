@@ -1,9 +1,15 @@
 package com.antilamer.thingTracker.dto;
 
+import com.antilamer.thingTracker.enums.MessageAction;
+import com.antilamer.thingTracker.model.MessageActionEntity;
 import com.antilamer.thingTracker.model.UserEntity;
 import com.antilamer.thingTracker.model.UserInviteEntity;
+import com.antilamer.thingTracker.model.UserMessageEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +27,7 @@ public class MessageDTO {
 
     private Boolean loading;
 
+    private List<MessageAction> actions;
 
     public MessageDTO(UserInviteEntity inviteEntity) {
         UserEntity inviter = inviteEntity.getInviter();
@@ -29,9 +36,10 @@ public class MessageDTO {
         this.sender = inviter.getFullName() + "(" + inviter.getEmail() + ")";
     }
 
-    public MessageDTO(UserInviteEntity inviteEntity, String message) {
-        this.id = inviteEntity.getId();
-        this.message = message;
+    public MessageDTO(UserMessageEntity messageEntity) {
+        this.id = messageEntity.getId();
+        this.message = messageEntity.getMessage();
+        this.actions = messageEntity.getActions().stream().map(MessageActionEntity::getAction).collect(Collectors.toList());
     }
 
 }
