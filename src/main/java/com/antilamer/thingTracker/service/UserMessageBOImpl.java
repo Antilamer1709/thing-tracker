@@ -35,8 +35,8 @@ public class UserMessageBOImpl implements UserMessageBO {
 
     @Override
     @Transactional
-    public void addUserMessage(UserEntity user, MessageDTO messageDTO, MessageAction... actions) {
-        UserMessageEntity userMessageEntity = createUserMessageEntity(user, messageDTO, actions);
+    public void addUserMessage(UserEntity user, MessageDTO messageDTO) {
+        UserMessageEntity userMessageEntity = createUserMessageEntity(user, messageDTO);
         userMessageRepo.save(userMessageEntity);
         simpMessagingTemplate.convertAndSend("/topic/" + user.getId(), messageDTO);
     }
@@ -46,12 +46,12 @@ public class UserMessageBOImpl implements UserMessageBO {
         simpMessagingTemplate.convertAndSend("/topic/" + user.getId(), messageDTO);
     }
 
-    private UserMessageEntity createUserMessageEntity(UserEntity user, MessageDTO messageDTO, MessageAction[] actions) {
+    private UserMessageEntity createUserMessageEntity(UserEntity user, MessageDTO messageDTO) {
         UserMessageEntity userMessageEntity = new UserMessageEntity(messageDTO.getMessage(), user);
         userMessageEntity.setDate(LocalDateTime.now());
         userMessageEntity.setActions(new ArrayList<>());
 
-        for (MessageAction action : actions) {
+        for (MessageAction action : messageDTO.getActions()) {
             userMessageEntity.getActions().add(cacheableDataBO.findMessageAction(action));
         }
         return userMessageEntity;

@@ -140,7 +140,7 @@ public class GroupBOImpl implements GroupBO {
         }
         userInviteRepo.delete(inviteEntity);
         val messageDTO = createInviteCreatorMessage(responseDTO.getResponse(), inviteEntity);
-        userMessageBO.addUserMessage(inviteEntity.getInviter(), messageDTO, MessageAction.READ);
+        userMessageBO.addUserMessage(inviteEntity.getInviter(), messageDTO);
     }
 
     private void acceptInvite(UserInviteEntity inviteEntity) {
@@ -165,9 +165,7 @@ public class GroupBOImpl implements GroupBO {
         stringBuilder.append(inviteEntity.getGroup().getName());
         stringBuilder.append("!");
 
-        MessageDTO messageDTO = new MessageDTO();
-        messageDTO.setMessage(stringBuilder.toString());
-
+        MessageDTO messageDTO = new MessageDTO(stringBuilder.toString());
         messageDTO.setActions(Collections.singletonList(MessageAction.READ));
 
         return messageDTO;
@@ -191,27 +189,58 @@ public class GroupBOImpl implements GroupBO {
     public void kickUserFromGroup(Integer groupId, Integer userId) throws UnauthorizedException, ValidationException {
         GroupEntity groupEntity = groupRepo.findById(groupId)
                 .orElseThrow(() -> new ValidationException("There no such group with id: " + groupId));
+        UserEntity userEntity = groupEntity.getUsers().stream().filter(x -> x.getId().equals(userId)).findFirst()
+                .orElseThrow(() -> new ValidationException("There no such user with id: " + userId));
+
         // User can kick himself
         if (!authenticationBO.getLoggedUser().getId().equals(userId)) {
             authenticationBO.checkUserAccess(groupEntity.getCreator());
         }
 
-        boolean removed = groupEntity.getUsers().removeIf(x -> x.getId().equals(userId));
-        if (!removed) {
-            throw new ValidationException("There no such user in group with userId: " + userId);
-        }
+        removeUserFromGroup(userId, groupEntity);
+
         if (groupEntity.getCreator().getId().equals(userId)) {
             Optional<UserEntity> newCreatorOpt = groupEntity.getUsers().stream()
                     .filter(x -> !x.getId().equals(userId))
                     .findFirst();
             if (newCreatorOpt.isPresent()) {
                 groupEntity.setCreator(newCreatorOpt.get());
-                groupRepo.save(groupEntity);
             } else {
                 groupRepo.delete(groupEntity);
+                return;
             }
         }
+        groupRepo.save(groupEntity);
 
+        sendMessageToKickedUser(userEntity, groupEntity);
+    }
+
+    private void removeUserFromGroup(Integer userId, GroupEntity groupEntity) throws ValidationException {
+        boolean removed = groupEntity.getUsers().removeIf(x -> x.getId().equals(userId));
+        if (!removed) {
+            throw new ValidationException("There no such user in group with userId: " + userId);
+        }
+    }
+
+    private void sendMessageToKickedUser(UserEntity userEntity, GroupEntity groupEntity) {
+        val messageDTO = createMessageForKickedUser(groupEntity);
+        userMessageBO.addUserMessage(userEntity, messageDTO);
+    }
+
+    private MessageDTO createMessageForKickedUser(GroupEntity groupEntity) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(authenticationBO.getLoggedUser().getFullName());
+        stringBuilder.append("(");
+        stringBuilder.append(authenticationBO.getLoggedUser().getUsername());
+        stringBuilder.append(")");
+        stringBuilder.append(" has kicked you from group: ");
+        stringBuilder.append(groupEntity.getName());
+        stringBuilder.append("!");
+
+        MessageDTO messageDTO = new MessageDTO(stringBuilder.toString());
+        messageDTO.setActions(Collections.singletonList(MessageAction.READ));
+
+        return messageDTO;
     }
 
     @Override

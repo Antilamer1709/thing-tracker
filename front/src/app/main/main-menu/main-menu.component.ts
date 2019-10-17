@@ -106,10 +106,10 @@ export class MainMenuComponent extends CommonComponent implements OnInit {
       console.log(messageResult);
       if (messageResult.actions && messageResult.actions.some(x => x === MessageAction.READ)) {
         this.messages.push(messageResult);
-        this.messageService.add({severity: 'info', summary: 'Info', detail: 'New message received!'});
+        this.messageService.add({severity: 'info', summary: 'New message', detail: messageResult.message});
       } else {
         this.groupInvites.push(messageResult);
-        this.messageService.add({severity: 'info', summary: 'Info', detail: 'New invite received!'});
+        this.messageService.add({severity: 'info', summary: 'New invite', detail: messageResult.message});
       }
     }
   }
