@@ -11,6 +11,8 @@ import com.antilamer.thingTracker.service.UserAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
+import org.springframework.boot.actuate.context.ShutdownEndpoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -105,6 +107,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .requestMatchers(EndpointRequest.to(ShutdownEndpoint.class))
+                .hasRole("ACTUATOR_ADMIN")
+                .requestMatchers(EndpointRequest.toAnyEndpoint())
+                .permitAll()
                 .antMatchers("/api/oauth2/**").permitAll()
                 .antMatchers("/api/authentication/**").permitAll()
                 .antMatchers("/api/authenticate").permitAll()
