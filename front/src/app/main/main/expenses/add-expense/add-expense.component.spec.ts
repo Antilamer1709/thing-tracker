@@ -6,7 +6,7 @@ import {CommonSharedModule} from "../../../../common/common-shared.module";
 import {FormsModule} from "@angular/forms";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MessageService} from "primeng/api";
-import {AutoCompleteModule, SpinnerModule} from "primeng/primeng";
+import {AutoCompleteModule, SpinnerModule} from "primeng";
 
 describe('AddExpenseComponent', () => {
   let component: AddExpenseComponent;

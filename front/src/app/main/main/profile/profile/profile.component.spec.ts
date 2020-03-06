@@ -4,7 +4,7 @@ import {ProfileComponent} from './profile.component';
 import {RouterTestingModule} from "@angular/router/testing";
 import {CommonSharedModule} from "../../../../common/common-shared.module";
 import {FormsModule} from "@angular/forms";
-import {MessageService, TabViewModule} from "primeng/primeng";
+import {MessageService, TabViewModule} from "primeng";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {ProfileInfoComponent} from "./profile-info/profile-info.component";
 

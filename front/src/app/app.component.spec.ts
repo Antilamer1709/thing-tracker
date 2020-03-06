@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import {ToastModule} from "primeng/toast";
 import {BlockUIModule} from "primeng/blockui";
 import {ButtonModule} from "primeng/button";
-import {ConfirmationService, ConfirmDialogModule, MessageService, ProgressSpinnerModule} from "primeng/primeng";
+import {ConfirmationService, ConfirmDialogModule, MessageService, ProgressSpinnerModule} from "primeng";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {GuardService} from "./common/guard-service";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";

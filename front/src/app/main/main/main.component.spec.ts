@@ -7,7 +7,7 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MessageService} from "primeng/api";
 import {MainMenuComponent} from "../main-menu/main-menu.component";
-import {CardModule, OverlayPanelModule, ProgressBarModule} from "primeng/primeng";
+import {CardModule, OverlayPanelModule, ProgressBarModule} from "primeng";
 
 describe('MainComponent', () => {
   let component: MainComponent;

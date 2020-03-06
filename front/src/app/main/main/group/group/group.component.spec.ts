@@ -6,7 +6,7 @@ import {CommonSharedModule} from "../../../../common/common-shared.module";
 import {FormsModule} from "@angular/forms";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {MessageService} from "primeng/api";
-import {AutoCompleteModule, CardModule} from "primeng/primeng";
+import {AutoCompleteModule, CardModule} from "primeng";
 
 describe('GroupComponent', () => {
   let component: GroupComponent;

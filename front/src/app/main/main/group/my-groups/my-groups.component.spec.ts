@@ -4,7 +4,7 @@ import { MyGroupsComponent } from './my-groups.component';
 import {RouterTestingModule} from "@angular/router/testing";
 import {CommonSharedModule} from "../../../../common/common-shared.module";
 import {FormsModule} from "@angular/forms";
-import {AutoCompleteModule, CardModule, MessageService} from "primeng/primeng";
+import {AutoCompleteModule, CardModule, MessageService} from "primeng";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('MyGroupsComponent', () => {

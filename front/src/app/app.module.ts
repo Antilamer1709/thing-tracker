@@ -10,7 +10,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {CustomHttpInterceptor} from "./common/http-interceptor";
 import {BlockUIModule} from "primeng/blockui";
 import {ButtonModule} from "primeng/button";
-import {ConfirmDialogModule, ProgressSpinnerModule} from "primeng/primeng";
+import {ConfirmDialogModule, ProgressSpinnerModule} from "primeng";
 import {MainModule} from "./main/main.module";
 import {ToastModule} from "primeng/toast";
 import {UpdateDateHttpInterceptor} from "./common/update-date-http-interceptor";

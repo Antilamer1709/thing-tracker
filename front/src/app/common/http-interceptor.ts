@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 
 import {Injectable, Injector} from "@angular/core";
-import {MessageService} from "primeng/components/common/messageservice";
+import {MessageService} from "primeng";
 import {Observable} from "rxjs/internal/Observable";
 import {finalize, tap} from "rxjs/operators";
 import {AppService} from "../app.service";

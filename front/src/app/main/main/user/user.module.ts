@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ButtonModule} from "primeng/button";
-import {AutoCompleteModule} from "primeng/primeng";
+import {AutoCompleteModule} from "primeng";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CommonSharedModule} from "../../../common/common-shared.module";
 import { MessagesComponent } from './messages/messages.component';
