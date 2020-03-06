@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile/profile.component';
 import {
   AutoCompleteModule,
-  ButtonModule, CalendarModule,
+  ButtonModule,
   ConfirmDialogModule,
   InputTextModule,
   SpinnerModule,
   TabViewModule
-} from "primeng/primeng";
+} from "primeng";
+import { CalendarModule } from "primeng/calendar";
 import { ProfileInfoComponent } from './profile/profile-info/profile-info.component';
 import {CommonSharedModule} from "../../../common/common-shared.module";
 import {FormsModule} from "@angular/forms";

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {RegistrationService} from './registration.service';
-import {MessageService} from 'primeng/components/common/messageservice';
+import {MessageService} from "primeng";
 import {Router} from '@angular/router';
 import {FormGroup} from '@angular/forms';
 import {RegistrationDTO, UserDTO} from '../../../generated/dto';

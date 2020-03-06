@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormGroup} from '@angular/forms';
 import {LoginService} from './login.service';
-import {MessageService} from 'primeng/components/common/messageservice';
+import {MessageService} from "primeng";
 import {AuthenticationService} from '../authentication.service';
 import {JwtAuthenticationResponseDTO, UserDTO} from '../../../generated/dto';
 import {AppService} from '../../app.service';

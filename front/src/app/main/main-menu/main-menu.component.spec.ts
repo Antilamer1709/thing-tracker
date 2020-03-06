@@ -5,7 +5,7 @@ import {RouterTestingModule} from "@angular/router/testing";
 import {CommonSharedModule} from "../../common/common-shared.module";
 import {FormsModule} from "@angular/forms";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {CardModule, MessageService, OverlayPanelModule, ProgressBarModule} from "primeng/primeng";
+import {CardModule, MessageService, OverlayPanelModule, ProgressBarModule} from "primeng";
 
 describe('MainMenuComponent', () => {
   let component: MainMenuComponent;

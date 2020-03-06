@@ -4,11 +4,11 @@ import { AddExpenseComponent } from './add-expense/add-expense.component';
 import {
   AutoCompleteModule,
   ButtonModule,
-  CalendarModule,
   ChartModule,
   InputTextModule, MultiSelectModule,
   SpinnerModule
-} from "primeng/primeng";
+} from "primeng";
+import { CalendarModule } from "primeng/calendar";
 import {FormsModule} from "@angular/forms";
 import { ExpensesChartComponent } from './expenses-chart/expenses-chart.component';
 import {CommonSharedModule} from "../../../common/common-shared.module";
