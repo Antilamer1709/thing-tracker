@@ -24,4 +24,9 @@ public class ExpenseTypeDictEntity {
     @Column(name = "name")
     private String name;
 
+
+    public void incrementUsedCounter() {
+        usedCount++;
+    }
+
 }

@@ -72,7 +72,7 @@ public class ExpenseBOImpl implements ExpenseBO {
             ExpenseTypeDictEntity typeDict = expenseTypeDictRepo
                     .findByNameIgnoreCase(x.trim())
                     .orElseGet(() -> createExpenseTypeDict(x));
-            typeDict.setUsedCount(typeDict.getUsedCount() + 1);
+            typeDict.incrementUsedCounter();
             typeDict = expenseTypeDictRepo.save(typeDict);
             expenseTypes.add(typeDict);
         });
