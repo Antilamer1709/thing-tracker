@@ -56,16 +56,14 @@ public class ExpenseBOImpl implements ExpenseBO {
     }
 
     private ExpenseEntity createExpenseEntity(ExpenseDTO expenseDTO) {
-        ExpenseEntity expenseEntity = new ExpenseEntity.Builder()
+        return new ExpenseEntity.Builder()
                 .fromDTO(expenseDTO)
                 .withUser(authenticationBO.getLoggedUser())
+                .withExpenseTypes(getExpenseTypes(expenseDTO.getTypes()))
                 .build();
-        initExpenseTypes(expenseEntity, expenseDTO.getTypes());
-
-        return expenseEntity;
     }
 
-    private void initExpenseTypes(ExpenseEntity expenseEntity, List<String> types) {
+    private List<ExpenseTypeDictEntity> getExpenseTypes(List<String> types) {
         List<ExpenseTypeDictEntity> expenseTypes = new ArrayList<>();
 
         types.forEach(x -> {
@@ -77,7 +75,7 @@ public class ExpenseBOImpl implements ExpenseBO {
             expenseTypes.add(typeDict);
         });
 
-        expenseEntity.setExpenseTypeDict(expenseTypes);
+        return expenseTypes;
     }
 
     private ExpenseTypeDictEntity createExpenseTypeDict(String name) {

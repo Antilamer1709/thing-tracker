@@ -45,21 +45,27 @@ public class ExpenseEntity {
         private ExpenseEntity expense;
 
         public Builder() {
-            this.expense = new ExpenseEntity();
+            expense = new ExpenseEntity();
         }
 
         public Builder fromDTO(ExpenseDTO expenseDTO) {
-            expense.setPrice(expenseDTO.getPrice());
-            expense.setComment(expenseDTO.getComment());
+            expense.price = expenseDTO.getPrice();
+            expense.comment = expenseDTO.getComment();
             if (expenseDTO.getDate() != null)
-                expense.setDate(expenseDTO.getDate());
+                expense.date = expenseDTO.getDate();
             else
-                expense.setDate(LocalDateTime.now());
+                expense.date = LocalDateTime.now();
+
             return this;
         }
 
         public Builder withUser(UserEntity user) {
             expense.user = user;
+            return this;
+        }
+
+        public Builder withExpenseTypes(List<ExpenseTypeDictEntity> expenseTypes) {
+            expense.expenseTypeDict = expenseTypes;
             return this;
         }
 
