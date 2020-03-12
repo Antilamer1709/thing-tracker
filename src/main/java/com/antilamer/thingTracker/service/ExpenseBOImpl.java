@@ -91,8 +91,8 @@ public class ExpenseBOImpl implements ExpenseBO {
     @Override
     @Transactional
     public ExpenseSearchChartDTO searchChart(ExpenseSearchDTO expenseSearchDTO) throws ValidationException {
-        processSearchChartDTO(expenseSearchDTO);
         ExpenseSearchChartDTO searchChartDTO = new ExpenseSearchChartDTO();
+        processSearchChartDTO(expenseSearchDTO);
         processUserIds(expenseSearchDTO);
         SearchDTO<ExpenseSearchDTO> searchDTO = new SearchDTO<>(expenseSearchDTO, 0, Integer.MAX_VALUE);
 
