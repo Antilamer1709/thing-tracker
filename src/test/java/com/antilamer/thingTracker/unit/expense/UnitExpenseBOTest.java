@@ -1,4 +1,4 @@
-package com.antilamer.thingTracker.unit;
+package com.antilamer.thingTracker.unit.expense;
 
 import com.antilamer.thingTracker.Utils;
 import com.antilamer.thingTracker.dto.*;
