@@ -4,7 +4,6 @@ import com.antilamer.thingTracker.Utils;
 import com.antilamer.thingTracker.domain.ExpenseTypeDictEntity;
 import com.antilamer.thingTracker.domain.UserEntity;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
-import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.repository.ExpenseRepo;
 import com.antilamer.thingTracker.repository.ExpenseTypeDictRepo;
 import com.antilamer.thingTracker.service.AuthenticationBO;
@@ -71,7 +70,7 @@ public class UnitExpenseBOCreateTest {
 
     // createExpense
     @Test
-    public void createExpense_Valid() throws ValidationException {
+    public void createExpense_Valid() {
         ExpenseTypeDictEntity type = new ExpenseTypeDictEntity();
         type.setName("Stuff");
         type.setUsedCount(300);
@@ -87,7 +86,7 @@ public class UnitExpenseBOCreateTest {
     }
 
     @Test
-    public void createExpense_ValidWithNewType() throws ValidationException {
+    public void createExpense_ValidWithNewType() {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(70000);
         expenseDTO.getTypes().add("Car");
@@ -99,7 +98,7 @@ public class UnitExpenseBOCreateTest {
     }
 
     @Test
-    public void createExpense_ValidWithNewTypeAndPastDate() throws ValidationException {
+    public void createExpense_ValidWithNewTypeAndPastDate() {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(5500);
         expenseDTO.setDate(LocalDateTime.of(2019, 1, 1, 0, 0));
