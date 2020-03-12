@@ -141,7 +141,7 @@ public class ExpenseBOImpl implements ExpenseBO {
                     userIds.add(processUserId(groupmateDTO));
                 }
                 if (groupmateDTO.getType().equals(GroupmateType.GROUP)) {
-                    userIds.addAll(processGroupIds(groupmateDTO));
+                    userIds.addAll(processGroupId(groupmateDTO));
                 }
             }
         } else {
@@ -165,7 +165,7 @@ public class ExpenseBOImpl implements ExpenseBO {
         }
     }
 
-    private List<Integer> processGroupIds(SelectGroupmateDTO group) throws ValidationException {
+    private List<Integer> processGroupId(SelectGroupmateDTO group) throws ValidationException {
         UserEntity userEntity = authenticationBO.getLoggedUser();
 
         validateUserRelationToGroup(group, userEntity);
