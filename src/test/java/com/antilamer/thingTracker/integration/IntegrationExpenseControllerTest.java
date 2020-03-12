@@ -2,13 +2,13 @@ package com.antilamer.thingTracker.integration;
 
 import com.antilamer.thingTracker.Utils;
 import com.antilamer.thingTracker.controller.ExpenseController;
+import com.antilamer.thingTracker.domain.ExpenseEntity;
+import com.antilamer.thingTracker.domain.UserEntity;
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
 import com.antilamer.thingTracker.dto.SearchDTO;
 import com.antilamer.thingTracker.dto.response.ResponseDTO;
-import com.antilamer.thingTracker.domain.ExpenseEntity;
-import com.antilamer.thingTracker.domain.UserEntity;
 import com.antilamer.thingTracker.repository.*;
 import com.antilamer.thingTracker.security.JwtTokenProvider;
 import com.antilamer.thingTracker.service.AuthenticationBOImpl;
@@ -41,9 +41,7 @@ import java.util.List;
 import static com.antilamer.thingTracker.Utils.doTestPost;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -110,6 +108,20 @@ public class IntegrationExpenseControllerTest {
                 .content(objectMapper.writeValueAsString(expenseDTO)))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void userSavesInvalidExpense_WithoutPrice_thenStatus400() throws Exception {
+        ExpenseDTO expenseDTO = new ExpenseDTO();
+
+
+        mockMvc.perform(post("/api/expense")
+                .with(csrf())
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(expenseDTO)))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isBadRequest());
     }
 
 

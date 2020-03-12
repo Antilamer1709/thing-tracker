@@ -1,13 +1,13 @@
 package com.antilamer.thingTracker.service;
 
+import com.antilamer.thingTracker.domain.ExpenseEntity;
+import com.antilamer.thingTracker.domain.ExpenseTypeDictEntity;
+import com.antilamer.thingTracker.domain.UserEntity;
 import com.antilamer.thingTracker.dto.*;
 import com.antilamer.thingTracker.dto.response.ResponseDTO;
 import com.antilamer.thingTracker.enums.GroupmateType;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
-import com.antilamer.thingTracker.domain.ExpenseEntity;
-import com.antilamer.thingTracker.domain.ExpenseTypeDictEntity;
-import com.antilamer.thingTracker.domain.UserEntity;
 import com.antilamer.thingTracker.repository.ExpenseRepo;
 import com.antilamer.thingTracker.repository.ExpenseTypeDictRepo;
 import com.antilamer.thingTracker.repository.GroupRepo;
@@ -17,8 +17,9 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Validated
 public class ExpenseBOImpl implements ExpenseBO {
 
     private final ExpenseRepo expenseRepo;
@@ -40,19 +42,9 @@ public class ExpenseBOImpl implements ExpenseBO {
 
     @Override
     @Transactional
-    public void addNewExpense(ExpenseDTO expenseDTO) throws ValidationException {
-        validateExpense(expenseDTO);
+    public void addNewExpense(@Valid ExpenseDTO expenseDTO) {
         ExpenseEntity expenseEntity = createExpenseEntity(expenseDTO);
         expenseRepo.save(expenseEntity);
-    }
-
-    private void validateExpense(ExpenseDTO expenseDTO) throws ValidationException {
-        if (expenseDTO.getPrice() == null) {
-            throw new ValidationException("Price is empty!");
-        }
-        if (expenseDTO.getTypes() == null || expenseDTO.getTypes().isEmpty()) {
-            throw new ValidationException("Types are empty!");
-        }
     }
 
     private ExpenseEntity createExpenseEntity(ExpenseDTO expenseDTO) {

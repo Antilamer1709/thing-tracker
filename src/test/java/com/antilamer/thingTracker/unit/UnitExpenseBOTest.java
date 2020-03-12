@@ -17,7 +17,9 @@ import com.antilamer.thingTracker.repository.UserRepo;
 import com.antilamer.thingTracker.service.AuthenticationBO;
 import com.antilamer.thingTracker.service.ExpenseBOImpl;
 import lombok.val;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -28,13 +30,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -61,6 +65,21 @@ public class UnitExpenseBOTest {
     private GroupRepo groupRepo;
 
     private static final UserEntity loggedUser = Utils.createDefaultUser();
+
+
+    private static ValidatorFactory validatorFactory;
+    private static Validator validator;
+
+    @BeforeClass
+    public static void createValidator() {
+        validatorFactory = Validation.buildDefaultValidatorFactory();
+        validator = validatorFactory.getValidator();
+    }
+
+    @AfterClass
+    public static void close() {
+        validatorFactory.close();
+    }
 
 
     @Before
@@ -111,20 +130,24 @@ public class UnitExpenseBOTest {
         expenseBO.addNewExpense(expenseDTO);
     }
 
-    @Test(expected = ValidationException.class)
-    public void createExpense_InvalidWithNoPrice() throws ValidationException {
+    @Test
+    public void createExpense_InvalidWithNoPrice() {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.getTypes().add("Car");
 
-        expenseBO.addNewExpense(expenseDTO);
+        Set<ConstraintViolation<ExpenseDTO>> violations = validator.validate(expenseDTO);
+
+        assertEquals(violations.size(), 1);
     }
 
-    @Test(expected = ValidationException.class)
-    public void createExpense_InvalidWithNoType() throws ValidationException {
+    @Test
+    public void createExpense_InvalidWithNoType() {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(70000);
 
-        expenseBO.addNewExpense(expenseDTO);
+        Set<ConstraintViolation<ExpenseDTO>> violations = validator.validate(expenseDTO);
+
+        assertEquals(violations.size(), 1);
     }
 
 

@@ -4,6 +4,8 @@ import com.antilamer.thingTracker.domain.ExpenseEntity;
 import com.antilamer.thingTracker.domain.ExpenseTypeDictEntity;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ public class ExpenseDTO {
 
     private Integer id;
 
+    @NotNull
     private Integer price;
 
     private String comment;
@@ -22,6 +25,7 @@ public class ExpenseDTO {
 
     private UserDTO creator;
 
+    @NotEmpty
     private List<String> types;
 
 

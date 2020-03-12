@@ -8,11 +8,12 @@ import com.antilamer.thingTracker.dto.response.ResponseDTO;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface ExpenseBO {
 
-    void addNewExpense(ExpenseDTO expenseDTO) throws ValidationException;
+    void addNewExpense(@Valid ExpenseDTO expenseDTO);
 
     List<String> searchExpenseTypes(String predicate);
 

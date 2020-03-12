@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -31,7 +32,7 @@ public class ExpenseController {
     @PostMapping(value = "")
     @ResponseStatus(value = HttpStatus.OK)
     @Async("threadPoolTaskExecutor")
-    public void addNewExpense(@RequestBody ExpenseDTO expenseDTO) throws ValidationException {
+    public void addNewExpense(@RequestBody @Valid ExpenseDTO expenseDTO) {
         log.debug("*** addNewExpense() expenseDTO: " + expenseDTO);
         expenseBO.addNewExpense(expenseDTO);
     }
