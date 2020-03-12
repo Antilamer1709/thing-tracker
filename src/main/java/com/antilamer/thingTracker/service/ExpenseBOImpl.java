@@ -146,8 +146,8 @@ public class ExpenseBOImpl implements ExpenseBO {
     }
 
     private void validateUserRelationToGroup(SelectGroupmateDTO groupmateDTO, UserEntity userEntity) throws ValidationException {
-        if (userEntity.getGroups().stream().noneMatch(x -> x.getId().equals(groupmateDTO.getGroupId()))) {
-            throw new ValidationException("User with id: " + groupmateDTO.getUserId() + " do not belong to selected group!");
+        if (userEntity.belongsToGroup(groupmateDTO.getGroupId())) {
+            throw new ValidationException("User with id: " + userEntity.getId() + " do not belong to a group! groupId: " + groupmateDTO.getGroupId());
         }
     }
 

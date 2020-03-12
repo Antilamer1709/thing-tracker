@@ -89,4 +89,9 @@ public class UserEntity implements OAuth2User, UserDetails {
     public String getName() {
         return String.valueOf(id);
     }
+
+
+    public boolean belongsToGroup(Integer groupId) {
+        return groups.stream().anyMatch(x -> x.getId().equals(groupId));
+    }
 }
