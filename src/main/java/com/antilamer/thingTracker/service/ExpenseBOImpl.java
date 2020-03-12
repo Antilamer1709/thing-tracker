@@ -128,7 +128,7 @@ public class ExpenseBOImpl implements ExpenseBO {
             expenseSearchDTO.setDateTo(LocalDateTime.now());
         }
         if (expenseSearchDTO.getDateFrom() == null) {
-            expenseSearchDTO.setDateFrom(LocalDateTime.parse("0001-01-01T00:00:00"));
+            expenseSearchDTO.setDateFrom(LocalDateTime.of(0, 0, 0, 0, 0));
         }
     }
 
