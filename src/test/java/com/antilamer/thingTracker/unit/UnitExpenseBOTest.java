@@ -83,7 +83,7 @@ public class UnitExpenseBOTest {
         given(expenseTypeDictRepo.findByNameIgnoreCase("Stuff")).willReturn(Optional.of(type));
         given(expenseTypeDictRepo.save(type)).willReturn(type);
 
-        expenseBO.createExpense(expenseDTO);
+        expenseBO.addNewExpense(expenseDTO);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class UnitExpenseBOTest {
         given(expenseTypeDictRepo.findByNameIgnoreCase(any())).willReturn(Optional.empty());
         given(expenseTypeDictRepo.save(any())).willAnswer(i -> i.getArguments()[0]);
 
-        expenseBO.createExpense(expenseDTO);
+        expenseBO.addNewExpense(expenseDTO);
     }
 
     @Test
@@ -108,7 +108,7 @@ public class UnitExpenseBOTest {
         given(expenseTypeDictRepo.findByNameIgnoreCase("Computer")).willReturn(Optional.empty());
         given(expenseTypeDictRepo.save(any())).willAnswer(i -> i.getArguments()[0]);
 
-        expenseBO.createExpense(expenseDTO);
+        expenseBO.addNewExpense(expenseDTO);
     }
 
     @Test(expected = ValidationException.class)
@@ -116,7 +116,7 @@ public class UnitExpenseBOTest {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.getTypes().add("Car");
 
-        expenseBO.createExpense(expenseDTO);
+        expenseBO.addNewExpense(expenseDTO);
     }
 
     @Test(expected = ValidationException.class)
@@ -124,7 +124,7 @@ public class UnitExpenseBOTest {
         ExpenseDTO expenseDTO = new ExpenseDTO();
         expenseDTO.setPrice(70000);
 
-        expenseBO.createExpense(expenseDTO);
+        expenseBO.addNewExpense(expenseDTO);
     }
 
 

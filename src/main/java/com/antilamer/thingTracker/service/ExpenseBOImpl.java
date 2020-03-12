@@ -40,10 +40,9 @@ public class ExpenseBOImpl implements ExpenseBO {
 
     @Override
     @Transactional
-    public void createExpense(ExpenseDTO expenseDTO) throws ValidationException {
+    public void addNewExpense(ExpenseDTO expenseDTO) throws ValidationException {
         validateExpense(expenseDTO);
-        ExpenseEntity expenseEntity = new ExpenseEntity();
-        initExpenseEntity(expenseEntity, expenseDTO);
+        ExpenseEntity expenseEntity = createExpenseEntity(expenseDTO);
         expenseRepo.save(expenseEntity);
     }
 
@@ -56,17 +55,16 @@ public class ExpenseBOImpl implements ExpenseBO {
         }
     }
 
-    private void initExpenseEntity(ExpenseEntity expenseEntity, ExpenseDTO expenseDTO) {
+    private ExpenseEntity createExpenseEntity(ExpenseDTO expenseDTO) {
         UserEntity userEntity = authenticationBO.getLoggedUser();
 
-        expenseEntity.setUser(userEntity);
-        expenseEntity.setPrice(expenseDTO.getPrice());
-        expenseEntity.setComment(expenseDTO.getComment());
-        if (expenseDTO.getDate() != null)
-            expenseEntity.setDate(expenseDTO.getDate());
-        else
-            expenseEntity.setDate(LocalDateTime.now());
+        ExpenseEntity expenseEntity = new ExpenseEntity.Builder()
+                .fromDTO(expenseDTO)
+                .withUser(userEntity)
+                .build();
         initExpenseTypes(expenseEntity, expenseDTO.getTypes());
+
+        return expenseEntity;
     }
 
     private void initExpenseTypes(ExpenseEntity expenseEntity, List<String> types) {

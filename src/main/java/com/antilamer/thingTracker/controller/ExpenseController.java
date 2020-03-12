@@ -31,9 +31,9 @@ public class ExpenseController {
     @PostMapping(value = "")
     @ResponseStatus(value = HttpStatus.OK)
     @Async("threadPoolTaskExecutor")
-    public void createExpense(@RequestBody ExpenseDTO expenseDTO) throws ValidationException {
-        log.debug("*** createExpense() expenseDTO: " + expenseDTO);
-        expenseBO.createExpense(expenseDTO);
+    public void addNewExpense(@RequestBody ExpenseDTO expenseDTO) throws ValidationException {
+        log.debug("*** addNewExpense() expenseDTO: " + expenseDTO);
+        expenseBO.addNewExpense(expenseDTO);
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})

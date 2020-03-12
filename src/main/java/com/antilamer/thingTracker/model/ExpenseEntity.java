@@ -1,5 +1,6 @@
 package com.antilamer.thingTracker.model;
 
+import com.antilamer.thingTracker.dto.ExpenseDTO;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -37,5 +38,35 @@ public class ExpenseEntity {
             inverseJoinColumns = @JoinColumn(name = "expense_type_id"))
     @Fetch(FetchMode.SUBSELECT)
     private List<ExpenseTypeDictEntity> expenseTypeDict;
+
+
+    public static class Builder {
+
+        private ExpenseEntity expense;
+
+        public Builder() {
+            this.expense = new ExpenseEntity();
+        }
+
+        public Builder fromDTO(ExpenseDTO expenseDTO) {
+            expense.setPrice(expenseDTO.getPrice());
+            expense.setComment(expenseDTO.getComment());
+            if (expenseDTO.getDate() != null)
+                expense.setDate(expenseDTO.getDate());
+            else
+                expense.setDate(LocalDateTime.now());
+            return this;
+        }
+
+        public Builder withUser(UserEntity user) {
+            expense.user = user;
+            return this;
+        }
+
+
+        public ExpenseEntity build() {
+            return expense;
+        }
+    }
 
 }
