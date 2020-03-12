@@ -1,7 +1,7 @@
 package com.antilamer.thingTracker.dto;
 
-import com.antilamer.thingTracker.model.UserEntity;
-import com.antilamer.thingTracker.model.UserInviteEntity;
+import com.antilamer.thingTracker.domain.UserEntity;
+import com.antilamer.thingTracker.domain.UserInviteEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

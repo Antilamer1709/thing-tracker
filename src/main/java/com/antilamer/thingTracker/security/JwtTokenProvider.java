@@ -1,6 +1,6 @@
 package com.antilamer.thingTracker.security;
 
-import com.antilamer.thingTracker.model.UserEntity;
+import com.antilamer.thingTracker.domain.UserEntity;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

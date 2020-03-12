@@ -1,7 +1,7 @@
 package com.antilamer.thingTracker.dto;
 
-import com.antilamer.thingTracker.model.ExpenseEntity;
-import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
+import com.antilamer.thingTracker.domain.ExpenseEntity;
+import com.antilamer.thingTracker.domain.ExpenseTypeDictEntity;
 import lombok.Data;
 
 import java.time.LocalDateTime;

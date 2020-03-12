@@ -3,7 +3,7 @@ package com.antilamer.thingTracker.service;
 import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
-import com.antilamer.thingTracker.model.UserEntity;
+import com.antilamer.thingTracker.domain.UserEntity;
 import com.antilamer.thingTracker.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

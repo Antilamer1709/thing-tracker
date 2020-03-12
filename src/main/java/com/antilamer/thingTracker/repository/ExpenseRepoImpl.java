@@ -1,7 +1,7 @@
 package com.antilamer.thingTracker.repository;
 
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
-import com.antilamer.thingTracker.model.ExpenseEntity;
+import com.antilamer.thingTracker.domain.ExpenseEntity;
 import org.springframework.data.domain.Sort;
 import java.util.Map;
 

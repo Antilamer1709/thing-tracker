@@ -2,7 +2,7 @@ package com.antilamer.thingTracker.security.oauth2;
 
 import com.antilamer.thingTracker.enums.UserRole;
 import com.antilamer.thingTracker.exception.OAuth2AuthenticationProcessingException;
-import com.antilamer.thingTracker.model.UserEntity;
+import com.antilamer.thingTracker.domain.UserEntity;
 import com.antilamer.thingTracker.repository.UserRepo;
 import com.antilamer.thingTracker.security.oauth2.user.OAuth2UserInfo;
 import com.antilamer.thingTracker.security.oauth2.user.OAuth2UserInfoFactory;

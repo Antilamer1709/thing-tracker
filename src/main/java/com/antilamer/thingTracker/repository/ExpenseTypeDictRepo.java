@@ -1,6 +1,6 @@
 package com.antilamer.thingTracker.repository;
 
-import com.antilamer.thingTracker.model.ExpenseTypeDictEntity;
+import com.antilamer.thingTracker.domain.ExpenseTypeDictEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

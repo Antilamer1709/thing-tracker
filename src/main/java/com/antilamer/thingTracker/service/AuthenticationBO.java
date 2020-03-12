@@ -8,7 +8,7 @@ import com.antilamer.thingTracker.enums.UserRole;
 import com.antilamer.thingTracker.exception.ApplicationException;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
-import com.antilamer.thingTracker.model.UserEntity;
+import com.antilamer.thingTracker.domain.UserEntity;
 
 import java.util.Collection;
 

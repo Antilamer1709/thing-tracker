@@ -1,4 +1,4 @@
-package com.antilamer.thingTracker.model;
+package com.antilamer.thingTracker.domain;
 
 import com.antilamer.thingTracker.dto.ExpenseDTO;
 import lombok.Data;

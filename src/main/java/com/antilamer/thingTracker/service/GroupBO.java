@@ -5,7 +5,7 @@ import com.antilamer.thingTracker.dto.SelectGroupmateDTO;
 import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
-import com.antilamer.thingTracker.model.UserInviteEntity;
+import com.antilamer.thingTracker.domain.UserInviteEntity;
 
 import java.util.List;
 

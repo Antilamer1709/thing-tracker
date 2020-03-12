@@ -1,6 +1,6 @@
 package com.antilamer.thingTracker.config;
 
-import com.antilamer.thingTracker.model.UserEntity;
+import com.antilamer.thingTracker.domain.UserEntity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;

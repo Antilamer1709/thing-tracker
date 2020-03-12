@@ -1,6 +1,6 @@
 package com.antilamer.thingTracker.dto;
 
-import com.antilamer.thingTracker.model.GroupEntity;
+import com.antilamer.thingTracker.domain.GroupEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

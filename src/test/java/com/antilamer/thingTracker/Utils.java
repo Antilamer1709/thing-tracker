@@ -1,9 +1,9 @@
 package com.antilamer.thingTracker;
 
 import com.antilamer.thingTracker.enums.UserRole;
-import com.antilamer.thingTracker.model.GroupEntity;
-import com.antilamer.thingTracker.model.RoleEntity;
-import com.antilamer.thingTracker.model.UserEntity;
+import com.antilamer.thingTracker.domain.GroupEntity;
+import com.antilamer.thingTracker.domain.RoleEntity;
+import com.antilamer.thingTracker.domain.UserEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;

@@ -1,8 +1,8 @@
 package com.antilamer.thingTracker.dto;
 
 import com.antilamer.thingTracker.enums.GroupmateType;
-import com.antilamer.thingTracker.model.GroupEntity;
-import com.antilamer.thingTracker.model.UserEntity;
+import com.antilamer.thingTracker.domain.GroupEntity;
+import com.antilamer.thingTracker.domain.UserEntity;
 import lombok.Data;
 
 @Data
