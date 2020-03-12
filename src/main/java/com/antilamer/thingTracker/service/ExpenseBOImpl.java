@@ -192,10 +192,10 @@ public class ExpenseBOImpl implements ExpenseBO {
             boolean belongsToSameGroup =
                     loggedUser.getGroups()
                             .stream()
-                            .noneMatch(loggedUserGroup ->
+                            .anyMatch(loggedUserGroup ->
                                     userEntity.getGroups()
                                             .stream()
-                                            .noneMatch(requestUserGroup ->
+                                            .anyMatch(requestUserGroup ->
                                                     requestUserGroup.getId().equals(loggedUserGroup.getId())));
 
             // Admin has access to all users
