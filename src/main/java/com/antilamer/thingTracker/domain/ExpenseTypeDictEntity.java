@@ -29,4 +29,32 @@ public class ExpenseTypeDictEntity {
         usedCount++;
     }
 
+
+
+    public static class Builder {
+
+        private ExpenseTypeDictEntity expenseTypeDict;
+
+        public Builder() {
+            expenseTypeDict = new ExpenseTypeDictEntity();
+            expenseTypeDict.usedCount = 0;
+        }
+
+
+        public Builder withUser(UserEntity user) {
+            expenseTypeDict.user = user;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            expenseTypeDict.name = name;
+            return this;
+        }
+
+
+        public ExpenseTypeDictEntity build() {
+            return expenseTypeDict;
+        }
+    }
+
 }

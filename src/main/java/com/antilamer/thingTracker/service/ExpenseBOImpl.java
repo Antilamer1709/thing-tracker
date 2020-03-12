@@ -79,12 +79,10 @@ public class ExpenseBOImpl implements ExpenseBO {
     }
 
     private ExpenseTypeDictEntity createExpenseTypeDict(String name) {
-        ExpenseTypeDictEntity typeDict = new ExpenseTypeDictEntity();
-        UserEntity userEntity = authenticationBO.getLoggedUser();
-
-        typeDict.setUser(userEntity);
-        typeDict.setName(StringUtils.capitalize(name.trim()));
-        typeDict.setUsedCount(0);
+        ExpenseTypeDictEntity typeDict = new ExpenseTypeDictEntity.Builder()
+                .withUser(authenticationBO.getLoggedUser())
+                .withName(name)
+                .build();
 
         return expenseTypeDictRepo.save(typeDict);
     }
