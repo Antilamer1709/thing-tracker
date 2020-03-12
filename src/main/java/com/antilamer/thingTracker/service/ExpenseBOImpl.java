@@ -56,11 +56,9 @@ public class ExpenseBOImpl implements ExpenseBO {
     }
 
     private ExpenseEntity createExpenseEntity(ExpenseDTO expenseDTO) {
-        UserEntity userEntity = authenticationBO.getLoggedUser();
-
         ExpenseEntity expenseEntity = new ExpenseEntity.Builder()
                 .fromDTO(expenseDTO)
-                .withUser(userEntity)
+                .withUser(authenticationBO.getLoggedUser())
                 .build();
         initExpenseTypes(expenseEntity, expenseDTO.getTypes());
 
