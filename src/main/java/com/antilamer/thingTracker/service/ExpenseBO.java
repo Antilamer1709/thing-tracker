@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface ExpenseBO {
 
-    void createExpense(ExpenseDTO expenseDTO) throws ValidationException;
+    void addNewExpense(ExpenseDTO expenseDTO) throws ValidationException;
 
     List<String> searchExpenseTypes(String predicate);
 

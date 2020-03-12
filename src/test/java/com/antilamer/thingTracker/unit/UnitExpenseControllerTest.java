@@ -64,7 +64,7 @@ public class UnitExpenseControllerTest {
         doTestPost(mockMvc, objectMapper, "/api/expense", expenseDTO);
 
         ArgumentCaptor<ExpenseDTO> userCaptor = ArgumentCaptor.forClass(ExpenseDTO.class);
-        verify(expenseBO, times(1)).createExpense(userCaptor.capture());
+        verify(expenseBO, times(1)).addNewExpense(userCaptor.capture());
 
         assertEquals("Prices are not equals", 1000, userCaptor.getValue().getPrice());
         assertEquals("Types are not equals", "Cars", userCaptor.getValue().getTypes().get(0));
