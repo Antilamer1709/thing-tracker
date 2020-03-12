@@ -59,11 +59,11 @@ public class ExpenseBOImpl implements ExpenseBO {
         return new ExpenseEntity.Builder()
                 .fromDTO(expenseDTO)
                 .withUser(authenticationBO.getLoggedUser())
-                .withExpenseTypes(getExpenseTypes(expenseDTO.getTypes()))
+                .withExpenseTypes(findExpenseTypes(expenseDTO.getTypes()))
                 .build();
     }
 
-    private List<ExpenseTypeDictEntity> getExpenseTypes(List<String> types) {
+    private List<ExpenseTypeDictEntity> findExpenseTypes(List<String> types) {
         List<ExpenseTypeDictEntity> expenseTypes = new ArrayList<>();
 
         types.forEach(x -> {
