@@ -52,7 +52,7 @@ public class UserBO {
     }
 
 
-    private void chceckForDuplicates(List<UserDTO> users) {
+    public void chceckForDuplicates(List<UserDTO> users) {
         long distinctCount = users.stream().filter(distinctByFullName()).count();
 
         if (distinctCount < users.size()) {
