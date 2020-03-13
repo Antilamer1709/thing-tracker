@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.util.AssertionErrors.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserControllerTest {
+public class UnitUserControllerTest {
 
     private MockMvc mockMvc;
 
