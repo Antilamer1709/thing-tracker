@@ -62,12 +62,22 @@ public class IntegrationUserControllerTest {
     }
 
 
-    // createExpense
     @Test
     public void userSavesValidExpense_thenReturns200() throws Exception {
         mockMvc.perform(get("/api/user/1")
                 .with(csrf())
                 .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void searchUserSuggestions_thenReturns200() throws Exception {
+        mockMvc.perform(get("/api/user/autocomplete")
+                .with(csrf())
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .param("predicate", "user")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk());
