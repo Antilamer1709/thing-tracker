@@ -40,6 +40,8 @@ import java.util.List;
 
 import static com.antilamer.thingTracker.Utils.doTestPost;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -128,11 +130,18 @@ public class IntegrationExpenseControllerTest {
     // searchExpenseTypes
     @Test
     public void userSearchExpenseWithPredicate_thenReturns200() throws Exception {
-        mockMvc.perform(get("/api/expense/types")
+        String result = mockMvc.perform(get("/api/expense/types")
                 .with(csrf())
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .param("predicate", "Foo"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertTrue(result.startsWith("["));
+        assertTrue(result.contains("\"Food\""));
+        assertTrue(result.endsWith("]"));
     }
 
 
