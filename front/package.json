@@ -6,7 +6,7 @@
     "start": "ng serve --proxy-config proxy.conf.json --port 4201",
     "start:host": "ng serve --proxy-config proxy.conf.json --host 192.168.1.5",
     "build": "ng build",
-    "build:prod": "ng build --prod --aot --base-href=/",
+    "build:prod": "ng build --prod --aot --base-href=/ --source-map=false",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
