@@ -1,5 +1,5 @@
 /* tslint:disable */
-// Generated using typescript-generator version 2.12.476 on 2020-04-15 17:20:34.
+// Generated using typescript-generator version 2.12.476 on 2020-04-15 18:45:34.
 
 export class ExpenseDTO {
     id: number;

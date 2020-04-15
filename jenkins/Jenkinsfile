@@ -1,7 +1,5 @@
 pipeline {
     tools {
-        jdk 'jdk 8u221'
-        maven 'maven 3.6.1'
         nodejs 'nodejs 10.16.1'
     }
     agent {
