@@ -1,7 +1,4 @@
 pipeline {
-    tools {
-        nodejs 'nodejs 10.16.1'
-    }
     agent {
         docker {
             image 'maven:3-alpine'
