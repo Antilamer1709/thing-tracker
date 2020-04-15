@@ -1,4 +1,9 @@
 pipeline {
+    tools {
+        jdk 'jdk 8u221'
+        maven 'maven 3.6.1'
+        nodejs 'nodejs 10.16.1'
+    }
     agent {
         docker {
             image 'maven:3-alpine'
@@ -6,7 +11,13 @@ pipeline {
         }
     }
     stages {
-        stage('Build') {
+        stage('Install node modules and build frontend') {
+            steps {
+                sh 'npm install --prefix ./front'
+                sh 'npm run build:prod --prefix ./front'
+            }
+        }
+        stage('Build .war') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
             }
