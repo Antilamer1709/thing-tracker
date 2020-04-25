@@ -63,7 +63,9 @@ public class ExpenseRepoImpl extends AbstractCustomRepoImpl<ExpenseEntity, Expen
     protected String getJoinForFetchStatement(ExpenseSearchDTO filter) {
         StringBuilder statementBuilder = new StringBuilder();
 
-        statementBuilder.append(" JOIN U.user user ");
+        if (filter.getSelectGroupmateIds() != null) {
+            statementBuilder.append(" JOIN U.user user ");
+        }
         if (filter.getExpenseTypes() != null && filter.getExpenseTypes().size() > 0) {
             statementBuilder.append(" JOIN  U.expenseTypeDict expenseTypeDict ");
         }
@@ -73,14 +75,7 @@ public class ExpenseRepoImpl extends AbstractCustomRepoImpl<ExpenseEntity, Expen
 
     @Override
     protected String getJoinForCountStatement(ExpenseSearchDTO filter) {
-        StringBuilder statementBuilder = new StringBuilder();
-
-        statementBuilder.append(" JOIN U.user user ");
-        if (filter.getExpenseTypes() != null && filter.getExpenseTypes().size() > 0) {
-            statementBuilder.append(" JOIN  U.expenseTypeDict expenseTypeDict ");
-        }
-
-        return statementBuilder.toString();
+        return getJoinForFetchStatement(filter);
     }
 
 
