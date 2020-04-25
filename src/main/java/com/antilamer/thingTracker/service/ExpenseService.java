@@ -11,7 +11,7 @@ import com.antilamer.thingTracker.exception.ValidationException;
 import javax.validation.Valid;
 import java.util.List;
 
-public interface ExpenseBO {
+public interface ExpenseService {
 
     void addNewExpense(@Valid ExpenseDTO expenseDTO);
 

@@ -12,7 +12,7 @@ import com.antilamer.thingTracker.domain.UserEntity;
 
 import java.util.Collection;
 
-public interface AuthenticationBO {
+public interface AuthenticationService {
 
     UserEntity getLoggedUser();
 

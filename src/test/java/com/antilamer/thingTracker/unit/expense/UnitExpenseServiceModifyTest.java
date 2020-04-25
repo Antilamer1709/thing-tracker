@@ -5,8 +5,8 @@ import com.antilamer.thingTracker.domain.ExpenseEntity;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.repository.ExpenseRepo;
-import com.antilamer.thingTracker.service.AuthenticationBO;
-import com.antilamer.thingTracker.service.ExpenseBOImpl;
+import com.antilamer.thingTracker.service.AuthenticationService;
+import com.antilamer.thingTracker.service.ExpenseServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -18,13 +18,13 @@ import java.util.Optional;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UnitExpenseBOModifyTest {
+public class UnitExpenseServiceModifyTest {
 
     @InjectMocks
-    private ExpenseBOImpl expenseBO;
+    private ExpenseServiceImpl expenseBO;
 
     @Mock
-    private AuthenticationBO authenticationBO;
+    private AuthenticationService authenticationService;
 
     @Mock
     private ExpenseRepo expenseRepo;

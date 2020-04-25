@@ -19,17 +19,17 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserMessageBOImpl implements UserMessageBO {
+public class UserMessageServiceImpl implements UserMessageService {
 
     private final UserInviteRepo userInviteRepo;
-    private final AuthenticationBO authenticationBO;
-    private final GroupBO groupBO;
+    private final AuthenticationService authenticationService;
+    private final GroupService groupService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
 
     @Override
     public List<MessageDTO> getUserMessages() {
-        UserEntity loggedUser = authenticationBO.getLoggedUser();
+        UserEntity loggedUser = authenticationService.getLoggedUser();
         return userInviteRepo.findAllByTarget(loggedUser).stream().map(MessageDTO::new).collect(Collectors.toList());
     }
 
@@ -38,9 +38,9 @@ public class UserMessageBOImpl implements UserMessageBO {
     public void respondToMessage(ResponseToMessageDTO responseDTO) throws UnauthorizedException {
         UserInviteEntity inviteEntity = userInviteRepo.findById(responseDTO.getMessageId())
                 .orElseThrow(() -> new ValidationException("There no such message with id " + responseDTO.getMessageId()));
-        authenticationBO.checkUserAccess(inviteEntity.getGroup().getUsers());
+        authenticationService.checkUserAccess(inviteEntity.getGroup().getUsers());
         if (responseDTO.getResponse()) {
-            groupBO.acceptInvite(inviteEntity);
+            groupService.acceptInvite(inviteEntity);
         }
         userInviteRepo.delete(inviteEntity);
         notifyInviteCreator(responseDTO.getResponse(), inviteEntity);

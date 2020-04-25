@@ -31,13 +31,13 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Validated
-public class ExpenseBOImpl implements ExpenseBO {
+public class ExpenseServiceImpl implements ExpenseService {
 
     private final ExpenseRepo expenseRepo;
     private final ExpenseTypeDictRepo expenseTypeDictRepo;
     private final UserRepo userRepo;
     private final GroupRepo groupRepo;
-    private final AuthenticationBO authenticationBO;
+    private final AuthenticationService authenticationService;
 
 
     @Override
@@ -50,7 +50,7 @@ public class ExpenseBOImpl implements ExpenseBO {
     private ExpenseEntity createExpenseEntity(ExpenseDTO expenseDTO) {
         return new ExpenseEntity.Builder()
                 .fromDTO(expenseDTO)
-                .withUser(authenticationBO.getLoggedUser())
+                .withUser(authenticationService.getLoggedUser())
                 .withExpenseTypes(findExpenseTypes(expenseDTO.getTypes()))
                 .build();
     }
@@ -72,7 +72,7 @@ public class ExpenseBOImpl implements ExpenseBO {
 
     private ExpenseTypeDictEntity createExpenseTypeDict(String name) {
         ExpenseTypeDictEntity typeDict = new ExpenseTypeDictEntity.Builder()
-                .withUser(authenticationBO.getLoggedUser())
+                .withUser(authenticationService.getLoggedUser())
                 .withName(name)
                 .build();
 
@@ -131,7 +131,7 @@ public class ExpenseBOImpl implements ExpenseBO {
                 }
             }
         } else {
-            userIds.add(authenticationBO.getLoggedUser().getId());
+            userIds.add(authenticationService.getLoggedUser().getId());
         }
 
         expenseSearchDTO.getSelectGroupmateIds().addAll(userIds);
@@ -152,7 +152,7 @@ public class ExpenseBOImpl implements ExpenseBO {
     }
 
     private List<Integer> processGroupId(SelectGroupmateDTO group) throws ValidationException {
-        UserEntity userEntity = authenticationBO.getLoggedUser();
+        UserEntity userEntity = authenticationService.getLoggedUser();
 
         validateUserRelationToGroup(group, userEntity);
 
@@ -178,7 +178,7 @@ public class ExpenseBOImpl implements ExpenseBO {
 
     private void processProfileExpensesUserIds(ExpenseSearchDTO filter) {
         if (filter.getSelectGroupmateIds().size() == 0) {
-            filter.getSelectGroupmateIds().add(authenticationBO.getLoggedUser().getId());
+            filter.getSelectGroupmateIds().add(authenticationService.getLoggedUser().getId());
         }
     }
 
@@ -186,7 +186,7 @@ public class ExpenseBOImpl implements ExpenseBO {
         for (Integer groupmateUserId : expenseSearchDTO.getSelectGroupmateIds()) {
             UserEntity userEntity = userRepo.findById(groupmateUserId).orElseThrow(() ->
                     new ValidationException("There no such user with id: " + groupmateUserId));
-            UserEntity loggedUser = authenticationBO.getLoggedUser();
+            UserEntity loggedUser = authenticationService.getLoggedUser();
 
             // requested user is belong to the same group as logged user
             boolean belongsToSameGroup =
@@ -200,7 +200,7 @@ public class ExpenseBOImpl implements ExpenseBO {
 
             // Admin has access to all users
             if (!belongsToSameGroup) {
-                authenticationBO.checkAdminAccess(loggedUser);
+                authenticationService.checkAdminAccess(loggedUser);
             }
         }
     }
@@ -211,7 +211,7 @@ public class ExpenseBOImpl implements ExpenseBO {
     public void deleteExpense(Integer id) throws ValidationException, UnauthorizedException {
         ExpenseEntity expenseEntity = expenseRepo.findById(id)
                 .orElseThrow(() -> new ValidationException("There no such expense with id: " + id));
-        authenticationBO.checkUserAccess(expenseEntity.getUser());
+        authenticationService.checkUserAccess(expenseEntity.getUser());
 
         expenseRepo.delete(expenseEntity);
     }

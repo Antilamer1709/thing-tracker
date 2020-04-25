@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserBO {
+public class UserService {
 
     private final UserRepo userRepo;
-    private final AuthenticationBO authenticationBO;
+    private final AuthenticationService authenticationService;
 
 
     public UserDTO getUser(Integer id) throws ValidationException, UnauthorizedException {
@@ -36,7 +36,7 @@ public class UserBO {
     }
 
     private void checkUserAuthorization(UserEntity userEntity) throws UnauthorizedException {
-        UserEntity loggedUser = authenticationBO.getLoggedUser();
+        UserEntity loggedUser = authenticationService.getLoggedUser();
         boolean authorized = loggedUser.getGroups()
                 .stream().anyMatch(group -> group.getUsers()
                         .stream().anyMatch(user -> user.getId().equals(userEntity.getId())));

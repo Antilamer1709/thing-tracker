@@ -17,8 +17,8 @@ import com.antilamer.thingTracker.repository.ExpenseRepo;
 import com.antilamer.thingTracker.repository.ExpenseTypeDictRepo;
 import com.antilamer.thingTracker.repository.GroupRepo;
 import com.antilamer.thingTracker.repository.UserRepo;
-import com.antilamer.thingTracker.service.AuthenticationBO;
-import com.antilamer.thingTracker.service.ExpenseBOImpl;
+import com.antilamer.thingTracker.service.AuthenticationService;
+import com.antilamer.thingTracker.service.ExpenseServiceImpl;
 import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,15 +42,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UnitExpenseBOSearchTest {
+public class UnitExpenseServiceSearchTest {
 
     private static final UserEntity loggedUser = Utils.createDefaultUser();
 
     @InjectMocks
-    private ExpenseBOImpl expenseBO;
+    private ExpenseServiceImpl expenseBO;
 
     @Mock
-    private AuthenticationBO authenticationBO;
+    private AuthenticationService authenticationService;
 
     @Mock
     private ExpenseRepo expenseRepo;
@@ -67,7 +67,7 @@ public class UnitExpenseBOSearchTest {
 
     @Before
     public void onSetUpGivenUser() {
-        given(authenticationBO.getLoggedUser()).willReturn(loggedUser);
+        given(authenticationService.getLoggedUser()).willReturn(loggedUser);
     }
 
 

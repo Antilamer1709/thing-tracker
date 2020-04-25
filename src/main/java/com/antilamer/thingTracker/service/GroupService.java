@@ -9,7 +9,7 @@ import com.antilamer.thingTracker.domain.UserInviteEntity;
 
 import java.util.List;
 
-public interface GroupBO {
+public interface GroupService {
 
     GroupDTO saveGroup(GroupDTO groupDTO) throws ValidationException, UnauthorizedException;
 

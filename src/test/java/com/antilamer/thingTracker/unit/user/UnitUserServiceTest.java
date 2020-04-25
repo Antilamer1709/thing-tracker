@@ -6,8 +6,8 @@ import com.antilamer.thingTracker.dto.UserDTO;
 import com.antilamer.thingTracker.exception.UnauthorizedException;
 import com.antilamer.thingTracker.exception.ValidationException;
 import com.antilamer.thingTracker.repository.UserRepo;
-import com.antilamer.thingTracker.service.AuthenticationBO;
-import com.antilamer.thingTracker.service.UserBO;
+import com.antilamer.thingTracker.service.AuthenticationService;
+import com.antilamer.thingTracker.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,15 +25,15 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UnitUserBOTest {
+public class UnitUserServiceTest {
 
     private static final UserEntity loggedUser = Utils.createDefaultUser();
 
     @InjectMocks
-    private UserBO userBO;
+    private UserService userService;
 
     @Mock
-    private AuthenticationBO authenticationBO;
+    private AuthenticationService authenticationService;
 
     @Mock
     private UserRepo userRepo;
@@ -41,7 +41,7 @@ public class UnitUserBOTest {
 
     @Before
     public void onSetUpGivenUser() {
-        given(authenticationBO.getLoggedUser()).willReturn(loggedUser);
+        given(authenticationService.getLoggedUser()).willReturn(loggedUser);
     }
 
 
@@ -50,7 +50,7 @@ public class UnitUserBOTest {
     public void getCurrentUser_Valid() throws ValidationException, UnauthorizedException {
         given(userRepo.findById(1)).willReturn(Optional.of(loggedUser));
 
-        UserDTO userDTO = userBO.getUser(1);
+        UserDTO userDTO = userService.getUser(1);
 
         assertThat("Wrong userId", userDTO.getId(), is(1));
     }
@@ -59,7 +59,7 @@ public class UnitUserBOTest {
     public void getUserFromOtherGroup_ExpectUnauthorizedException() throws ValidationException, UnauthorizedException {
         given(userRepo.findById(2)).willReturn(Optional.of(Utils.createDefaultUser(2)));
 
-        UserDTO userDTO = userBO.getUser(2);
+        UserDTO userDTO = userService.getUser(2);
 
         assertThat("Wrong userId", userDTO.getId(), is(2));
     }
@@ -71,7 +71,7 @@ public class UnitUserBOTest {
         List<UserEntity> mockUsers = createUsers(5, 1, true);
 
         given(userRepo.findTop5ByFullNameOrUsername(PageRequest.of(0,5), "integrationTestUser")).willReturn(mockUsers);
-        List<UserDTO> users = userBO.searchUserSuggestions("integrationTestUser");
+        List<UserDTO> users = userService.searchUserSuggestions("integrationTestUser");
 
         assertThat("Wrong size of users", users.size(), is(5));
     }
@@ -98,8 +98,8 @@ public class UnitUserBOTest {
         List<UserEntity> mockUsers = createUsers(3, 3, false);
 
         given(userRepo.findTop5ByFullNameOrUsername(PageRequest.of(0,5), "integrationTestUser")).willReturn(mockUsers);
-        List<UserDTO> users = userBO.searchUserSuggestions("integrationTestUser");
-        userBO.chceckForDuplicates(users);
+        List<UserDTO> users = userService.searchUserSuggestions("integrationTestUser");
+        userService.chceckForDuplicates(users);
 
         assertThat("Wrong size of users", users.size(), is(3));
     }
@@ -109,8 +109,8 @@ public class UnitUserBOTest {
         List<UserEntity> mockUsers = createUsers(2, 2, true);
 
         given(userRepo.findTop5ByFullNameOrUsername(PageRequest.of(0,5), "integrationTestUser")).willReturn(mockUsers);
-        List<UserDTO> users = userBO.searchUserSuggestions("integrationTestUser");
-        userBO.chceckForDuplicates(users);
+        List<UserDTO> users = userService.searchUserSuggestions("integrationTestUser");
+        userService.chceckForDuplicates(users);
 
         assertThat("Wrong size of users", users.size(), is(2));
     }

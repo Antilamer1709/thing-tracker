@@ -3,11 +3,9 @@ package com.antilamer.thingTracker.integration;
 import com.antilamer.thingTracker.Utils;
 import com.antilamer.thingTracker.controller.UserController;
 import com.antilamer.thingTracker.domain.UserEntity;
-import com.antilamer.thingTracker.repository.RoleRepo;
-import com.antilamer.thingTracker.repository.UserRepo;
 import com.antilamer.thingTracker.security.JwtTokenProvider;
-import com.antilamer.thingTracker.service.AuthenticationBOImpl;
-import com.antilamer.thingTracker.service.UserBO;
+import com.antilamer.thingTracker.service.AuthenticationServiceImpl;
+import com.antilamer.thingTracker.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,14 +31,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@Import(value = {UserController.class, UserBO.class, AuthenticationBOImpl.class})
+@Import(value = {UserController.class, UserService.class, AuthenticationServiceImpl.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class IntegrationUserControllerTest {
 
     private MockMvc mockMvc;
 
     @Autowired
-    private UserBO userBO;
+    private UserService userService;
 
     @MockBean
     private PasswordEncoder passwordEncoder;
@@ -58,7 +56,7 @@ public class IntegrationUserControllerTest {
         Authentication auth = new UsernamePasswordAuthenticationToken(loggedUser, null);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new UserController(userBO)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new UserController(userService)).build();
     }
 
 

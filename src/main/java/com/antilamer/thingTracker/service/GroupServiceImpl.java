@@ -26,12 +26,12 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class GroupBOImpl implements GroupBO {
+public class GroupServiceImpl implements GroupService {
 
     private final GroupRepo groupRepo;
     private final UserRepo userRepo;
     private final UserInviteRepo userInviteRepo;
-    private final AuthenticationBO authenticationBO;
+    private final AuthenticationService authenticationService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
 
@@ -55,7 +55,7 @@ public class GroupBOImpl implements GroupBO {
         }
 
         if (groupEntity.getCreator() != null) {
-            authenticationBO.checkUserAccess(groupEntity.getCreator());
+            authenticationService.checkUserAccess(groupEntity.getCreator());
         }
     }
 
@@ -71,20 +71,20 @@ public class GroupBOImpl implements GroupBO {
     private void initGroupEntity(GroupEntity groupEntity, GroupDTO groupDTO) {
         groupEntity.setName(groupDTO.getName());
         if (groupEntity.getCreator() == null) {
-            groupEntity.setCreator(authenticationBO.getLoggedUser());
+            groupEntity.setCreator(authenticationService.getLoggedUser());
         }
         if (groupEntity.getUsers() == null) {
             groupEntity.setUsers(new ArrayList<>());
         }
-        if (!groupEntity.getUsers().contains(authenticationBO.getLoggedUser())) {
-            groupEntity.getUsers().add(authenticationBO.getLoggedUser());
+        if (!groupEntity.getUsers().contains(authenticationService.getLoggedUser())) {
+            groupEntity.getUsers().add(authenticationService.getLoggedUser());
         }
     }
 
 
     @Override
     public List<GroupDTO> searchUserGroups() {
-        return authenticationBO.getLoggedUser().getGroups().stream().map(GroupDTO::new).collect(Collectors.toList());
+        return authenticationService.getLoggedUser().getGroups().stream().map(GroupDTO::new).collect(Collectors.toList());
     }
 
 
@@ -92,7 +92,7 @@ public class GroupBOImpl implements GroupBO {
     public GroupDTO getUserGroup(Integer id) throws ValidationException, UnauthorizedException {
         GroupEntity groupEntity = groupRepo.findById(id)
                 .orElseThrow(() -> new ValidationException("There no such group with id: " + id));
-        authenticationBO.checkUserAccess(groupEntity.getUsers());
+        authenticationService.checkUserAccess(groupEntity.getUsers());
 
         return new GroupDTO(groupEntity);
     }
@@ -104,17 +104,17 @@ public class GroupBOImpl implements GroupBO {
         List<UserInviteEntity> invites = new ArrayList<>();
         GroupEntity groupEntity = groupRepo.findById(groupId)
                 .orElseThrow(() -> new ValidationException("There no such group with id: " + groupId));
-        authenticationBO.checkUserAccess(groupEntity.getUsers());
+        authenticationService.checkUserAccess(groupEntity.getUsers());
 
         for (UserDTO user : users) {
             UserEntity userEntity = userRepo.findById(user.getId())
                     .orElseThrow(() -> new ValidationException("There no such user with id: " + user.getId()));
 
             if (!groupEntity.getUsers().contains(userEntity)) {
-                Optional<UserInviteEntity> inviteOpt = userInviteRepo.findAllByInviterAndTarget(authenticationBO.getLoggedUser(), userEntity);
+                Optional<UserInviteEntity> inviteOpt = userInviteRepo.findAllByInviterAndTarget(authenticationService.getLoggedUser(), userEntity);
                 if (!inviteOpt.isPresent()) {
                     UserInviteEntity inviteEntity = new UserInviteEntity();
-                    inviteEntity.setInviter(authenticationBO.getLoggedUser());
+                    inviteEntity.setInviter(authenticationService.getLoggedUser());
                     inviteEntity.setTarget(userEntity);
                     inviteEntity.setGroup(groupEntity);
                     invites.add(userInviteRepo.save(inviteEntity));
@@ -134,7 +134,7 @@ public class GroupBOImpl implements GroupBO {
 
     private MessageDTO createInviteGroupMessage(UserInviteEntity invite) {
         MessageDTO messageDTO = new MessageDTO();
-        String username = authenticationBO.getLoggedUser().getFullName() + "(" + authenticationBO.getLoggedUser().getUsername() + ")";
+        String username = authenticationService.getLoggedUser().getFullName() + "(" + authenticationService.getLoggedUser().getUsername() + ")";
         messageDTO.setMessage(username + " invited you to join group!");
         messageDTO.setId(invite.getId());
         return messageDTO;
@@ -155,7 +155,7 @@ public class GroupBOImpl implements GroupBO {
     public List<SelectGroupmateDTO> getGroupmates() {
         List<SelectGroupmateDTO> result = new ArrayList<>();
 
-        authenticationBO.getLoggedUser().getGroups().forEach(group -> {
+        authenticationService.getLoggedUser().getGroups().forEach(group -> {
             result.add(new SelectGroupmateDTO(group));
             group.getUsers().forEach(user -> result.add(new SelectGroupmateDTO(group, user)));
         });
@@ -169,8 +169,8 @@ public class GroupBOImpl implements GroupBO {
         GroupEntity groupEntity = groupRepo.findById(groupId)
                 .orElseThrow(() -> new ValidationException("There no such group with id: " + groupId));
         // User can kick himself
-        if (!authenticationBO.getLoggedUser().getId().equals(userId)) {
-            authenticationBO.checkUserAccess(groupEntity.getCreator());
+        if (!authenticationService.getLoggedUser().getId().equals(userId)) {
+            authenticationService.checkUserAccess(groupEntity.getCreator());
         }
 
         boolean removed = groupEntity.getUsers().removeIf(x -> x.getId().equals(userId));

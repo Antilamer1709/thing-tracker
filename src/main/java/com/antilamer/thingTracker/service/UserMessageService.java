@@ -6,7 +6,7 @@ import com.antilamer.thingTracker.exception.UnauthorizedException;
 
 import java.util.List;
 
-public interface UserMessageBO {
+public interface UserMessageService {
 
     List<MessageDTO> getUserMessages();
 

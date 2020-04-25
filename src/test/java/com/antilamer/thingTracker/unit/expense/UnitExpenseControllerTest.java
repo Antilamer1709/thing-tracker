@@ -6,7 +6,7 @@ import com.antilamer.thingTracker.dto.ExpenseSearchChartDTO;
 import com.antilamer.thingTracker.dto.ExpenseSearchDTO;
 import com.antilamer.thingTracker.dto.SearchDTO;
 import com.antilamer.thingTracker.dto.response.ResponseDTO;
-import com.antilamer.thingTracker.service.ExpenseBO;
+import com.antilamer.thingTracker.service.ExpenseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class UnitExpenseControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Mock
-    private ExpenseBO expenseBO;
+    private ExpenseService expenseService;
 
     @InjectMocks
     private ExpenseController expenseController;
@@ -64,7 +64,7 @@ public class UnitExpenseControllerTest {
         doTestPost(mockMvc, objectMapper, "/api/expense", expenseDTO);
 
         ArgumentCaptor<ExpenseDTO> userCaptor = ArgumentCaptor.forClass(ExpenseDTO.class);
-        verify(expenseBO, times(1)).addNewExpense(userCaptor.capture());
+        verify(expenseService, times(1)).addNewExpense(userCaptor.capture());
 
         assertEquals("Prices are not equals", 1000, userCaptor.getValue().getPrice());
         assertEquals("Types are not equals", "Cars", userCaptor.getValue().getTypes().get(0));
@@ -81,7 +81,7 @@ public class UnitExpenseControllerTest {
                 .andExpect(status().isOk());
 
         ArgumentCaptor<String> userCaptor = ArgumentCaptor.forClass(String.class);
-        verify(expenseBO, times(1)).searchExpenseTypes(userCaptor.capture());
+        verify(expenseService, times(1)).searchExpenseTypes(userCaptor.capture());
 
         assertEquals("Predicates are not equals", "Alc", userCaptor.getValue());
     }
@@ -91,7 +91,7 @@ public class UnitExpenseControllerTest {
     @Test
     public void userSearchChartEmpty_thenReturns200() throws Exception {
         ExpenseSearchChartDTO resultDTO = new ExpenseSearchChartDTO();
-        given(expenseBO.searchChart(any())).willReturn(resultDTO);
+        given(expenseService.searchChart(any())).willReturn(resultDTO);
         ExpenseSearchDTO expenseSearchDTO = new ExpenseSearchDTO();
 
         MvcResult mvcResult = doTestPost(mockMvc, objectMapper, "/api/expense/search/chart", expenseSearchDTO);
@@ -99,7 +99,7 @@ public class UnitExpenseControllerTest {
         thenValidateSearchExpense(mvcResult, objectMapper.writeValueAsString(resultDTO));
 
         ArgumentCaptor<ExpenseSearchDTO> userCaptor = ArgumentCaptor.forClass(ExpenseSearchDTO.class);
-        verify(expenseBO, times(1)).searchChart(userCaptor.capture());
+        verify(expenseService, times(1)).searchChart(userCaptor.capture());
     }
 
 
@@ -108,7 +108,7 @@ public class UnitExpenseControllerTest {
     public void searchProfileExpensesEmpty_thenReturns200() throws Exception {
         List<ExpenseDTO> expectedData = new ArrayList<>();
         ResponseDTO<List<ExpenseDTO>> expectedResult = new ResponseDTO<>(expectedData, 0L, 0);
-        given(expenseBO.searchProfileExpenses(any())).willReturn(expectedResult);
+        given(expenseService.searchProfileExpenses(any())).willReturn(expectedResult);
         SearchDTO<ExpenseSearchDTO> searchDTO = new SearchDTO<>(new ExpenseSearchDTO(), 0, 10);
 
         MvcResult mvcResult = doTestPost(mockMvc, objectMapper, "/api/expense/search/profile", searchDTO);
@@ -116,7 +116,7 @@ public class UnitExpenseControllerTest {
         thenValidateSearchExpense(mvcResult, objectMapper.writeValueAsString(expectedResult));
 
         ArgumentCaptor<SearchDTO<ExpenseSearchDTO>> userCaptor = ArgumentCaptor.forClass(SearchDTO.class);
-        verify(expenseBO, times(1)).searchProfileExpenses(userCaptor.capture());
+        verify(expenseService, times(1)).searchProfileExpenses(userCaptor.capture());
     }
 
     private void thenValidateSearchExpense(MvcResult mvcResult, String s) throws UnsupportedEncodingException {
@@ -134,7 +134,7 @@ public class UnitExpenseControllerTest {
                 .andExpect(status().isOk());
 
         ArgumentCaptor<Integer> userCaptor = ArgumentCaptor.forClass(Integer.class);
-        verify(expenseBO, times(1)).deleteExpense(userCaptor.capture());
+        verify(expenseService, times(1)).deleteExpense(userCaptor.capture());
     }
 
 }

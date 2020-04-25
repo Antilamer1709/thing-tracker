@@ -11,9 +11,9 @@ import com.antilamer.thingTracker.dto.SearchDTO;
 import com.antilamer.thingTracker.dto.response.ResponseDTO;
 import com.antilamer.thingTracker.repository.*;
 import com.antilamer.thingTracker.security.JwtTokenProvider;
-import com.antilamer.thingTracker.service.AuthenticationBOImpl;
-import com.antilamer.thingTracker.service.ExpenseBO;
-import com.antilamer.thingTracker.service.ExpenseBOImpl;
+import com.antilamer.thingTracker.service.AuthenticationServiceImpl;
+import com.antilamer.thingTracker.service.ExpenseService;
+import com.antilamer.thingTracker.service.ExpenseServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,7 +48,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@Import(value = {ExpenseController.class, ObjectMapper.class, ExpenseBOImpl.class, AuthenticationBOImpl.class})
+@Import(value = {ExpenseController.class, ObjectMapper.class, ExpenseServiceImpl.class, AuthenticationServiceImpl.class})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class IntegrationExpenseControllerTest {
 
@@ -58,7 +58,7 @@ public class IntegrationExpenseControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private ExpenseBO expenseBO;
+    private ExpenseService expenseService;
 
     @Autowired
     private ExpenseRepo expenseRepo;
@@ -91,7 +91,7 @@ public class IntegrationExpenseControllerTest {
         Authentication auth = new UsernamePasswordAuthenticationToken(loggedUser, null);
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(new ExpenseController(expenseBO)).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(new ExpenseController(expenseService)).build();
     }
 
 

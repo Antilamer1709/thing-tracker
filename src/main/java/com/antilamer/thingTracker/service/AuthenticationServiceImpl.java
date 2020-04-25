@@ -37,7 +37,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthenticationBOImpl implements AuthenticationBO {
+public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepo userRepo;
 

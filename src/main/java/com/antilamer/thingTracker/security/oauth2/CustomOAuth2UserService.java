@@ -6,7 +6,7 @@ import com.antilamer.thingTracker.domain.UserEntity;
 import com.antilamer.thingTracker.repository.UserRepo;
 import com.antilamer.thingTracker.security.oauth2.user.OAuth2UserInfo;
 import com.antilamer.thingTracker.security.oauth2.user.OAuth2UserInfoFactory;
-import com.antilamer.thingTracker.service.AuthenticationBO;
+import com.antilamer.thingTracker.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -25,7 +25,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepo userRepository;
 
-    private final AuthenticationBO authenticationBO;
+    private final AuthenticationService authenticationService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest oAuth2UserRequest) throws OAuth2AuthenticationException {
@@ -70,7 +70,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         user.setFullName(oAuth2UserInfo.getName());
         user.setEmail(oAuth2UserInfo.getEmail());
-        authenticationBO.addUserRoles(user, UserRole.USER);
+        authenticationService.addUserRoles(user, UserRole.USER);
         return userRepository.save(user);
     }
 

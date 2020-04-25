@@ -1,7 +1,7 @@
 package com.antilamer.thingTracker.unit.user;
 
 import com.antilamer.thingTracker.controller.UserController;
-import com.antilamer.thingTracker.service.UserBO;
+import com.antilamer.thingTracker.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class UnitUserControllerTest {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Mock
-    private UserBO userBO;
+    private UserService userService;
 
     @InjectMocks
     private UserController userController;
@@ -43,7 +43,7 @@ public class UnitUserControllerTest {
         doTestGet(mockMvc, objectMapper, "/api/user/1");
 
         ArgumentCaptor<Integer> userCaptor = ArgumentCaptor.forClass(Integer.class);
-        verify(userBO, times(1)).getUser(userCaptor.capture());
+        verify(userService, times(1)).getUser(userCaptor.capture());
 
         assertEquals("Ids are not equals", userId, userCaptor.getValue());
     }
@@ -54,7 +54,7 @@ public class UnitUserControllerTest {
         doTestGet(mockMvc, objectMapper, "/api/user/autocomplete?predicate=" + predicate);
 
         ArgumentCaptor<String> predicateCaptor = ArgumentCaptor.forClass(String.class);
-        verify(userBO, times(1)).searchUserSuggestions(predicateCaptor.capture());
+        verify(userService, times(1)).searchUserSuggestions(predicateCaptor.capture());
 
         assertEquals("Predicates are not equals", predicate, predicateCaptor.getValue());
     }
