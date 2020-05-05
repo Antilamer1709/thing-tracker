@@ -147,5 +147,8 @@
       }
     }
   },
-  "defaultProject": "front"
+  "defaultProject": "front",
+  "cli": {
+    "analytics": "b1205538-8e9a-4634-ae72-001d6967abb4"
+  }
 }
