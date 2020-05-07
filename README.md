@@ -1,4 +1,4 @@
-# thing-tracker
+# Thing-tracker
 Thing-tracker application
 
 Live demo: https://thing-tracker.ga
